@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+    {# Default meta tags #}
+        <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+
+        {% block meta %}{% endblock %}
+        <title>{% block title %}@TODO NAME{% endblock %}</title>
+		<meta name="description" content="{% block description %}{% endblock %}"/>
+
+    {# Favicon #}
+		<link rel="shortcut icon" href="/favicon.ico"/>
+
+    {# CSS #}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="/assets/stylesheets/main.css" />
+        {% endblock %}
+</head>
+<body>
+
+    {% block body %}{% endblock %}
+
+    {# JS #}
+    {% block javascripts %}
+        <script src="/assets/javascripts/main.js"></script>
+    {% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+{% extends 'layouts/base.twig' %}
+
+
+{% block body %}
+    <h1>Hello {{ name }}!</h1>
+
+    <a href="other.html">
+        Other page
+        <svg width="20" height="20" role="presentation">
+            <use href="/assets/images/icons.svg#example-arrow" xlink:href="/assets/images/icons.svg#example-arrow"></use>
+        </svg>
+    </a>
+{% endblock %}
+

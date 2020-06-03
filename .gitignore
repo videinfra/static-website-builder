@@ -1,0 +1,13 @@
+.DS_Store
+.sass-cache
+.publish
+public
+public-temp
+Desktop.ini
+node_modules
+**/generated/_icons.sass
+npm-debug.log
+yarn-error.log
+.vscode
+config/css-regression-testing/data/html_report/
+config/css-regression-testing/data/bitmaps_test/
