@@ -10,8 +10,8 @@ module.exports = {
         './common',
         './main'
     ],
-    'other': [
+    'dark': [
         './common',
-        './other'
+        './dark'
     ]
 };

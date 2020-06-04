@@ -1,3 +1,0 @@
-/**
- * Shared file entry point
- */

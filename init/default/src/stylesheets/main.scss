@@ -1,0 +1,19 @@
+@import "normalize-scss/sass/normalize/import-now";
+
+@import "settings/colors";
+@import "components/button";
+
+html {
+    font-size: 62.5%;
+}
+body {
+    background: $color-light-background;
+    color: $color-light-text;
+
+    font: 1.6rem / 1.2em "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+section {
+    padding: 60px;
+    max-width: 1440px;
+}

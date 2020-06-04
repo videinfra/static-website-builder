@@ -1,0 +1,9 @@
+@import "normalize-scss/sass/normalize/import-now";
+
+@import "settings/colors";
+@import "components/button";
+
+body {
+    background: $color-dark-background;
+    color: $color-dark-text;
+}

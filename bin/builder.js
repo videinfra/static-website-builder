@@ -4,7 +4,8 @@ const path = require('path')
 const additionalArgs = require('minimist')(process.argv.slice(2))._;
 
 if (additionalArgs[0] === 'init') {
-    require('../init/index');
+    const init = require('../init/index');
+    init(additionalArgs[1]);
 } else {
     const builderEntryDir = path.resolve(__dirname, '../gulpfile.js');
     const gulpModulePath = path.dirname(require.resolve('gulp'));

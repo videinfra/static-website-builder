@@ -1,0 +1,17 @@
+{% from 'macros/icon.twig' import icon %}
+{% extends 'layouts/base.twig' %}
+
+
+{% block body %}
+    <section>
+        {# Name from html/data/global.js #}
+        <h1>Hello {{ name }}!</h1>
+
+        <a href="dark.html" class="btn">
+            <span>Dark page</span>
+            {# Icon from sprite #}
+            {{ icon('example-arrow', {'width': 20, 'height': 20}) }}
+        </a>
+    </section>
+{% endblock %}
+

@@ -1,0 +1,18 @@
+.btn {
+    color: $color-light-background;
+    background: $color-light-primary;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 3px;
+    text-decoration: none;
+
+    .icon:not(:first-child) {
+        margin-left: 10px;
+    }
+}
+
+.btn--dark {
+    color: $color-dark-background;
+    background: $color-dark-primary;
+}
