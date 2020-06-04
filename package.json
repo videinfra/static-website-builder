@@ -1,21 +1,28 @@
 {
-  "name": "static-website-builder",
+  "name": "@videinfra/static-website-builder",
   "version": "1.0.0",
-  "description": "A full featured configurable asset pipeline and static site builder",
+  "description": "Customizable static site project builder",
   "license": "MIT",
   "engines": {
     "node": ">=10.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/videinfra/static-website-builder/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/videinfra/static-website-builder.git"
   },
   "bin": {
     "builder": "bin/builder.js"
   },
   "main": "gulpfile.js/index.js",
+  "author": "Vide Infra",
   "scripts": {
     "start": "cross-env BUILDER_MODE=development gulp",
     "build": "cross-env BUILDER_MODE=production gulp build",
     "test": "jest"
   },
-  "author": "",
   "dependencies": {
     "@babel/core": "^7.10.0",
     "@babel/preset-env": "^7.10.0",
