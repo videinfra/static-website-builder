@@ -9,6 +9,7 @@
 exports.clean = {};
 exports.static = {};
 exports.html = {};
+exports.data = {};
 exports.fonts = {};
 exports.icons = {};
 exports.images = {};

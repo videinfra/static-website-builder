@@ -13,7 +13,7 @@ const logError = require('./../../lib/log-error');
 const paths = require('./../../lib/get-path');
 const config = require('./../../lib/get-config');
 
-const getData = require('./get-data');
+const getData = require('../data/get-data');
 
 
 const getGlobPaths = memoize(function () {

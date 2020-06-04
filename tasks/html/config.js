@@ -1,4 +1,3 @@
-
 exports.html = {
     // Filename extensions
     extensions: ['twig'],
@@ -37,13 +36,6 @@ exports.html = {
         // Disable HTML minification
         htmlmin: false
     },
-};
-
-exports.data = {
-    extensions: ['js', 'json'],
-
-    // Data loaders for extensions
-    loaders: require('./data-loaders.js'),
 };
 
 exports.preprocess = {
