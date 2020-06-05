@@ -1,11 +1,10 @@
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const browserSync = require('browser-sync');
-const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
-// const autoprefixer = require('gulp-autoprefixer');
 const plumber = require('gulp-plumber');
+const memoize = require('nano-memoize');
 
 const paths = require('./../../lib/get-path');
 const config = require('./../../lib/get-config');
@@ -24,12 +23,24 @@ function getGlobPaths () {
     return gulpTaskSourcePaths;
 }
 
+const getEngine = memoize(function () {
+    const engine = config.getTaskConfig('stylesheets', 'engine');
+
+    if (engine) {
+        return engine();
+    } else {
+        return () => {};
+    }
+});
+
 function stylesheets () {
     return gulp.src(getGlobPaths())
         .pipe(plumber(logError))
 
         .pipe(gulpif(!!config.getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.init(config.getTaskConfig('stylesheets', 'sourcemaps', 'init')))) // Start Sourcemaps
-        .pipe(gulpif(!!config.getTaskConfig('stylesheets', 'sass'), sass(config.getTaskConfig('stylesheets', 'sass')).on('error', sass.logError)))
+
+        // Engine
+        .pipe(gulpif(!!config.getTaskConfig('stylesheets', 'engine'), getEngine()))
 
         // Autoprefixer, postcss
         .pipe(gulpif(!!config.getTaskConfig('stylesheets', 'postcss'), postcss(config.getTaskConfig('stylesheets', 'postcss', 'plugins'), config.getTaskConfig('stylesheets', 'postcss', 'options'))))

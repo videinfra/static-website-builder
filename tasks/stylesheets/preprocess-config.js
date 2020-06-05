@@ -12,13 +12,6 @@ const find = require('lodash/find');
  * @returns {object} Transformed stylesheet configuration
  */
 module.exports = function processStylesheetsConfig (config, fullConfig) {
-    if (config && config.sass) {
-        if (config.sass.includePaths) {
-            // Map include paths to the project folder
-            config.sass.includePaths = config.sass.includePaths.map((path) => paths.getProjectPath(path));
-        }
-    }
-
     if (config && config.cssnano) {
         // Autoprefixer ir running separatelly in postcss
         config.cssnano.autoprefixer = false;

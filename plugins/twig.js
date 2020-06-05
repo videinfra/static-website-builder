@@ -1,6 +1,5 @@
-// 'twig' config will be merged into 'html'
 exports.html = {
-    // Add twig filename to the extensions
+    // Add twig to the extensions
     extensions: ['twig'],
 
     // Folder which to exclude from rendering

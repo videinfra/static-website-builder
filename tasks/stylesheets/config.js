@@ -1,12 +1,9 @@
 exports.stylesheets = {
-    // File extensions
-    extensions: ['scss', 'sass'],
+    // Engine is a function which returns a gulp pipe function, eg. sass()
+    engine: null,
 
-    // SASS options
-    // see https://github.com/sass/node-sass#options
-    sass: {
-        includePaths: ['./node_modules'],
-    },
+    // File extensions
+    extensions: ['css'],
 
     // Auto prefixer options
     // see https://github.com/postcss/autoprefixer#options

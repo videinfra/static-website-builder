@@ -19,5 +19,6 @@ exports.browserSync = {};
 exports.sizereport = {};
 
 exports.plugins = [
+    require('@videinfra/static-website-builder/plugins/sass'),
     require('@videinfra/static-website-builder/plugins/twig'),
 ];
