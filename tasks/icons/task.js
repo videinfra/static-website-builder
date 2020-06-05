@@ -1,43 +1,44 @@
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
-const browserSync = require('browser-sync');
 const svgstore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
-const flatten = require('lodash/flatten');
 const memoize = require('nano-memoize');
-const merge = require('../../lib/merge');
 
-const plumber = require('gulp-plumber');
-const logError = require('./../../lib/log-error');
+const globs = require('./../../lib/globs-helper');
+const getPaths = require('./../../lib/get-path');
+const getConfig = require('./../../lib/get-config');
 
-const paths = require('./../../lib/get-path');
-const config = require('./../../lib/get-config');
+const taskStart = require('../../gulp/task-start');
+const taskEnd = require('../../gulp/task-end');
 
 
 const getGlobPaths = memoize(function () {
-    return flatten([
-        paths.getGlobPaths(paths.getSourcePaths('icons'), config.getTaskConfig('icons', 'extensions')),
-        paths.normalizeGlob(paths.getSourcePaths('icons', ...config.getTaskConfig('icons', 'ignore')).map(path => '!' + path))
-    ]);
+    const sourcePaths = getPaths.getSourcePaths('icons');
+    const extensions = getConfig.getTaskConfig('icons', 'extensions');
+    const ignore = getConfig.getTaskConfig('icons', 'ignore');
+
+    return globs.generate(
+        globs.paths(sourcePaths).withExtensions(extensions), // Files to watch
+        globs.paths(sourcePaths).paths(ignore).ignore(),     // List of files which to ignore
+    );
 });
 
 
 function icons () {
     return gulp
         .src(getGlobPaths())
-        .pipe(plumber(logError))
+        .pipe(taskStart())
 
         // Minify SVG
-        .pipe(gulpif(!!config.getTaskConfig('icons', 'svgmin'), svgmin(config.getTaskConfig('icons', 'svgmin'))))
+        .pipe(gulpif(!!getConfig.getTaskConfig('icons', 'svgmin'), svgmin(getConfig.getTaskConfig('icons', 'svgmin'))))
 
         // Create sprite
-        .pipe(svgstore(config.getTaskConfig('icons', 'svgstore')))
+        .pipe(svgstore(getConfig.getTaskConfig('icons', 'svgstore')))
 
-        .pipe(plumber.stop())
-        .pipe(gulp.dest(paths.getDestPath('icons')))
+        .pipe(gulp.dest(getPaths.getDestPath('icons')))
 
         // Reload on change
-        .pipe(gulpif(!!config.getTaskConfig('browserSync'), browserSync.stream()));
+        .pipe(taskEnd());
 }
 
 function iconsWatch () {

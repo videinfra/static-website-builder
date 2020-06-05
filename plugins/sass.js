@@ -10,7 +10,7 @@ exports.stylesheets = {
 };
 
 exports.preprocess = {
-    html: [
-        require('./twig-engine/preprocess-config'),
+    stylesheets: [
+        require('./sass-engine/preprocess-config'),
     ]
 };

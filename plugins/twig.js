@@ -2,8 +2,12 @@ exports.html = {
     // Add twig to the extensions
     extensions: ['twig'],
 
-    // Folder which to exclude from rendering
-    excludeFolders: ['macros', 'layouts', 'shared', 'partials'],
+    // Glob list of files, which to ignore
+    // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
+    ignore: [
+        'macros/**/*',
+        'layouts/**/*',
+    ],
 
     twig: {
         // Custom functions

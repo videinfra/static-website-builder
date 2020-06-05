@@ -2,73 +2,62 @@ const gulp = require('gulp');
 const data = require('gulp-data');
 const gulpif = require('gulp-if');
 const htmlmin = require('gulp-htmlmin')
-const map = require('lodash/map');
 const memoize = require('nano-memoize');
-const browserSync = require('browser-sync');
 
-const plumber = require('gulp-plumber');
-const logError = require('./../../lib/log-error');
+const getPaths = require('./../../lib/get-path');
+const getConfig = require('./../../lib/get-config');
+const globs = require('./../../lib/globs-helper');
 
-const paths = require('./../../lib/get-path');
-const config = require('./../../lib/get-config');
+const taskStart = require('../../gulp/task-start');
+const taskEnd = require('../../gulp/task-end');
 
 const getData = require('../data/get-data');
 
 
 const getGlobPaths = memoize(function () {
-    // HTML / TWIG files
-    const sourcePaths = paths.getSourcePaths('html');
-    const extensions = config.getTaskConfig('html', 'extensions');
-    const htmlGlobs = paths.getGlobPaths(sourcePaths, extensions);
+    const sourcePaths = getPaths.getSourcePaths('html');
+    const extensions = getConfig.getTaskConfig('html', 'extensions');
+    const ignore = getConfig.getTaskConfig('html', 'ignore');
 
-    // Exclude folders from being rendered
-    let excludes = config.getTaskConfig('html', 'excludeFolders');
-    let excludePaths = map(excludes, (excludePath) => paths.getSourcePaths('html', excludePath));
-    const excludeGlobs = paths.getGlobPaths(excludePaths).map(path => '!' + path);
-
-    return htmlGlobs.concat(excludeGlobs);
+    return globs.generate([
+        globs.paths(sourcePaths).withExtensions(extensions), // HTML / TWIG files
+        globs.paths(sourcePaths).paths(ignore).ignore(),     // Exclude files and folders from being rendered
+    ]);
 });
 
 const getWatchGlobPaths = memoize(function () {
-    // HTML / TWIG files
-    const sourcePaths = paths.getSourcePaths('html');
-    const extensions = config.getTaskConfig('html', 'extensions');
-    const htmlGlobs = paths.getGlobPaths(sourcePaths, extensions);
+    const sourcePaths = getPaths.getSourcePaths('html');
+    const extensions = getConfig.getTaskConfig('html', 'extensions');
+    const dataExtensions = getConfig.getTaskConfig('data', 'extensions');
 
-    // Add data files for watch
-    const dataSourcePaths = paths.getSourcePaths('data');
-    const dataExtensions = config.getTaskConfig('data', 'extensions');
-    const dataGlobs = paths.getGlobPaths(dataSourcePaths, dataExtensions);
-
-    return htmlGlobs.concat(dataGlobs);
+    return globs.generate(
+        globs.paths(sourcePaths).withExtensions(extensions), // HTML / TWIG files
+        globs.paths(sourcePaths).withExtensions(dataExtensions)  // Data files
+    );
 });
+
 
 const getEngine = memoize(function () {
-    const engine = config.getTaskConfig('html', 'engine');
-
-    if (engine) {
-        return engine();
-    } else {
-        return () => {};
-    }
+    const engine = getConfig.getTaskConfig('html', 'engine');
+    return engine ? engine() : (() => {});
 });
+
 
 function html () {
     return gulp.src(getGlobPaths())
-        .pipe(plumber(logError))
+        .pipe(taskStart())
 
         // Preprocess using TWIG
-        .pipe(gulpif(!!config.getTaskConfig('html', 'engine'), data(getData)))
-        .pipe(gulpif(!!config.getTaskConfig('html', 'engine'), getEngine()))
+        .pipe(gulpif(!!getConfig.getTaskConfig('html', 'engine'), data(getData)))
+        .pipe(gulpif(!!getConfig.getTaskConfig('html', 'engine'), getEngine()))
 
         // Minify
-        .pipe(gulpif(config.getTaskConfig('html', 'htmlmin'), htmlmin(config.getTaskConfig('html', 'htmlmin'))))
+        .pipe(gulpif(getConfig.getTaskConfig('html', 'htmlmin'), htmlmin(getConfig.getTaskConfig('html', 'htmlmin'))))
 
-        .pipe(plumber.stop())
-        .pipe(gulp.dest(paths.getDestPath('html')))
+        .pipe(gulp.dest(getPaths.getDestPath('html')))
 
         // Reload on change
-        .pipe(gulpif(!!config.getTaskConfig('browserSync'), browserSync.stream()));
+        .pipe(taskEnd());
 }
 
 function htmlWatch () {

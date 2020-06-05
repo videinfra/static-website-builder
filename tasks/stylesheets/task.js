@@ -1,57 +1,53 @@
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
-const browserSync = require('browser-sync');
 const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
-const plumber = require('gulp-plumber');
 const memoize = require('nano-memoize');
 
-const paths = require('./../../lib/get-path');
-const config = require('./../../lib/get-config');
-const logError = require('./../../lib/log-error');
+const globs = require('./../../lib/globs-helper');
+const getPaths = require('../../lib/get-path');
+const getConfig = require('../../lib/get-config');
 
-let gulpTaskSourcePaths;
+const taskStart = require('../../gulp/task-start');
+const taskEnd = require('../../gulp/task-end');
 
 
-function getGlobPaths () {
-    if (!gulpTaskSourcePaths) {
-        const sourcePaths = paths.getSourcePaths('stylesheets');
-        const extensions = config.getTaskConfig('stylesheets', 'extensions');
-        gulpTaskSourcePaths = paths.getGlobPaths(sourcePaths, extensions);
-    }
+const getGlobPaths = memoize(function () {
+    const sourcePaths = getPaths.getSourcePaths('stylesheets');
+    const extensions = getConfig.getTaskConfig('stylesheets', 'extensions');
+    const ignore = getConfig.getTaskConfig('stylesheets', 'ignore');
 
-    return gulpTaskSourcePaths;
-}
+    return globs.generate(
+        globs.paths(sourcePaths).withExtensions(extensions), // Files to watch
+        globs.paths(sourcePaths).paths(ignore).ignore(),     // List of files which to ignore
+    );
+});
+
 
 const getEngine = memoize(function () {
-    const engine = config.getTaskConfig('stylesheets', 'engine');
-
-    if (engine) {
-        return engine();
-    } else {
-        return () => {};
-    }
+    const engine = getConfig.getTaskConfig('stylesheets', 'engine');
+    return engine ? engine() : (() => {});
 });
+
 
 function stylesheets () {
     return gulp.src(getGlobPaths())
-        .pipe(plumber(logError))
+        .pipe(taskStart())
 
-        .pipe(gulpif(!!config.getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.init(config.getTaskConfig('stylesheets', 'sourcemaps', 'init')))) // Start Sourcemaps
+        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.init(getConfig.getTaskConfig('stylesheets', 'sourcemaps', 'init')))) // Start Sourcemaps
 
         // Engine
-        .pipe(gulpif(!!config.getTaskConfig('stylesheets', 'engine'), getEngine()))
+        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'engine'), getEngine()))
 
         // Autoprefixer, postcss
-        .pipe(gulpif(!!config.getTaskConfig('stylesheets', 'postcss'), postcss(config.getTaskConfig('stylesheets', 'postcss', 'plugins'), config.getTaskConfig('stylesheets', 'postcss', 'options'))))
+        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'postcss'), postcss(getConfig.getTaskConfig('stylesheets', 'postcss', 'plugins'), getConfig.getTaskConfig('stylesheets', 'postcss', 'options'))))
 
-        .pipe(gulpif(!!config.getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.write('.', config.getTaskConfig('stylesheets', 'sourcemaps', 'write'))))
+        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.write('.', getConfig.getTaskConfig('stylesheets', 'sourcemaps', 'write'))))
 
-        .pipe(plumber.stop())
-        .pipe(gulp.dest(paths.getDestPath('stylesheets')))
+        .pipe(gulp.dest(getPaths.getDestPath('stylesheets')))
 
         // Reload on change
-        .pipe(gulpif(!!config.getTaskConfig('browserSync'), browserSync.stream()));
+        .pipe(taskEnd());
 }
 
 function stylesheetsWatch () {

@@ -1,4 +1,3 @@
-const paths = require('./../../lib/get-path');
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 const find = require('lodash/find');

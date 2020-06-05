@@ -1,5 +1,5 @@
-const map = require('lodash/map');
-const paths = require('./../../lib/get-path');
+const getPaths = require('./../../lib/get-path');
+const globs = require('./../../lib/globs-helper');
 
 /**
  * Modify configuration
@@ -10,13 +10,9 @@ const paths = require('./../../lib/get-path');
  */
 module.exports = function preprocessCleanConfig (config = {}, fullConfig) {
     if (!config.patterns || !config.patterns.length) {
-        config.patterns = [
-            paths.normalizeGlob(paths.getDestPath())
-        ];
+        config.patterns = globs.paths(getPaths.getDestPath()).generate();
     } else {
-        config.patterns = map(config.patterns, (pattern) => {
-            return paths.normalizeGlob(paths.getProjectPath(paths.getConfig().dest, pattern))
-        });
+        config.patterns = globs.paths(getPaths.getDestPath()).paths(config.patterns).generate();
     }
 
     return config;

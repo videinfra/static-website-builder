@@ -1,42 +1,42 @@
 const gulp = require('gulp');
-const gulpif = require('gulp-if');
-const browserSync = require('browser-sync');
 const webpack = require('webpack');
 const gulpWebpack = require('webpack-stream');
-const plumber = require('gulp-plumber');
+const memoize = require('nano-memoize');
 
 const merge = require('../../lib/merge');
-const paths = require('./../../lib/get-path');
-const config = require('./../../lib/get-config');
-const logError = require('./../../lib/log-error');
+const globs = require('./../../lib/globs-helper');
+const getPaths = require('./../../lib/get-path');
+const getConfig = require('./../../lib/get-config');
 
-let gulpTaskSourcePaths;
+const taskStart = require('../../gulp/task-start');
+const taskEnd = require('../../gulp/task-end');
 
 
-function getGlobPaths () {
-    if (!gulpTaskSourcePaths) {
-        const sourcePaths = paths.getSourcePaths('javascripts');
-        const extensions = config.getTaskConfig('javascripts', 'webpack', 'resolve', 'extensions');
-        gulpTaskSourcePaths = paths.getGlobPaths(sourcePaths, extensions);
-    }
+const getGlobPaths = memoize(function () {
+    const sourcePaths = getPaths.getSourcePaths('javascripts');
+    const extensions = getConfig.getTaskConfig('javascripts', 'webpack', 'resolve', 'extensions');
+    const ignore = getConfig.getTaskConfig('javascripts', 'ignore');
 
-    return gulpTaskSourcePaths;
-}
+    return globs.generate(
+        globs.paths(sourcePaths).withExtensions(extensions), // Files to watch
+        globs.paths(sourcePaths).paths(ignore).ignore(),     // List of files which to ignore
+    );
+});
+
 
 function javascripts (watch) {
     return gulp.src(getGlobPaths())
-        .pipe(plumber(logError))
+        .pipe(taskStart())
 
         .pipe(gulpWebpack(
-            merge(config.getTaskConfig('javascripts', 'webpack'), {'watch': watch === true}),
+            merge(getConfig.getTaskConfig('javascripts', 'webpack'), {'watch': watch === true}),
             webpack
         ))
 
-        .pipe(plumber.stop())
-        .pipe(gulp.dest(paths.getDestPath('javascripts')))
+        .pipe(gulp.dest(getPaths.getDestPath('javascripts')))
 
         // Reload on change
-        .pipe(gulpif(!!config.getTaskConfig('browserSync'), browserSync.stream()));
+        .pipe(taskEnd());
 }
 
 function javascriptsWatch () {

@@ -1,28 +1,35 @@
 const gulp = require('gulp');
-const gulpif = require('gulp-if');
-const browserSync = require('browser-sync');
-const flatten = require('lodash/flatten');
 const memoize = require('nano-memoize');
 
-const paths = require('./../../lib/get-path');
-const config = require('./../../lib/get-config');
+const globs = require('./../../lib/globs-helper');
+const getPaths = require('./../../lib/get-path');
+const getConfig = require('./../../lib/get-config');
+
+const taskStart = require('../../gulp/task-start');
+const taskEnd = require('../../gulp/task-end');
 
 
 const getGlobPaths = memoize(function () {
-    return flatten([
-        paths.getGlobPaths(paths.getSourcePaths('fonts')),
-        paths.normalizeGlob(paths.getSourcePaths('fonts', ...config.getTaskConfig('fonts', 'ignore')).map(path => '!' + path))
-    ]);
+    const sourcePaths = getPaths.getSourcePaths('fonts');
+    const extensions = getConfig.getTaskConfig('fonts', 'extensions');
+    const ignore = getConfig.getTaskConfig('fonts', 'ignore');
+
+    return globs.generate(
+        globs.paths(sourcePaths).withExtensions(extensions), // Files to watch
+        globs.paths(sourcePaths).paths(ignore).ignore(), // List of files which to ignore
+    );
 });
 
 
 function fonts () {
     return gulp
         .src(getGlobPaths(), { since: gulp.lastRun(fonts) })
-        .pipe(gulp.dest(paths.getDestPath('fonts')))
+        .pipe(taskStart())
+
+        .pipe(gulp.dest(getPaths.getDestPath('fonts')))
 
         // Reload on change
-        .pipe(gulpif(!!config.getTaskConfig('browserSync'), browserSync.stream()));
+        .pipe(taskEnd());
 }
 
 function fontsWatch () {

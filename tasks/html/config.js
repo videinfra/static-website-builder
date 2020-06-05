@@ -1,12 +1,17 @@
 exports.html = {
-    // Engine is a function which returns a gulp pipe function, eg. twig()
+    // Engine is a function which returns a gulp pipe function, eg. sass()
+    // Intended to be used by plugins, not manually
     engine: null,
 
     // Filename extensions
     extensions: ['html'],
 
-    // Folder which to exclude from rendering, relative to the template folder
-    excludeFolders: [],
+    // Glob list of files, which to ignore
+    // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
+    ignore: [
+        'shared/**/*',
+        'partials/**/*'
+    ],
 
     // Production only settings, overwrites default settings
     production: {

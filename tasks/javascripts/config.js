@@ -1,4 +1,11 @@
 exports.javascripts = {
+    // Glob list of files, which to ignore
+    // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
+    ignore: [],
+
+    // JS file extensions
+    extensions: ['js', 'json'],
+
     // Instead of 'entry' we provide filename which list all entries
     entryList: '_entries.js',
 
@@ -6,7 +13,7 @@ exports.javascripts = {
     // see https://webpack.js.org/configuration/
     webpack: {
         resolve: {
-            extensions: ['.js', '.json'],
+            // extensions are copied from 'extensions' config by preprocess
             alias: {}
         },
 

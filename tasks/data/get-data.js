@@ -3,8 +3,8 @@ const path = require('path');
 const reduce = require('lodash/reduce');
 
 const merge = require('../../lib/merge');
-const paths = require('../../lib/get-path');
-const config = require('../../lib/get-config');
+const getPaths = require('../../lib/get-path');
+const getConfig = require('../../lib/get-config');
 const logError = require('../../lib/log-error');
 
 /**
@@ -28,10 +28,10 @@ function camelizeFileName (str) {
 }
 
 module.exports = function getData () {
-    const folders = paths.getSourcePaths('data');
-    const extensions = config.getTaskConfig('data', 'extensions');
-    const loaders = config.getTaskConfig('data', 'loaders');
-    const group = config.getTaskConfig('data', 'groupByFileName');
+    const folders = getPaths.getSourcePaths('data');
+    const extensions = getConfig.getTaskConfig('data', 'extensions');
+    const loaders = getConfig.getTaskConfig('data', 'loaders');
+    const group = getConfig.getTaskConfig('data', 'groupByFileName');
 
     const data = reduce(folders, (data, folder) => {
         fs.readdirSync(folder).forEach(fileName => {
@@ -56,7 +56,7 @@ module.exports = function getData () {
                             }
                         } catch (err) {
                             logError({
-                                'message': `Failed to parse "${ path.join(paths.getConfig().src, paths.getConfig().data.src, fileName) }"`,
+                                'message': `Failed to parse "${ path.join(getPaths.getConfig().src, getPaths.getConfig().data.src, fileName) }"`,
                                 'plugin': 'data'
                             });
                         }

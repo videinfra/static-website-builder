@@ -1,5 +1,6 @@
 const map = require('lodash/map');
-const paths = require('./../../lib/get-path');
+const getPaths = require('./../../lib/get-path');
+const globs = require('./../../lib/globs-helper');
 const isPlainObject = require('lodash/isPlainObject');
 
 /**
@@ -22,16 +23,16 @@ module.exports = function preprocessBrowserSyncConfig (config = {}, fullConfig) 
     if (config.server) {
         if (config.server.baseDir) {
             // Relative to the project
-            config.server.baseDir = paths.getProjectPath(config.server.baseDir);
+            config.server.baseDir = getPaths.getProjectPath(config.server.baseDir);
         } else {
             // Set to output folder from path-config.js
-            config.server.baseDir = paths.getDestPath('browserSync')
+            config.server.baseDir = getPaths.getDestPath('browserSync')
         }
     }
 
     // Set additional files to watch, convert file paths to globs
     if (config.files) {
-        config.files = map(config.files, (file) => paths.normalizeGlob(paths.getProjectPath(file)));
+        config.files = globs.paths(getPaths.getProjectPath()).paths(files).generate();
     }
 
     return config;

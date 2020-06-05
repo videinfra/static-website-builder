@@ -1,6 +1,11 @@
 exports.stylesheets = {
     // Engine is a function which returns a gulp pipe function, eg. sass()
+    // Intended to be used by plugins, not manually
     engine: null,
+
+    // Glob list of files, which to ignore
+    // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
+    ignore: [],
 
     // File extensions
     extensions: ['css'],

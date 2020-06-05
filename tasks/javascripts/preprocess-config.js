@@ -1,6 +1,7 @@
 const paths = require('../../lib/get-path');
 const merge = require('../../lib/merge');
 const get = require('lodash/get');
+const map = require('lodash/map');
 const webpack = require('webpack');
 
 /**
@@ -54,13 +55,17 @@ module.exports = function preprocessJavascriptsConfig (config, fullConfig) {
 
             // Imports
             resolve: merge({
+                // File extensions
+                extensions: map(config.extensions, (extension) => `.${ extension }`),
+
+                // Import folders
                 modules: [
                     // Allow imports from node_modules
                     paths.getProjectPath('node_modules'),
 
                     // Allow imports from source folder
                     paths.getSourcePath('javascripts'),
-                ]
+                ],
             }, get(config, ['webpack', 'resolve'], null)),
 
             // Loader imports

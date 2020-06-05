@@ -1,14 +1,14 @@
 const gulp = require('gulp');
 const size = require('gulp-sizereport');
 
-const paths = require('./../../lib/get-path');
-const config = require('./../../lib/get-config');
+const getPaths = require('./../../lib/get-path');
+const getConfig = require('./../../lib/get-config');
 
 
 function sizeReport () {
     return gulp
-        .src(paths.getGlobPaths(paths.getDestPath()))
-        .pipe(size(config.getTaskConfig('sizereport')))
+        .src(getPaths.getGlobPaths(getPaths.getDestPath()))
+        .pipe(size(getConfig.getTaskConfig('sizereport')))
 }
 
 
