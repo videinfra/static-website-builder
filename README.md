@@ -4,8 +4,10 @@
 
 - Gulp: built using gulp
 - Built-in Server: Local development server with hot reloading
-- Templates: TWIG templates with HTML minification, plugins for twig for additional functions and filters
-- SASS: SASS / SCSS compilation, autoprefixing and minification with PostCSS support
+- Templates: HTML templates with minification
+- TWIG: Optional TwigJS template engine with optional plugins for additional functions and filters
+- Stylesheets: Autoprefixing and minification with PostCSS support 
+- SASS: Optional SASS / SCSS compilation
 - Javascript: Transpilation with Babel, bundling and minification
 - SVG icons: Sprite generation from individual SVG files
 
@@ -54,6 +56,7 @@ As used in quick start, project templates are used to generate boilerplate / sta
 ## Plugins
 
 Built-in plugins:
+- `sass` - adds `.sass` and `.scss` file rendering using SASS
 - `twig` - adds `.twig` file rendering using TwigJS
 - `twig/symfony-filters` - adds `humanize` filter as found in Symfony
 - `twig/symfony-functions` - adds `asset` function as found in Symfony
@@ -63,6 +66,10 @@ Plugins can be enabled by adding them to the `task-config.js`, eg.
 
 ```js
 exports.plugins = [
+    // Enables SASS engine and .sass and .scss file compilation
+    require('@videinfra/static-website-builder/plugins/sass'),
+
+    // Enables TwigJS engine .twig file compilation
     require('@videinfra/static-website-builder/plugins/twig'),
     require('@videinfra/static-website-builder/plugins/twig/symfony-filters'),
     require('@videinfra/static-website-builder/plugins/twig/symfony-functions'),

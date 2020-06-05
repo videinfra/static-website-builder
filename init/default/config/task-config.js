@@ -19,6 +19,9 @@ exports.browserSync = {};
 exports.sizereport = {};
 
 exports.plugins = [
+    // Enables SASS engine and .sass and .scss file compilation
     require('@videinfra/static-website-builder/plugins/sass'),
+
+    // Enables TwigJS engine .twig file compilation
     require('@videinfra/static-website-builder/plugins/twig'),
 ];
