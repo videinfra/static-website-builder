@@ -1,5 +1,3 @@
-console.log('TWIG PLUGIN CALLED...');
-
 // 'twig' config will be merged into 'html'
 exports.html = {
     // Add twig filename to the extensions
