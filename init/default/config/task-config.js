@@ -18,4 +18,6 @@ exports.stylesheets = {};
 exports.browserSync = {};
 exports.sizereport = {};
 
-exports.plugins = {};
+exports.plugins = [
+    require('@videinfra/static-website-builder/plugins/twig'),
+];

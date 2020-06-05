@@ -3,7 +3,7 @@
         "start": "builder",
         "development": "builder",
         "build": "builder -- build",
-        "production": "builder -- build",
+        "production": "builder -- build"
     },
     "dependencies": {
         "normalize-scss": "^7.0.0"

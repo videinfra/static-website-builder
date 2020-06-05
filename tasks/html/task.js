@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const twig = require('gulp-twig');
 const data = require('gulp-data');
 const gulpif = require('gulp-if');
 const htmlmin = require('gulp-htmlmin')
@@ -17,7 +16,7 @@ const getData = require('../data/get-data');
 
 
 const getGlobPaths = memoize(function () {
-    // TWIG files
+    // HTML / TWIG files
     const sourcePaths = paths.getSourcePaths('html');
     const extensions = config.getTaskConfig('html', 'extensions');
     const htmlGlobs = paths.getGlobPaths(sourcePaths, extensions);
@@ -31,7 +30,7 @@ const getGlobPaths = memoize(function () {
 });
 
 const getWatchGlobPaths = memoize(function () {
-    // TWIG files
+    // HTML / TWIG files
     const sourcePaths = paths.getSourcePaths('html');
     const extensions = config.getTaskConfig('html', 'extensions');
     const htmlGlobs = paths.getGlobPaths(sourcePaths, extensions);
@@ -44,12 +43,23 @@ const getWatchGlobPaths = memoize(function () {
     return htmlGlobs.concat(dataGlobs);
 });
 
+const getEngine = memoize(function () {
+    const engine = config.getTaskConfig('html', 'engine');
+
+    if (engine) {
+        return engine();
+    } else {
+        return () => {};
+    }
+});
+
 function html () {
     return gulp.src(getGlobPaths())
         .pipe(plumber(logError))
 
-        .pipe(data(getData))
-        .pipe(twig(config.getTaskConfig('html', 'twig')))
+        // Preprocess using TWIG
+        .pipe(gulpif(!!config.getTaskConfig('html', 'engine'), data(getData)))
+        .pipe(gulpif(!!config.getTaskConfig('html', 'engine'), getEngine()))
 
         // Minify
         .pipe(gulpif(config.getTaskConfig('html', 'htmlmin'), htmlmin(config.getTaskConfig('html', 'htmlmin'))))

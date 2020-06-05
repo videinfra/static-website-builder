@@ -54,6 +54,7 @@ As used in quick start, project templates are used to generate boilerplate / sta
 ## Plugins
 
 Built-in plugins:
+- `twig` - adds `.twig` file rendering using TwigJS
 - `twig/symfony-filters` - adds `humanize` filter as found in Symfony
 - `twig/symfony-functions` - adds `asset` function as found in Symfony
 - `twig/lodash-filters` - adds `omit`, `pick`, `filter`, `reject` and `find` filters as in lodash
@@ -62,8 +63,9 @@ Plugins can be enabled by adding them to the `task-config.js`, eg.
 
 ```js
 exports.plugins = [
-    require('builder/plugins/twig/symfony-filters'),
-    require('builder/plugins/twig/symfony-functions'),
-    require('builder/plugins/twig/lodash-filters'),
+    require('@videinfra/static-website-builder/plugins/twig'),
+    require('@videinfra/static-website-builder/plugins/twig/symfony-filters'),
+    require('@videinfra/static-website-builder/plugins/twig/symfony-functions'),
+    require('@videinfra/static-website-builder/plugins/twig/lodash-filters'),
 ];
 ```
