@@ -1,23 +1,25 @@
 const gulp = require('gulp');
 const memoize = require('nano-memoize');
 
-const getConfig = require('@videinfra/example-website-builder/lib/globs-helper');
+const globs = require('@videinfra/example-website-builder/lib/globs-helper');
 const getConfig = require('@videinfra/example-website-builder/lib/get-config');
 const getPaths = require('@videinfra/example-website-builder/lib/get-path');
 
-const taskStart = require('@videinfra/example-website-builder/gulp/task-start');
-const taskEnd = require('@videinfra/example-website-builder/gulp/task-end');
+const taskStart = require('@videinfra/example-website-builder/lib/gulp/task-start');
+const taskEnd = require('@videinfra/example-website-builder/lib/gulp/task-end');
 
 
 // Paths and files which gulp will watch and run on
-// memoize for performance
+// Using memoize to cache the result, for performance
 const getGlobPaths = memoize(function () {
-    const sourcePaths = getPaths.getSourcePaths('html');
+    const sourcePaths = getPaths.getSourcePaths('example');
     const extensions = getConfig.getTaskConfig('example', 'extensions');
+    const ignore = getConfig.getTaskConfig('example', 'ignore');
 
     // Combine source paths and extensions
     return globs.generate(
-        globs.paths(sourcePaths).addExtensions(extensions), // Files to watch
+        globs.paths(sourcePaths).filesWithExtensions(extensions), // Files to watch
+        globs.paths(sourcePaths).paths(ignore).ignore(),          // Exclude files and folders from being processed
     );
 });
 
@@ -29,8 +31,8 @@ function example () {
 
         // Do something....
 
-        // Output into destination folder for 'html'
-        .pipe(gulp.dest(getPaths.getDestPath('html')))
+        // Output into destination folder for 'example'
+        .pipe(gulp.dest(getPaths.getDestPath('example')))
 
         // End task, handles reloading on file change
         .pipe(taskEnd());

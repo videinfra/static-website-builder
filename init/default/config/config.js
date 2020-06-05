@@ -25,3 +25,17 @@ exports.plugins = [
     // Enables TwigJS engine .twig file compilation
     require('@videinfra/static-website-builder/plugins/twig'),
 ];
+
+
+/*
+ * Path configuration
+ * All options will be merged with defaults, but not replaces whole configuration object
+ *
+ * Default configuration can be seen here https://github.com/videinfra/static-website-builder/tree/master/tasks
+ * in each tasks config.js file
+ */
+
+exports.paths = {
+    src: './src',
+    dest: './public',
+};

@@ -91,3 +91,14 @@ exports.tasks = {
         require('./task'),
     ]
 };
+
+
+/**
+ * Paths relative to the global src and dest folders
+ */
+exports.paths = {
+    javascripts: {
+        'src': 'javascripts',
+        'dest': 'assets/javascripts',
+    }
+};

@@ -8,8 +8,8 @@ const getPaths = require('./../../lib/get-path');
 const getConfig = require('./../../lib/get-config');
 const globs = require('./../../lib/globs-helper');
 
-const taskStart = require('../../gulp/task-start');
-const taskEnd = require('../../gulp/task-end');
+const taskStart = require('../../lib/gulp/task-start');
+const taskEnd = require('../../lib/gulp/task-end');
 
 const getData = require('../data/get-data');
 
@@ -20,8 +20,8 @@ const getGlobPaths = memoize(function () {
     const ignore = getConfig.getTaskConfig('html', 'ignore');
 
     return globs.generate([
-        globs.paths(sourcePaths).withExtensions(extensions), // HTML / TWIG files
-        globs.paths(sourcePaths).paths(ignore).ignore(),     // Exclude files and folders from being rendered
+        globs.paths(sourcePaths).filesWithExtensions(extensions), // HTML / TWIG files
+        globs.paths(sourcePaths).paths(ignore).ignore(),         // Exclude files and folders from being rendered
     ]);
 });
 
@@ -31,8 +31,8 @@ const getWatchGlobPaths = memoize(function () {
     const dataExtensions = getConfig.getTaskConfig('data', 'extensions');
 
     return globs.generate(
-        globs.paths(sourcePaths).withExtensions(extensions), // HTML / TWIG files
-        globs.paths(sourcePaths).withExtensions(dataExtensions)  // Data files
+        globs.paths(sourcePaths).filesWithExtensions(extensions),     // HTML / TWIG files
+        globs.paths(sourcePaths).filesWithExtensions(dataExtensions)  // Data files
     );
 });
 

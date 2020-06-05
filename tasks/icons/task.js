@@ -8,8 +8,8 @@ const globs = require('./../../lib/globs-helper');
 const getPaths = require('./../../lib/get-path');
 const getConfig = require('./../../lib/get-config');
 
-const taskStart = require('../../gulp/task-start');
-const taskEnd = require('../../gulp/task-end');
+const taskStart = require('../../lib/gulp/task-start');
+const taskEnd = require('../../lib/gulp/task-end');
 
 
 const getGlobPaths = memoize(function () {
@@ -18,8 +18,8 @@ const getGlobPaths = memoize(function () {
     const ignore = getConfig.getTaskConfig('icons', 'ignore');
 
     return globs.generate(
-        globs.paths(sourcePaths).withExtensions(extensions), // Files to watch
-        globs.paths(sourcePaths).paths(ignore).ignore(),     // List of files which to ignore
+        globs.paths(sourcePaths).filesWithExtensions(extensions), // Files to watch
+        globs.paths(sourcePaths).paths(ignore).ignore(),          // List of files which to ignore
     );
 });
 

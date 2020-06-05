@@ -22,3 +22,15 @@ exports.tasks = {
         require('./task'),
     ]
 };
+
+
+/**
+ * Paths relative to the global src and dest folders
+ */
+exports.paths = {
+    browserSync: {
+        // Server root directory, relative to the project
+        // If not set then global dest folder
+        'dest': null,
+    }
+};

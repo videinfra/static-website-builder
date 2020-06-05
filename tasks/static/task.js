@@ -5,8 +5,8 @@ const globs = require('./../../lib/globs-helper');
 const getPaths = require('./../../lib/get-path');
 const getConfig = require('./../../lib/get-config');
 
-const taskStart = require('../../gulp/task-start');
-const taskEnd = require('../../gulp/task-end');
+const taskStart = require('../../lib/gulp/task-start');
+const taskEnd = require('../../lib/gulp/task-end');
 
 
 const getGlobPaths = memoize(function () {

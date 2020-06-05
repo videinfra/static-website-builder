@@ -1,3 +1,6 @@
+/**
+ * TWIG plugin attaches itself to the HTML task
+ */
 exports.html = {
     // Add twig to the extensions
     extensions: ['twig'],

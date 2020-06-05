@@ -56,7 +56,7 @@ module.exports = function getData () {
                             }
                         } catch (err) {
                             logError({
-                                'message': `Failed to parse "${ path.join(getPaths.getConfig().src, getPaths.getConfig().data.src, fileName) }"`,
+                                'message': `Failed to parse "${ path.join(getPaths.getPathConfig().src, getPaths.getPathConfig().data.src, fileName) }"`,
                                 'plugin': 'data'
                             });
                         }

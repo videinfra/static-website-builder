@@ -1,4 +1,4 @@
-const config = require('./../lib/get-config');
+const getConfig = require('./../lib/get-config');
 const generateGulpTasks = require('./../lib/generate-gulp-tasks');
 
 // Set mode globally it can be used by tasks
@@ -8,4 +8,4 @@ global.production = global.production || (hasProductionArg || process.env.NODE_E
 global.development = !global.production;
 
 // Load all config files and generate gulp tasks
-module.exports = generateGulpTasks(config.getConfig());
+module.exports = generateGulpTasks(getConfig.getConfig());

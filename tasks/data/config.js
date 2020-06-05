@@ -19,3 +19,13 @@ exports.data = {
     // eg, person-names.js -> {'personNames': ...}
     groupByFileName: false,
 };
+
+
+/**
+ * Paths relative to the global src and dest folders
+ */
+exports.paths = {
+    data: {
+        'src': 'html/data',
+    }
+};

@@ -1,3 +1,6 @@
+/**
+ * SASS plugin attaches itself to the stylesheets task
+ */
 exports.stylesheets = {
     // Add sass to the extensions
     extensions: ['scss', 'sass'],
