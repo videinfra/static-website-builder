@@ -50,7 +50,7 @@ Note: these commands are added to the project during `npm init`.
 
 As used in quick start, project templates are used to generate boilerplate / starter files and add commands to the project:
 
-- `default` - simple template with normalize.scss
+- [`default`](https://github.com/videinfra/static-website-builder/tree/master/init/default) - simple template with normalize.scss
 
 
 ## Plugins
