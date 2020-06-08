@@ -9,6 +9,7 @@ exports.sizereport = {
 
     // Production only settings, overwrites default settings
     production: {
+        // see https://www.npmjs.com/package/gulp-sizereport#options
         gzip: true
     }
 };

@@ -1,5 +1,5 @@
 exports.javascripts = {
-    // Glob list of files, which to ignore
+    // Glob list of files, which to ignore, relative to the javascript source folder
     // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
     ignore: [],
 

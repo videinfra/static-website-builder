@@ -1,5 +1,5 @@
 exports.clean = {
-    // Patterns, see https://gulpjs.com/docs/en/getting-started/explaining-globs/
+    // Patterns, relative to the destination folder, see https://gulpjs.com/docs/en/getting-started/explaining-globs/
     // patterns: ['assets/**', 'temp-folder']
     patterns: [],
 };

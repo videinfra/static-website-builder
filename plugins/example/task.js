@@ -43,6 +43,8 @@ function exampleWatch () {
 }
 
 
-// Available tasks are: beforeWatch, watch, afterWatch, beforeBuild, build, afterBuild
+// Available tasks are: beforeWatch, watch, beforeBuild, build, afterBuild
+// Execution order for development is: beforeBuild -> build-> beforeWatch -> watch
+// Execution order for production is: beforeBuild -> build-> afterBuild
 exports.build = example;
 exports.watch = exampleWatch;

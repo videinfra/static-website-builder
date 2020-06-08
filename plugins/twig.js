@@ -8,6 +8,8 @@ exports.html = {
     // Glob list of files, which to ignore
     // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
     ignore: [
+        'shared/**/*',
+        'partials/**/*',
         'macros/**/*',
         'layouts/**/*',
     ],

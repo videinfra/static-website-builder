@@ -62,7 +62,7 @@ Built-in plugins:
 - `twig/symfony-functions` - adds `asset` function as found in Symfony
 - `twig/lodash-filters` - adds `omit`, `pick`, `filter`, `reject` and `find` filters as in lodash
 
-Plugins can be enabled by adding them to the `task-config.js`, eg.
+Plugins can be enabled by adding them to the `config/config.js`, eg.
 
 ```js
 exports.plugins = [
@@ -76,3 +76,7 @@ exports.plugins = [
     require('@videinfra/static-website-builder/plugins/twig/lodash-filters'),
 ];
 ```
+
+## Wiki
+
+See [our wiki](https://github.com/videinfra/static-website-builder/wiki) for additional information.

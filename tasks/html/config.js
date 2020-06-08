@@ -6,11 +6,9 @@ exports.html = {
     // Filename extensions
     extensions: ['html'],
 
-    // Glob list of files, which to ignore
+    // Glob list of files, which to ignore, relative to the html source folder
     // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
     ignore: [
-        'shared/**/*',
-        'partials/**/*'
     ],
 
     // Production only settings, overwrites default settings

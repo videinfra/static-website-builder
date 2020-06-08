@@ -1,5 +1,5 @@
 exports.static = {
-    // Glob list of files, which to ignore
+    // Glob list of files, which to ignore, relative to the static source path
     // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
     ignore: [],
 

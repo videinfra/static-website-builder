@@ -3,7 +3,7 @@ exports.stylesheets = {
     // Intended to be used by plugins, not manually
     engine: null,
 
-    // Glob list of files, which to ignore
+    // Glob list of files, which to ignore, relative to the stylesheet source folder
     // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
     ignore: [],
 
@@ -42,6 +42,7 @@ exports.stylesheets = {
     // Development only settings, overwrites default settings
     development: {
         // Enable source maps in development mode
+        // See https://www.npmjs.com/package/gulp-sourcemaps
         sourcemaps: {
             init: {},
             write: {}
