@@ -40,6 +40,7 @@
     "gulp-dependents": "^1.2.3",
     "gulp-htmlmin": "^5.0.1",
     "gulp-if": "^3.0.0",
+    "gulp-ignore": "^3.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^8.0.0",
     "gulp-remember": "^1.0.1",

@@ -12,6 +12,18 @@ exports.html = {
         'layouts/**/*',
     ],
 
+    // Dependents plugin for faster builds
+    dependents: {
+        '.twig': {
+            parserSteps: [
+                /\{%\s+(?:from|extends|include)\s+['"]([^'"]+)/gm,
+            ],
+            prefixes: [],
+            postfixes: [],
+            basePaths: []
+        }
+    },
+
     twig: {
         // Custom functions
         functions: [
