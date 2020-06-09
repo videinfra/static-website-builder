@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 const path = require('path')
 
-const additionalArgs = require('minimist')(process.argv.slice(2))._;
+const allArgs = require('minimist')(process.argv.slice(2));
+const additionalArgs = allArgs._;
 
 if (additionalArgs[0] === 'init') {
     const init = require('../init/index');
@@ -15,6 +16,10 @@ if (additionalArgs[0] === 'init') {
 
     if(additionalArgs.length) {
         args = args.concat(additionalArgs);
+    }
+
+    if (allArgs.config) {
+        args = args.concat('--config', allArgs.config);
     }
 
     require('child_process').fork(gulpBinaryFile, args);

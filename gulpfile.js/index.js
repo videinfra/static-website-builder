@@ -7,5 +7,12 @@ const hasProductionArg = process.argv.indexOf('build') !== -1;
 global.production = global.production || (hasProductionArg || process.env.NODE_ENV === 'production');
 global.development = !global.production;
 
+// Config file
+let builderConfigFile = process.env.BUILDER_CONFIG_FILE || 'config/config.js';
+
+if (process.argv.indexOf('--config') !== -1) {
+    builderConfigFile = process.argv[process.argv.indexOf('--config') + 1];
+}
+
 // Load all config files and generate gulp tasks
-module.exports = generateGulpTasks(getConfig.getConfig());
+module.exports = generateGulpTasks(getConfig.getConfig(builderConfigFile));
