@@ -1,3 +1,8 @@
+[npm-url]: https://npmjs.org/package/@videinfra/static-website-builder
+[npm-image]: http://img.shields.io/npm/v/@videinfra/static-website-builder.svg
+[travis-url]: https://travis-ci.org/videinfra/static-website-builder
+[travis-image]: http://img.shields.io/travis/videinfra/static-website-builder.svg
+
 `static-website-builder` is a customizable static site project builder powered by Gulp, Webpack, Babel, SASS, PostCSS, TwigJS, BrowserSync
 
 ## Features
@@ -80,3 +85,8 @@ exports.plugins = [
 ## Wiki
 
 See [our wiki](https://github.com/videinfra/static-website-builder/wiki) for additional information.
+
+[npm-url]: https://npmjs.org/package/@videinfra/static-website-builder
+[npm-image]: http://img.shields.io/npm/v/@videinfra/static-website-builder.svg
+[travis-url]: https://travis-ci.org/videinfra/static-website-builder
+[travis-image]: http://img.shields.io/travis/videinfra/static-website-builder.svg
