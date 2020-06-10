@@ -21,7 +21,7 @@
   "scripts": {
     "start": "cross-env BUILDER_MODE=development gulp",
     "build": "cross-env BUILDER_MODE=production gulp build",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "dependencies": {
     "@babel/core": "^7.10.0",
