@@ -4,43 +4,6 @@ const fs = require('fs')
 const fsPromises = fs.promises;
 
 
-function createSampleFile () {
-    return fsPromises.writeFile(path.resolve(publicPath, 'sample.txt'), 'sample');
-}
-function buildTestProject () {
-    return new Promise((resolve, reject) => {
-        const builderEntryDir = path.resolve(__dirname, '../../gulpfile.js');
-        const gulpModulePath = path.dirname(require.resolve('gulp'));
-        const gulpBinaryFile = path.join(gulpModulePath, '/bin/gulp');
-        const args = [
-            'build',
-            '--gulpfile', builderEntryDir,
-            '--config', path.resolve(__dirname, '../../init/test/config/config.js'),
-            '--silent'
-        ];
-
-        const process = require('child_process').fork(gulpBinaryFile, args);
-
-        process.on('close', (code) => {
-            if (code) {
-                reject(`Build process to build test project failed, code ${ code }`);
-            } else {
-                console.log('build test project completed');
-                resolve();
-            }
-        });
-    });
-}
-
-beforeAll(() => {
-    return createSampleFile().then(buildTestProject);
-}, 30000);
-
-test('clean removed old files', () => {
-    expect.assertions(1);
-    return expect(fsPromises.access(path.resolve(publicPath, 'sample.txt'))).rejects.toThrow('no such file or directory');
-});
-
 test('TWIG templates rendered and minified with JS and JSON data', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'index.html'), {'encoding': 'utf8'}).then((html) => {
         expect(html).toBe('<html><body><h1>Hello World!</h1></body></html>');

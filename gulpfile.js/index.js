@@ -12,6 +12,12 @@ let builderConfigFile = process.env.BUILDER_CONFIG_FILE || 'config/config.js';
 
 if (process.argv.indexOf('--config') !== -1) {
     builderConfigFile = process.argv[process.argv.indexOf('--config') + 1];
+} else {
+    for (let i = 0; i < process.argv.length; i++) {
+        if (process.argv[i].indexOf('--config=') !== -1) {
+            builderConfigFile = process.argv[i].substr(9);
+        }
+    }
 }
 
 // Load all config files and generate gulp tasks
