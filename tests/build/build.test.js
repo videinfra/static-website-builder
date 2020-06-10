@@ -25,6 +25,7 @@ function buildTestProject () {
             if (code) {
                 reject(`Build process to build test project failed, code ${ code }`);
             } else {
+                console.log('build test project completed');
                 resolve();
             }
         });
@@ -36,6 +37,7 @@ beforeAll(() => {
 }, 30000);
 
 test('clean removed old files', () => {
+    expect.assertions(1);
     return expect(fsPromises.access(path.resolve(publicPath, 'sample.txt'))).rejects.toThrow('no such file or directory');
 });
 
@@ -46,6 +48,7 @@ test('TWIG templates rendered and minified with JS and JSON data', () => {
 });
 
 test('Multiple TWIG templates rendered', () => {
+    expect.assertions(1);
     return expect(fsPromises.access(path.resolve(publicPath, 'other.html'))).resolves.toBe(undefined);
 });
 
@@ -62,10 +65,12 @@ test('SASS import test', () => {
 });
 
 test('Font file woff copied', () => {
+    expect.assertions(1);
     return expect(fsPromises.access(path.resolve(publicPath, 'assets/fonts/font.woff'))).resolves.toBe(undefined);
 });
 
 test('Font file fake not copied', () => {
+    expect.assertions(1);
     return expect(fsPromises.access(path.resolve(publicPath, 'assets/fonts/font.fake'))).rejects.toThrow('no such file or directory');
 });
 
@@ -94,13 +99,16 @@ test('icons generated', () => {
 });
 
 test('image copied', () => {
+    expect.assertions(1);
     return expect(fsPromises.access(path.resolve(publicPath, 'assets/images/px.gif'))).resolves.toBe(undefined);
 });
 
 test('static copied', () => {
+    expect.assertions(1);
     return expect(fsPromises.access(path.resolve(publicPath, 'assets/manifest/manifest.webmanifest'))).resolves.toBe(undefined);
 });
 
 test('static file merged into images', () => {
+    expect.assertions(1);
     return expect(fsPromises.access(path.resolve(publicPath, 'assets/images/static.png'))).resolves.toBe(undefined);
 });
