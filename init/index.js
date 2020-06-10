@@ -12,7 +12,7 @@ module.exports = function init (template = 'default') {
     let   copyFrom = path.getBuilderPath('init', templateName);
     const copyTo = path.getProjectPath();
 
-    if (!folderExists(copyFrom)) {
+    if (template === 'test' || !folderExists(copyFrom)) {
         console.log(chalk.red(`Template "${ templateName }" doesn't exist`));
 
         getFolderList(path.getBuilderPath('init')).then((templates) => {
