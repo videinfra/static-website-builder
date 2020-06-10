@@ -14,7 +14,9 @@ exports.html = {
     // Production only settings, overwrites default settings
     production: {
         // Enable HTML minification
-        htmlmin: {}
+        htmlmin: {
+            collapseWhitespace: true
+        }
     },
 
     // Development only settings, overwrites default settings

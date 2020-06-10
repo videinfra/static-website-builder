@@ -1,6 +1,6 @@
 const pick = require('lodash/pick');
-const { generateTaskList } = require('../generate-gulp-tasks');
-const { BEFORE_BUILD, BUILD, AFTER_BUILD, BEFORE_WATCH, WATCH, AFTER_WATCH } = require('../task-order');
+const { generateTaskList } = require('../lib/generate-gulp-tasks');
+const { BEFORE_BUILD, BUILD, AFTER_BUILD, BEFORE_WATCH, WATCH, AFTER_WATCH } = require('../lib/task-order');
 
 test('Tasks are organized correctly', () => {
     const beforeBuildA = () => {};

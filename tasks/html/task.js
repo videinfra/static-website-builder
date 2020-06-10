@@ -68,7 +68,7 @@ function html () {
         .pipe(gulpif(!!getConfig.getTaskConfig('html', 'engine'), getEngine()))
 
         // Minify
-        .pipe(gulpif(getConfig.getTaskConfig('html', 'htmlmin'), htmlmin(getConfig.getTaskConfig('html', 'htmlmin'))))
+        .pipe(gulpif(!!getConfig.getTaskConfig('html', 'htmlmin'), htmlmin(getConfig.getTaskConfig('html', 'htmlmin'))))
 
         .pipe(gulp.dest(getPaths.getDestPath('html')))
 

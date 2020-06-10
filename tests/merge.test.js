@@ -1,4 +1,4 @@
-const merge = require('../merge');
+const merge = require('../lib/merge');
 
 test('Merge arrays', () => {
     const obj1 = {'arr': ['a', 'b', {'c': 1, 'd': 2}]};

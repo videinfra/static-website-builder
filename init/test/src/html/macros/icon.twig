@@ -1,0 +1,40 @@
+{#
+    Macro to output an icon from icon sprite
+
+    Usage:
+        {{ icon('ICON_FILENAME_WITHOUT_EXTENSION', {'width': WIDTH_AS_IN_SVG_FILE, 'height': HEIGHT_AS_IN_SVG_FILE}) }}
+
+    Example:
+        {{ icon('arrow-down', {'width': 20, 'height': 20}) }}
+        {{ icon('arrow-down', {'width': 20, 'height': 20, 'class': 'is-hidden'}) }}
+#}
+
+{% macro icon(name, attrs) %}
+    {%- set filename = '/assets/images/icons.svg' %}
+    {%- set width = 0 %}
+    {%- set height = 0 %}
+    {%- set style = '' %}
+    {%- set class = '' %}
+    {%- set viewBox = '' %}
+    {%- set preserveAspectRatio = '' %}
+
+    {%- if attrs %}
+        {%- set filename = attrs.source|default(filename) %}
+        {%- set width = attrs.width|default(width) %}
+        {%- set height = attrs.height|default(height) %}
+        {%- set style = attrs.style|default(style) %}
+        {%- set class = attrs.class|default(class) %}
+        {%- set viewBox = attrs.viewBox|default(viewBox) %}
+        {%- set preserveAspectRatio = attrs.preserveAspectRatio|default(preserveAspectRatio) %}
+    {%- endif -%}
+
+    <svg class="icon icon-{{ name }}{% if class %} {{ class }}{% endif %}"
+        {%- if width %} width="{{ width }}"{% endif -%}
+        {%- if height %} height="{{ height }}"{% endif -%}
+        {%- if style %} style="{{ style }}"{% endif -%}
+        {%- if viewBox %} viewBox="{{ viewBox }}"{% endif -%}
+        {%- if preserveAspectRatio %} preserveAspectRatio="{{ preserveAspectRatio }}"{% endif -%}
+        {%- if true %} role="presentation"{% endif -%}
+
+        ><use href="{{ filename }}#{{ name }}" xlink:href="{{ filename }}#{{ name }}"></use></svg>
+{%- endmacro %}

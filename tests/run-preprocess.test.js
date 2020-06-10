@@ -1,4 +1,4 @@
-const runPreprocess = require('../run-preprocess');
+const runPreprocess = require('../lib/run-preprocess');
 
 test('Disabled task doesn\'t run preprocess', () => {
     const preprocessCalled = jest.fn();
