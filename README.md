@@ -1,7 +1,7 @@
 [npm-url]: https://npmjs.org/package/@videinfra/static-website-builder
 [npm-image]: http://img.shields.io/npm/v/@videinfra/static-website-builder.svg
 [travis-url]: https://travis-ci.org/videinfra/static-website-builder
-[travis-image]: https://api.travis-ci.org/videinfra/static-website-builder.svg
+[travis-image]: https://travis-ci.org/videinfra/static-website-builder.svg?branch=master
 
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 
@@ -91,4 +91,4 @@ See [our wiki](https://github.com/videinfra/static-website-builder/wiki) for add
 [npm-url]: https://npmjs.org/package/@videinfra/static-website-builder
 [npm-image]: http://img.shields.io/npm/v/@videinfra/static-website-builder.svg
 [travis-url]: https://travis-ci.org/videinfra/static-website-builder
-[travis-image]: https://api.travis-ci.org/videinfra/static-website-builder.svg
+[travis-image]: https://travis-ci.org/videinfra/static-website-builder.svg?branch=master
