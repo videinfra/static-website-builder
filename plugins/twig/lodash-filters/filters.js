@@ -12,7 +12,7 @@ module.exports.push({
         const keys = args[0] || [];
 
         for (let key in data) {
-            if (keys.indexOf(key) === -1) {
+            if (key !== '_keys' && keys.indexOf(key) === -1) {
                 output[key] = data[key];
             }
         }
@@ -33,7 +33,7 @@ module.exports.push({
         const keys = args[0] || [];
 
         for (let key in data) {
-            if (keys.indexOf(key) !== -1) {
+            if (key !== '_keys' && keys.indexOf(key) !== -1) {
                 output[key] = data[key];
             }
         }
