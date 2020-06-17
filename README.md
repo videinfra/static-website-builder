@@ -27,7 +27,7 @@
 
 ```
 npm init
-npm install @vig/static-website-builder --save
+npm install @videinfra/static-website-builder --save
 npx builder init
 ```
 
