@@ -34,11 +34,15 @@ exports.javascripts = {
         },
 
         optimization: {
+            runtimeChunk: {name: 'shared'},
             splitChunks: {
                 cacheGroups: {
-                    default: {
+                    default: false,
+                    vendor: false,
+
+                    shared: {
                         name: 'shared',
-                        chunks: 'initial',
+                        chunks: 'all',
                         minChunks: 3,
                         enforce: true,
                     }
