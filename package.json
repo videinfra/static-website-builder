@@ -1,6 +1,6 @@
 {
   "name": "@videinfra/static-website-builder",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Customizable static site project builder",
   "license": "MIT",
   "engines": {
@@ -50,6 +50,7 @@
     "gulp-svgmin": "^2.2.0",
     "gulp-svgstore": "^7.0.1",
     "gulp-twig": "^1.2.0",
+    "gulp-util": "^3.0.8",
     "minimist": "^1.2.5",
     "nano-memoize": "^1.1.11",
     "webpack": "^4.43.0",
