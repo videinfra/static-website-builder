@@ -2,7 +2,15 @@ const getConfig = require('./../lib/get-config');
 const generateGulpTasks = require('./../lib/generate-gulp-tasks');
 
 // Set mode globally it can be used by tasks
-const hasProductionArg = process.argv.indexOf('build') !== -1;
+let hasProductionArg = false;
+
+for (let i = 0; i < process.argv.length; i++) {
+    const argValue = process.argv[i];
+    // If build task is 'build' or '...-build' then set production mode
+    if (argValue === 'build' || argValue.indexOf('-build') !== -1) {
+        hasProductionArg = true;
+    }
+}
 
 global.production = global.production || (hasProductionArg || process.env.NODE_ENV === 'production');
 global.development = !global.production;
