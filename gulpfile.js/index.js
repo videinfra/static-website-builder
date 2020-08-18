@@ -7,7 +7,7 @@ let hasProductionArg = false;
 for (let i = 0; i < process.argv.length; i++) {
     const argValue = process.argv[i];
     // If build task is 'build' or '...-build' then set production mode
-    if (argValue === 'build' || argValue.indexOf('-build') !== -1) {
+    if (argValue === 'build' || argValue.match(/^[a-z0-9-]+-build$/)) {
         hasProductionArg = true;
     }
 }

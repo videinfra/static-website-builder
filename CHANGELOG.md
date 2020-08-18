@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.2] - 2020-08-18
+### Fixed
+- fixed production mode detection being triggered in development mode
+
 ## [1.2.1] - 2020-07-13
 ### Added
 - gulp-util to the dependencies
