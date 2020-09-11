@@ -13,6 +13,7 @@ const globs = require('./../../lib/globs-helper');
 
 const taskStart = require('../../lib/gulp/task-start');
 const taskEnd = require('../../lib/gulp/task-end');
+const taskBeforeDest = require('../../lib/gulp/task-before-dest');
 
 const getData = require('../data/get-data');
 
@@ -70,6 +71,7 @@ function html () {
         // Minify
         .pipe(gulpif(!!getConfig.getTaskConfig('html', 'htmlmin'), htmlmin(getConfig.getTaskConfig('html', 'htmlmin'))))
 
+        .pipe(taskBeforeDest())
         .pipe(gulp.dest(getPaths.getDestPath('html')))
 
         // Reload on change

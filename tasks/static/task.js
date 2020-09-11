@@ -7,6 +7,7 @@ const getConfig = require('./../../lib/get-config');
 
 const taskStart = require('../../lib/gulp/task-start');
 const taskEnd = require('../../lib/gulp/task-end');
+const taskBeforeDest = require('../../lib/gulp/task-before-dest');
 
 
 const getGlobPaths = memoize(function () {
@@ -24,6 +25,8 @@ function static () {
     return gulp
         .src(getGlobPaths(), { since: gulp.lastRun(static) })
         .pipe(taskStart())
+
+        .pipe(taskBeforeDest())
         .pipe(gulp.dest(getPaths.getDestPath('static')))
 
         // Reload on change

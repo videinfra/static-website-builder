@@ -7,6 +7,7 @@ const getConfig = require('./../../lib/get-config');
 
 const taskStart = require('../../lib/gulp/task-start');
 const taskEnd = require('../../lib/gulp/task-end');
+const taskBeforeDest = require('../../lib/gulp/task-before-dest');
 
 
 const getGlobPaths = memoize(function () {
@@ -26,6 +27,7 @@ function fonts () {
         .src(getGlobPaths(), { since: gulp.lastRun(fonts) })
         .pipe(taskStart())
 
+        .pipe(taskBeforeDest())
         .pipe(gulp.dest(getPaths.getDestPath('fonts')))
 
         // Reload on change

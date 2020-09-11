@@ -10,6 +10,7 @@ const getConfig = require('../../lib/get-config');
 
 const taskStart = require('../../lib/gulp/task-start');
 const taskEnd = require('../../lib/gulp/task-end');
+const taskBeforeDest = require('../../lib/gulp/task-before-dest');
 
 
 const getGlobPaths = memoize(function () {
@@ -44,6 +45,7 @@ function stylesheets () {
 
         .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.write('.', getConfig.getTaskConfig('stylesheets', 'sourcemaps', 'write'))))
 
+        .pipe(taskBeforeDest())
         .pipe(gulp.dest(getPaths.getDestPath('stylesheets')))
 
         // Reload on change

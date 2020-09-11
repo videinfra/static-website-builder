@@ -10,6 +10,7 @@ const getConfig = require('./../../lib/get-config');
 
 const taskStart = require('../../lib/gulp/task-start');
 const taskEnd = require('../../lib/gulp/task-end');
+const taskBeforeDest = require('../../lib/gulp/task-before-dest');
 
 
 const getGlobPaths = memoize(function () {
@@ -35,6 +36,7 @@ function icons () {
         // Create sprite
         .pipe(svgstore(getConfig.getTaskConfig('icons', 'svgstore')))
 
+        .pipe(taskBeforeDest())
         .pipe(gulp.dest(getPaths.getDestPath('icons')))
 
         // Reload on change

@@ -10,6 +10,7 @@ const getConfig = require('./../../lib/get-config');
 
 const taskStart = require('../../lib/gulp/task-start');
 const taskEnd = require('../../lib/gulp/task-end');
+const taskBeforeDest = require('../../lib/gulp/task-before-dest');
 
 
 const getGlobPaths = memoize(function () {
@@ -33,6 +34,7 @@ function javascripts (watch) {
             webpack
         ))
 
+        .pipe(taskBeforeDest())
         .pipe(gulp.dest(getPaths.getDestPath('javascripts')))
 
         // Reload on change
