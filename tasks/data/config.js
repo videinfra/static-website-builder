@@ -15,6 +15,11 @@ exports.data = {
         json: require('./data-loader-json'),
     },
 
+    // Glob list of files, which to ignore, relative to the data source folder
+    // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
+    ignore: [
+    ],
+
     // Group data by filename (without extension + cammelCase)
     // eg, person-names.js -> {'personNames': ...}
     groupByFileName: false,

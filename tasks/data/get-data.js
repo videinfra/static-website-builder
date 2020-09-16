@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const reduce = require('lodash/reduce');
+const micromatch = require('micromatch'); // gulp dependency
 
 const merge = require('../../lib/merge');
 const getPaths = require('../../lib/get-path');
@@ -31,14 +32,19 @@ module.exports = function getData () {
     const folders = getPaths.getSourcePaths('data');
     const extensions = getConfig.getTaskConfig('data', 'extensions');
     const loaders = getConfig.getTaskConfig('data', 'loaders');
+    const ignore = getConfig.getTaskConfig('data', 'ignore');
     const group = getConfig.getTaskConfig('data', 'groupByFileName');
 
     const data = reduce(folders, (data, folder) => {
         fs.readdirSync(folder).forEach(fileName => {
+            // Ignore files matching 'ignore' list
+            if (ignore.length && micromatch.isMatch(fileName, ignore)) {
+                return;
+            }
+
             // Ignore files starting with underscore
             if (fileName[0] !== '_') {
                 const extension = fileName.split('.').pop();
-
 
                 if (extension && extensions.indexOf(extension) !== -1) {
                     if (extension in loaders) {

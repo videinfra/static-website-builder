@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.4] - 2020-09-16
+### Added
+- 'ignore' to data task configuration
+
 ## [1.2.3] - 2020-09-07
 ### Fixed
 - fixed gulp not working if there is an error when starting watch command
