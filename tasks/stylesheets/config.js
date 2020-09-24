@@ -30,6 +30,11 @@ exports.stylesheets = {
         // Minify CSS in production mode
         // see https://cssnano.co/guides/optimisations
         cssnano: {
+            // Preset
+            preset: 'default',
+
+            // Configuration options
+            calc: false,
             zindex: false,
             mergeIdents: false,
             reduceIdents: false,

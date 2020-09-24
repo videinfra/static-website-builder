@@ -26,7 +26,9 @@ module.exports = function processStylesheetsConfig (config, fullConfig) {
 
         // Add CSS nano
         if (config.cssnano && !find(config.postcss.plugins, {'postcssPlugin': 'cssnano'})) {
-            config.postcss.plugins.push(cssnano(config.autoprefixer));
+            config.postcss.plugins.push(cssnano({
+                preset: [config.cssnano.preset, config.cssnano]
+            }));
         }
     }
 
