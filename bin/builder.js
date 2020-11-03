@@ -21,6 +21,9 @@ if (additionalArgs[0] === 'init') {
     if (allArgs.config) {
         args = args.concat('--config', allArgs.config);
     }
+    if (allArgs.tasks) {
+        args = args.concat('--tasks', '');
+    }
 
     require('child_process').fork(gulpBinaryFile, args);
 }

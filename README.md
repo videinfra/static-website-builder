@@ -53,6 +53,10 @@ Note: these commands are added to the project during `npm init`.
 
 ```npx run builder build```
 
+### List all available tasks
+
+```npx run builder --tasks```
+
 ## Project templates
 
 As used in quick start, project templates are used to generate boilerplate / starter files and add commands to the project:
