@@ -11,6 +11,7 @@ const getConfig = require('./../../lib/get-config');
 const taskStart = require('../../lib/gulp/task-start');
 const taskEnd = require('../../lib/gulp/task-end');
 const taskBeforeDest = require('../../lib/gulp/task-before-dest');
+const taskWatch = require('../../lib/gulp/task-watch');
 
 
 const getGlobPaths = memoize(function () {
@@ -44,7 +45,7 @@ function icons () {
 }
 
 function iconsWatch () {
-    return gulp.watch(getGlobPaths(), icons);
+    return taskWatch(getGlobPaths(), icons);
 }
 
 

@@ -7,6 +7,7 @@ const getPaths = require('@videinfra/example-website-builder/lib/get-path');
 
 const taskStart = require('@videinfra/example-website-builder/lib/gulp/task-start');
 const taskEnd = require('@videinfra/example-website-builder/lib/gulp/task-end');
+const taskWatch = require('../../lib/gulp/task-watch');
 
 
 // Paths and files which gulp will watch and run on
@@ -32,6 +33,7 @@ function example () {
         // Do something....
 
         // Output into destination folder for 'example'
+        .pipe(taskBeforeDest())
         .pipe(gulp.dest(getPaths.getDestPath('example')))
 
         // End task, handles reloading on file change
@@ -39,7 +41,7 @@ function example () {
 }
 
 function exampleWatch () {
-    return gulp.watch(getGlobPaths(), example);
+    return taskWatch(getGlobPaths(), example);
 }
 
 

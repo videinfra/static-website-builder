@@ -14,6 +14,7 @@ const globs = require('./../../lib/globs-helper');
 const taskStart = require('../../lib/gulp/task-start');
 const taskEnd = require('../../lib/gulp/task-end');
 const taskBeforeDest = require('../../lib/gulp/task-before-dest');
+const taskWatch = require('../../lib/gulp/task-watch');
 
 const getData = require('../data/get-data');
 
@@ -79,7 +80,7 @@ function html () {
 }
 
 function htmlWatch () {
-    return gulp.watch(getWatchGlobPaths(), html);
+    return taskWatch(getWatchGlobPaths(), html);
 }
 
 
