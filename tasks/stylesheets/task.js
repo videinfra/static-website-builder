@@ -3,6 +3,8 @@ const gulpif = require('gulp-if');
 const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
 const memoize = require('nano-memoize');
+const cached = require('gulp-cached');
+const dependents = require('gulp-dependents');
 
 const globs = require('./../../lib/globs-helper');
 const getPaths = require('../../lib/get-path');
@@ -33,8 +35,13 @@ const getEngine = memoize(function () {
 
 
 function stylesheets () {
+    // console.log(getConfig.getTaskConfig('stylesheets', 'dependents'));
     return gulp.src(getGlobPaths())
         .pipe(taskStart())
+
+        // Faster incremental builds, skip files which didn't changed or their dependencies didn't changed
+        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'dependents'), cached('stylesheets')))
+        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'dependents'), dependents(getConfig.getTaskConfig('dependents'))))
 
         .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.init(getConfig.getTaskConfig('stylesheets', 'sourcemaps', 'init')))) // Start Sourcemaps
 

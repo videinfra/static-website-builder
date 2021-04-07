@@ -60,7 +60,7 @@ function html () {
 
         // Faster incremental builds, skip files which didn't changed or their dependencies didn't changed
         .pipe(gulpif(!!getConfig.getTaskConfig('html', 'dependents'), cached('html')))
-        .pipe(gulpif(!!getConfig.getTaskConfig('html', 'dependents'), dependents(getConfig.getTaskConfig('html', 'dependents'))))
+        .pipe(gulpif(!!getConfig.getTaskConfig('html', 'dependents'), dependents(getConfig.getTaskConfig('dependents'))))
 
         // Prevent file from being rendered if it's in the ignore list
         .pipe(ignore.exclude(getGlobIgnorePaths(), {}))

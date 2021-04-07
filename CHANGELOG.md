@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.3.2] - 2021-04-07
+### Added
+- Added gulp-dependents plugin to the .scss files for faster builds
+
 ## [1.3.1] - 2021-02-22
 ### Fixed
 - data JS files not being usable with "require"

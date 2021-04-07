@@ -2,6 +2,7 @@ const twig = require('gulp-twig');
 const getConfig = require('./../../lib/get-config');
 const getPaths = require('./../../lib/get-path');
 const flattenDeep = require('lodash/flattenDeep');
+const assign = require('lodash/assign');
 
 
 /**
@@ -27,10 +28,16 @@ module.exports = function preprocessHTMLConfig (config = {}, fullConfig) {
             config.twig.filters = flattenDeep(config.twig.filters);
         }
 
+        // Main 'dependents' config is shared between all tasks
         if (config.dependents) {
             for (let extension in config.dependents) {
-                config.dependents[extension].basePaths = config.twig.base;
+                config.dependents[extension].basePaths = config.dependents[extension].basePaths || [];
+                config.dependents[extension].basePaths = config.dependents[extension].basePaths.concat(
+                    config.twig.base
+                );
             }
+
+            fullConfig.dependents = assign(fullConfig.dependents || {}, config.dependents);
         }
     } else {
         config.twig = false;
