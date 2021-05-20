@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.1] - 2021-05-20
+### Fixed
+- Enabled postcss-ignore-plugin only when cssnano is used
+
 ## [1.4.0] - 2021-05-20
 ### Added
 - Added postcss-ignore-plugin

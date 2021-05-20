@@ -17,7 +17,11 @@ module.exports = function processStylesheetsConfig (config, fullConfig) {
 
     if (config && config.postcss) {
         config.postcss.plugins = config.postcss.plugins || [];
-        config.postcss.plugins.unshift(require('postcss-ignore-plugin/dist/remove').default);
+
+        if (config.cssnano) {
+            // Add ignore plugin only if there is nano / minification
+            config.postcss.plugins.unshift(require('postcss-ignore-plugin/dist/remove').default);
+        }
 
         // Add autoprefixer
         if (config.autoprefixer && !find(config.postcss.plugins, {'postcssPlugin': 'autoprefixer'})) {
@@ -31,7 +35,10 @@ module.exports = function processStylesheetsConfig (config, fullConfig) {
             }));
         }
 
-        config.postcss.plugins.push(require('postcss-ignore-plugin/dist/add').default);
+        if (config.cssnano) {
+            // Add ignore plugin only if there is nano / minification
+            config.postcss.plugins.push(require('postcss-ignore-plugin/dist/add').default);
+        }
     }
 
     return config;
