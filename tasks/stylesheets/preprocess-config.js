@@ -2,7 +2,6 @@ const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 const find = require('lodash/find');
 
-
 /**
  * Modify configuration
  *
@@ -17,7 +16,8 @@ module.exports = function processStylesheetsConfig (config, fullConfig) {
     }
 
     if (config && config.postcss) {
-        config.postcss.plugins = config.postcss.plugins || {};
+        config.postcss.plugins = config.postcss.plugins || [];
+        config.postcss.plugins.unshift(require('postcss-ignore-plugin/dist/remove').default);
 
         // Add autoprefixer
         if (config.autoprefixer && !find(config.postcss.plugins, {'postcssPlugin': 'autoprefixer'})) {
@@ -30,6 +30,8 @@ module.exports = function processStylesheetsConfig (config, fullConfig) {
                 preset: [config.cssnano.preset, config.cssnano]
             }));
         }
+
+        config.postcss.plugins.push(require('postcss-ignore-plugin/dist/add').default);
     }
 
     return config;
