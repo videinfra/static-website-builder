@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.3] - 2022-03-08
+### Fixed
+- Fixed negative glob paths not working
+
 ## [1.4.2] - 2021-08-27
 ### Fixed
 - Fixed postcss-ignore-plugin only removing and adding content in unrelated files

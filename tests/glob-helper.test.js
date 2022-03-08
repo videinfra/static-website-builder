@@ -84,6 +84,11 @@ test('glob map', () => {
     expect(output2).toEqual(['/a/some/folder/b', '/a/other/folder/b']);
 });
 
+test('glob negative', () => {
+    const output = glob.paths('/some/folder').paths('!/assets/**/*.*').generate();
+    expect(output).toEqual(['!/some/folder/assets/**/*.*']);
+});
+
 test('glob generate', () => {
     const output = glob.generate(
         glob.paths(['/a', '/b']).allFiles(),
