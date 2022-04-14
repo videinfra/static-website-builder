@@ -6,7 +6,6 @@ const folderExists = require('../lib/init/folder-exists');
 const getFolderList = require('../lib/init/get-folder-list');
 const chalk = require('chalk');
 
-
 module.exports = function init (template = 'default') {
     let   templateName = template || 'default';
     let   copyFrom = path.getBuilderPath('init', templateName);
