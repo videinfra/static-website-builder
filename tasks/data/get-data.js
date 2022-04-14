@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 const reduce = require('lodash/reduce');
 const micromatch = require('micromatch'); // gulp dependency
@@ -7,26 +6,9 @@ const merge = require('../../lib/merge');
 const getPaths = require('../../lib/get-path');
 const getConfig = require('../../lib/get-config');
 const logError = require('../../lib/log-error');
+const getFileNamesSync = require('../../lib/get-file-names');
+const camelizeFileName = require('../../lib/camelize-file-name');
 
-/**
- * Camelize filename
- *
- * @param {string} str File name
- * @returns {string} Camelized name
- */
-function camelizeFileName (str) {
-    return str
-         // Remove extension
-        .replace(/\.[^.]+$/ig, '')
-        // Replace non alpha-numeric characters
-        .replace(/[^a-z0-9]/ig, ' ')
-        // Uppercase words
-        .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
-             return index === 0 ? word.toLowerCase() : word.toUpperCase();
-        })
-        // Remove empty spaces
-        .replace(/\s+/g, '');
-}
 
 module.exports = function getData () {
     const folders = getPaths.getSourcePaths('data');
@@ -36,7 +18,7 @@ module.exports = function getData () {
     const group = getConfig.getTaskConfig('data', 'groupByFileName');
 
     const data = reduce(folders, (data, folder) => {
-        fs.readdirSync(folder).forEach(fileName => {
+        getFileNamesSync(folder).forEach(fileName => {
             // Ignore files matching 'ignore' list
             if (ignore.length && micromatch.isMatch(fileName, ignore)) {
                 return;
