@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.5.2] - 2022-06-17
+### Updated
+- In build mode prevent data from being read more than once
+
 ## [1.5.1] - 2022-04-14
 ### Fixed
 - Dependency update

@@ -10,7 +10,7 @@ const getFileNamesSync = require('../../lib/get-file-names');
 const camelizeFileName = require('../../lib/camelize-file-name');
 
 
-module.exports = function getData () {
+function getData () {
     const folders = getPaths.getSourcePaths('data');
     const extensions = getConfig.getTaskConfig('data', 'extensions');
     const loaders = getConfig.getTaskConfig('data', 'loaders');
@@ -62,4 +62,26 @@ module.exports = function getData () {
     }, {});
 
     return data;
+}
+
+
+let cache = null;
+
+module.exports = function (options) {
+    const build = options && !!options.build;
+
+    return function () {
+        if (build) {
+            // Cache during full build
+            if (!cache) {
+                cache = getData();
+            }
+
+            return cache;
+        } else {
+            // Don't cache during watch build
+            cache = null;
+            return getData();
+        }
+    }
 }

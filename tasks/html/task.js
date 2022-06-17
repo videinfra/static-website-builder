@@ -53,36 +53,39 @@ const getEngine = memoize(function () {
     return engine ? engine() : (() => {});
 });
 
+function html (options) {
+    const build = options && !!options.build;
 
-function html () {
-    return gulp.src(getGlobPaths())
-        .pipe(taskStart())
+    return function html () {
+        return gulp.src(getGlobPaths())
+            .pipe(taskStart())
 
-        // Faster incremental builds, skip files which didn't changed or their dependencies didn't changed
-        .pipe(gulpif(!!getConfig.getTaskConfig('html', 'dependents'), cached('html')))
-        .pipe(gulpif(!!getConfig.getTaskConfig('html', 'dependents'), dependents(getConfig.getTaskConfig('dependents'))))
+            // Faster incremental builds, skip files which didn't changed or their dependencies didn't changed
+            .pipe(gulpif(!!getConfig.getTaskConfig('html', 'dependents'), cached('html')))
+            .pipe(gulpif(!!getConfig.getTaskConfig('html', 'dependents'), dependents(getConfig.getTaskConfig('dependents'))))
 
-        // Prevent file from being rendered if it's in the ignore list
-        .pipe(ignore.exclude(getGlobIgnorePaths(), {}))
+            // Prevent file from being rendered if it's in the ignore list
+            .pipe(ignore.exclude(getGlobIgnorePaths(), {}))
 
-        // Preprocess using TWIG
-        .pipe(gulpif(!!getConfig.getTaskConfig('html', 'engine'), data(getData)))
-        .pipe(gulpif(!!getConfig.getTaskConfig('html', 'engine'), getEngine()))
+            // Preprocess using TWIG
+            .pipe(gulpif(!!getConfig.getTaskConfig('html', 'engine'), data(getData({ build: build }))))
+            .pipe(gulpif(!!getConfig.getTaskConfig('html', 'engine'), getEngine()))
 
-        // Minify
-        .pipe(gulpif(!!getConfig.getTaskConfig('html', 'htmlmin'), htmlmin(getConfig.getTaskConfig('html', 'htmlmin'))))
+            // Minify
+            .pipe(gulpif(!!getConfig.getTaskConfig('html', 'htmlmin'), htmlmin(getConfig.getTaskConfig('html', 'htmlmin'))))
 
-        .pipe(taskBeforeDest())
-        .pipe(gulp.dest(getPaths.getDestPath('html')))
+            .pipe(taskBeforeDest())
+            .pipe(gulp.dest(getPaths.getDestPath('html')))
 
-        // Reload on change
-        .pipe(taskEnd());
+            // Reload on change
+            .pipe(taskEnd());
+    };
 }
 
 function htmlWatch () {
-    return taskWatch(getWatchGlobPaths(), html);
+    return taskWatch(getWatchGlobPaths(), html({ build: false }));
 }
 
 
-exports.build = html;
+exports.build = html({ build: true });
 exports.watch = htmlWatch;
