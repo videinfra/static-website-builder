@@ -2,7 +2,7 @@ const paths = require('./../../lib/get-path');
 const getConfig = require('./../../lib/get-config');
 const getPaths = require('./../../lib/get-path');
 const assign = require('lodash/assign');
-const sass = require('gulp-sass');
+const gulpSass = require('gulp-sass');
 
 
 /**
@@ -22,6 +22,7 @@ module.exports = function processSASSConfig (config, fullConfig) {
 
         // Engine is a function which returns a gulp pipe function
         config.engine = function getSASSEngine () {
+            const sass = config.legacy ? gulpSass(require('node-sass')) : gulpSass(require('sass'));
             return sass(getConfig.getTaskConfig('stylesheets', 'sass')).on('error', sass.logError)
         };
 

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.0] - 2022-06-20
+### Updated
+- gulp-sass to use latest node-sass version
+### Added
+- `stylesheets.legacy` configuration option to turn off `node-sass` and use `sass`
+
 ## [1.5.2] - 2022-06-17
 ### Updated
 - In build mode prevent data from being read more than once

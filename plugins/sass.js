@@ -5,6 +5,9 @@ exports.stylesheets = {
     // Add sass to the extensions
     extensions: ['scss', 'sass'],
 
+    // Use legacy `node-sass` instead of `sass`
+    legacy: true,
+
     // SASS options
     // see https://github.com/sass/node-sass#options
     sass: {
