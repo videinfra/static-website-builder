@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.1] - 2022-10-21
+### Fixed
+- `false` task config being overwritten by empty array resulting in task being performed
+
 ## [1.6.0] - 2022-06-20
 ### Updated
 - gulp-sass to use latest node-sass version
