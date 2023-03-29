@@ -17,8 +17,18 @@ module.exports = function processSASSConfig (config, fullConfig) {
         if (config.sass.includePaths) {
             // Map include paths to the project folder
             config.sass.includePaths = config.sass.includePaths.map((path) => paths.getProjectPath(path));
+        } else {
+            config.sass.includePaths = [];
         }
 
+        // Add stylesheet source path
+        const stylesheetSourcePath = getPaths.getSourcePaths('stylesheets')
+
+        stylesheetSourcePath.forEach((path) => {
+            if (!config.sass.includePaths.includes(path)) {
+                config.sass.includePaths.push(path);
+            }
+        });
 
         // Engine is a function which returns a gulp pipe function
         config.engine = function getSASSEngine () {

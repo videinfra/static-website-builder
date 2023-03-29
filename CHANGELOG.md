@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.4] - 2023-03-29
+### Updated
+- Added stylesheet source path to the default include paths
+
 ## [1.6.3] - 2022-10-25
 ### Fixed
 - Error fix for OSX when changing any HTML file
