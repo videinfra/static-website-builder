@@ -27,6 +27,12 @@ test('SASS import test', () => {
     });
 });
 
+test('SASS sub-folder import test', () => {
+    return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/sub-folder/import-test.css'), {'encoding': 'utf8'}).then((css) => {
+        expect(css).toBe('.btn{color:#fff;background:#222}');
+    });
+});
+
 test('Font file woff copied', () => {
     expect.assertions(1);
     return expect(fsPromises.access(path.resolve(publicPath, 'assets/fonts/font.woff'))).resolves.toBe(undefined);
