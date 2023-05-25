@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.7.0] - 2023-05-25
+### Updated
+- Depedencies
+- Added autoprefixer test
+
 ## [1.6.4] - 2023-03-29
 ### Updated
 - Added stylesheet source path to the default include paths

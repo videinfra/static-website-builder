@@ -33,6 +33,12 @@ test('SASS sub-folder import test', () => {
     });
 });
 
+test('SASS autoprefixer test', () => {
+    return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/autoprefixer-test.css'), {'encoding': 'utf8'}).then((css) => {
+        expect(css).toBe('main{-webkit-clip-path:polygon(0 0,100% 0,100% 100%,0 100%);clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}');
+    });
+});
+
 test('Font file woff copied', () => {
     expect.assertions(1);
     return expect(fsPromises.access(path.resolve(publicPath, 'assets/fonts/font.woff'))).resolves.toBe(undefined);
