@@ -23,19 +23,31 @@ test('SASS variable test', () => {
 
 test('SASS import test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/import-test.css'), {'encoding': 'utf8'}).then((css) => {
-        expect(css).toBe('.btn{color:#fff;background:#222}');
+        expect(css).toBe('.btn{background:#222;color:#fff}');
     });
 });
 
 test('SASS sub-folder import test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/sub-folder/import-test.css'), {'encoding': 'utf8'}).then((css) => {
-        expect(css).toBe('.btn{color:#fff;background:#222}');
+        expect(css).toBe('.btn{background:#222;color:#fff}');
     });
 });
 
 test('SASS autoprefixer test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/autoprefixer-test.css'), {'encoding': 'utf8'}).then((css) => {
         expect(css).toBe('main{-webkit-clip-path:polygon(0 0,100% 0,100% 100%,0 100%);clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}');
+    });
+});
+
+test('CSS nano ignore test', () => {
+    return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/ignore-test.css'), {'encoding': 'utf8'}).then((css) => {
+        expect(css).toBe(':root{--yes: ;--no:initial}');
+    });
+});
+
+test('CSS nano nested calc test', () => {
+    return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/nested-calc-test.css'), {'encoding': 'utf8'}).then((css) => {
+        expect(css).toBe('body{padding-top:calc(10vw + (10vh * 1.5))}');
     });
 });
 

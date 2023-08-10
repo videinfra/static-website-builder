@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const webpack = require('webpack');
 const gulpWebpack = require('webpack-stream');
-const memoize = require('nano-memoize');
+const memoize = require('nano-memoize').default;
 
 const merge = require('../../lib/merge');
 const globs = require('./../../lib/globs-helper');

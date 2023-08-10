@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.0] - 2023-08-10
+### Updated
+- Dependencies
+### Removed
+- postcss-ignore-plugin
+### Added
+- CSS tests
+
 ## [1.7.0] - 2023-05-25
 ### Updated
 - Depedencies

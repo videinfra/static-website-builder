@@ -1,5 +1,6 @@
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
+const postcssNestedCalc = require('@csstools/postcss-nested-calc');
 const find = require('lodash/find');
 
 /**
@@ -18,14 +19,14 @@ module.exports = function processStylesheetsConfig (config, fullConfig) {
     if (config && config.postcss) {
         config.postcss.plugins = config.postcss.plugins || [];
 
+        // Add nestedCalc
+        if (config.nestedCalc) {
+            config.postcss.plugins.push(postcssNestedCalc(config.nestedCalc));
+        }
+
         // Add autoprefixer
         if (config.autoprefixer && !find(config.postcss.plugins, {'postcssPlugin': 'autoprefixer'})) {
             config.postcss.plugins.push(autoprefixer(config.autoprefixer));
-        }
-
-        if (config.cssnano) {
-            // Add ignore plugin only if there is nano / minification
-            config.postcss.plugins.unshift(require('../../vendor/postcss-ignore-plugin/dist/remove').default);
         }
 
         // // Add CSS nano
@@ -33,11 +34,6 @@ module.exports = function processStylesheetsConfig (config, fullConfig) {
             config.postcss.plugins.push(cssnano({
                 preset: [config.cssnano.preset, config.cssnano]
             }));
-        }
-
-        if (config.cssnano) {
-            // Add ignore plugin only if there is nano / minification
-            config.postcss.plugins.push(require('../../vendor/postcss-ignore-plugin/dist/add').default);
         }
     }
 

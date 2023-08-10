@@ -15,6 +15,12 @@ exports.stylesheets = {
     autoprefixer: {
     },
 
+    // PostCSS Nested Calc
+    // see https://www.npmjs.com/package/@csstools/postcss-nested-calc
+    nestedCalc: {
+        preserve: false,
+    },
+
     // PostCSS plugins and options
     // see https://github.com/postcss/postcss
     postcss: {

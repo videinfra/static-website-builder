@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const memoize = require('nano-memoize');
+const memoize = require('nano-memoize').default;
 
 const globs = require('./../../lib/globs-helper');
 const getPaths = require('./../../lib/get-path');

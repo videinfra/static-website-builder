@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
-const memoize = require('nano-memoize');
+const memoize = require('nano-memoize').default;
 const cached = require('gulp-cached');
 const dependents = require('gulp-dependents');
 

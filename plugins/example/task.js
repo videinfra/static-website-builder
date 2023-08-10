@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const memoize = require('nano-memoize');
+const memoize = require('nano-memoize').default;
 
 const globs = require('@videinfra/example-website-builder/lib/globs-helper');
 const getConfig = require('@videinfra/example-website-builder/lib/get-config');
