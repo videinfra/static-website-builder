@@ -11,7 +11,6 @@ exports.icons = {};
 exports.images = {};
 exports.javascripts = {};
 exports.stylesheets = {};
-exports.browserSync = false;
 exports.sizereport = false;
 
 exports.plugins = [

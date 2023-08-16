@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const svgstore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
-const memoize = require('nano-memoize').default;
+const memoize = require('nano-memoize');
 
 const globs = require('./../../lib/globs-helper');
 const getPaths = require('./../../lib/get-path');
