@@ -43,7 +43,8 @@ module.exports = function preprocessJavascriptsConfig (config, fullConfig) {
 
             // Output folder
             output: merge({
-                path: paths.getDestPath('javascripts')
+                path: paths.getDestPath('javascripts'),
+                publicPath: paths.getPublicPath('javascripts'),
             }, get(config, ['webpack', 'output'], null)),
 
             // Plugins, add ENV variables
