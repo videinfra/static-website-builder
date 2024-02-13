@@ -42,7 +42,13 @@ exports.html = {
         filters: [
             // require('../../plugins/twig/lodash-filters.js'),
             // require('../../plugins/twig/symfony-functions.js'),
-        ]
+        ],
+
+        // Production only settings, overwrites default settings
+        production: {
+            // Enable cache for improved performance during production build
+            cache: true,
+        },
     },
 
     // List of CDNs when using symphony filters / funtions
@@ -50,14 +56,6 @@ exports.html = {
 
     // Add file version number when using symphony filters / funtions
     version: false,
-
-    // Production only settings, overwrites default settings
-    production: {
-        twig: {
-            // Enable cache for improved performance during production build
-            cache: true,
-        }
-    },
 };
 
 exports.preprocess = {

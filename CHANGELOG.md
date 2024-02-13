@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.10.1] - 2024-02-13
+### Fixed
+- TWIG config
+
 ## [1.10.0] - 2024-02-13
 ### Updated
 - Changed TWIG to use async mode by default, added option
