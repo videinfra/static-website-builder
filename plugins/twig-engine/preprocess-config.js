@@ -1,4 +1,4 @@
-const twig = require('gulp-twig');
+const twig = require('../../vendor/gulp-twig/index');
 const getConfig = require('./../../lib/get-config');
 const getPaths = require('./../../lib/get-path');
 const flattenDeep = require('lodash/flattenDeep');

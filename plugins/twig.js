@@ -27,6 +27,12 @@ exports.html = {
     },
 
     twig: {
+        // Async rendering
+        async: true,
+
+        // Disabled cache by default, it's enabled for production build only
+        cache: false,
+
         // Custom functions
         functions: [
             // require('../../plugins/twig/symfony-functions.js'),
@@ -44,6 +50,14 @@ exports.html = {
 
     // Add file version number when using symphony filters / funtions
     version: false,
+
+    // Production only settings, overwrites default settings
+    production: {
+        twig: {
+            // Enable cache for improved performance during production build
+            cache: true,
+        }
+    },
 };
 
 exports.preprocess = {
