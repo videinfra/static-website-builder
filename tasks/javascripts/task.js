@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const webpack = require('webpack');
-const gulpWebpack = require('webpack-stream');
+const gulpWebpack = require('../../vendor/webpack-stream/index.js');
 const memoize = require('nano-memoize');
 
 const merge = require('../../lib/merge');

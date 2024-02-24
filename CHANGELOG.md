@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.11.0] - 2024-02-24
+### Updated
+- Added dynamic entries, webpack will rebuild when entries change
+
 ## [1.10.1] - 2024-02-13
 ### Fixed
 - TWIG config

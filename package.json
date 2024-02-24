@@ -1,6 +1,6 @@
 {
   "name": "@videinfra/static-website-builder",
-  "version": "1.10.1",
+  "version": "1.11.0",
   "description": "Customizable static site project builder",
   "license": "MIT",
   "engines": {
@@ -57,7 +57,7 @@
     "sass": "^1.65.1",
     "twig": "^1.10.5",
     "webpack": "^4.46.0",
-    "webpack-stream": "^5.2.1"
+    "webpack-watch-files-plugin": "^1.2.1"
   },
   "devDependencies": {
     "jest": "^29.6.2"

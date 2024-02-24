@@ -3,6 +3,17 @@ const merge = require('../../lib/merge');
 const get = require('lodash/get');
 const map = require('lodash/map');
 const webpack = require('webpack');
+const WatchExternalFilesPlugin = require('webpack-watch-files-plugin');
+
+/**
+ * Require file without caching it
+ * @param {string} module Module path
+ * @returns {any} Module
+ */
+function requireUncached(module) {
+    delete require.cache[require.resolve(module)];
+    return require(module);
+}
 
 /**
  * Returns JS entry files
@@ -13,10 +24,31 @@ const webpack = require('webpack');
 function getEntry (config) {
     const entryFile = paths.getSourcePath('javascripts', config.entryList);
 
-    // Dynamic imports only for webpack 5
-    // return () => require(entryFile);
+    // console.log(require(entryFile));
+    // return () => {
+    //     return new Promise((resolve) => {
+    //         resolve(require(entryFile));
+    //     });
+    // };
 
-    return require(entryFile);
+    // return () => new Promise((resolve) => {
+    //     resolve(['./demo', './demo2'])
+    // });
+
+    return function getEntries () {
+        // const entryURL = pathToFileURL(entryFile).href + '?_invalidate-cache=' + (++entriesCounter);
+
+        // console.log(require.cache.);
+        // console.log('loading entries:', entryURL);
+        // return import(entryURL).then((entries) => {
+        //     console.log('loaded entries:', entries.default);
+        //     return entries.default;
+        // });
+
+        const entries = requireUncached(entryFile);
+        console.log('entries:', entries);
+        return entries;
+    }
 }
 
 /**
@@ -51,7 +83,13 @@ module.exports = function preprocessJavascriptsConfig (config, fullConfig) {
             plugins: [
                 new webpack.DefinePlugin({
                     'process.env.NODE_ENV': JSON.stringify(global.production ? 'production' : 'development'),
-                })
+                }),
+                new WatchExternalFilesPlugin.default({
+                    verbose: false,
+                    files: [
+                        paths.getSourcePath('javascripts', config.entryList),
+                    ],
+                }),
             ].concat(webpackPlugins),
 
             // Imports
