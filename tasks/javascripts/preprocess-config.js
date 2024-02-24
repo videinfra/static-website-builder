@@ -24,30 +24,8 @@ function requireUncached(module) {
 function getEntry (config) {
     const entryFile = paths.getSourcePath('javascripts', config.entryList);
 
-    // console.log(require(entryFile));
-    // return () => {
-    //     return new Promise((resolve) => {
-    //         resolve(require(entryFile));
-    //     });
-    // };
-
-    // return () => new Promise((resolve) => {
-    //     resolve(['./demo', './demo2'])
-    // });
-
     return function getEntries () {
-        // const entryURL = pathToFileURL(entryFile).href + '?_invalidate-cache=' + (++entriesCounter);
-
-        // console.log(require.cache.);
-        // console.log('loading entries:', entryURL);
-        // return import(entryURL).then((entries) => {
-        //     console.log('loaded entries:', entries.default);
-        //     return entries.default;
-        // });
-
-        const entries = requireUncached(entryFile);
-        console.log('entries:', entries);
-        return entries;
+        return requireUncached(entryFile);
     }
 }
 
