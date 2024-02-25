@@ -7,7 +7,15 @@ exports.javascripts = {
     extensions: ['js', 'json'],
 
     // Instead of 'entry' we provide filename which list all entries
-    entryList: '_entries.js',
+    // Can be either an object or array of object to have multiple webpack
+    // build, one for each of the entry list files
+    entryList: {
+        // Path to the entry list file
+        name: '_entries.js',
+
+        // Entry shared chunk name, creates webpack.optimization chunks
+        shared: 'shared',
+    },
 
     // Webpack configuration
     // see https://webpack.js.org/configuration/
@@ -33,8 +41,11 @@ exports.javascripts = {
             ],
         },
 
+        // Default optimization, 'shared' will be overwritten by entryList.shared value
         optimization: {
-            runtimeChunk: {name: 'shared'},
+            runtimeChunk: {
+                name: 'shared'
+            },
             splitChunks: {
                 cacheGroups: {
                     default: false,

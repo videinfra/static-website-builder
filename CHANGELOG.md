@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.12.0] - 2024-02-25
+### Added
+- Support for multiple entry lists which each has its own "shared" chunk file
+
 ## [1.11.1] - 2024-02-24
 ### Fixed
 - Fixed dependencies
