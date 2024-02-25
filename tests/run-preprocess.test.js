@@ -45,8 +45,9 @@ test('Preprocess returning non-object should result in same config config', () =
     const configString = {'task': {'a': 1}, 'preprocess': {'task': [() => 'string']}};
     expect(runPreprocess(configString).task).toEqual({'a': 1});
 
+    // Task config can be an array, this is used for javascripts
     const configArray = {'task': {'a': 1}, 'preprocess': {'task': [() => ['a', 'b']]}};
-    expect(runPreprocess(configArray).task).toEqual({'a': 1});
+    expect(runPreprocess(configArray).task).toEqual(['a', 'b']);
 });
 
 test('Preprocess returning false shouldn\'t call other preprocesses', () => {
