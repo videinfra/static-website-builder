@@ -5,6 +5,7 @@ const map = require('lodash/map');
 const cloneDeep = require('lodash/cloneDeep');
 const webpack = require('webpack');
 const WatchExternalFilesPlugin = require('webpack-watch-files-plugin');
+const WebpackURLVersioningPlugin = require('./webpack-url-version');
 
 /**
  * Require file without caching it
@@ -96,6 +97,7 @@ module.exports = function preprocessJavascriptsConfig (config, fullConfig) {
                             paths.getSourcePath('javascripts', entryList.name),
                         ],
                     }),
+                    new WebpackURLVersioningPlugin(),
                 ].concat(webpackPlugins),
 
                 // Imports
