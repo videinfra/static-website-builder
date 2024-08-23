@@ -35,7 +35,7 @@ test('SASS sub-folder import test', () => {
 
 test('SASS autoprefixer test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/autoprefixer-test.css'), {'encoding': 'utf8'}).then((css) => {
-        expect(css).toBe('main{-webkit-clip-path:polygon(0 0,100% 0,100% 100%,0 100%);clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}');
+        expect(css).toBe('main{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}');
     });
 });
 
@@ -62,9 +62,25 @@ test('Font file fake not copied', () => {
 });
 
 test('shared.js file exists', () => {
-    return fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/shared.js'), {'encoding': 'utf8'}).then((js) => {
-        expect(js.indexOf('console.log("Shared file loaded")')).not.toBe(-1);
-    });
+    return Promise.all([
+        fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/shared.js'), {'encoding': 'utf8'}).then((js) => {
+            expect(js.indexOf('console.log("Shared file loaded")')).not.toBe(-1);
+        }),
+        fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/alt/shared.js'), {'encoding': 'utf8'}).then((js) => {
+            expect(js.indexOf('console.log("Shared file loaded")')).not.toBe(-1);
+        }),
+    ]);
+});
+
+test('main.js file exists', () => {
+    return Promise.all([
+        fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/main.js'), {'encoding': 'utf8'}).then((js) => {
+            expect(js.indexOf('console.log("Hello from main page!")')).not.toBe(-1);
+        }),
+        fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/alt/main.js'), {'encoding': 'utf8'}).then((js) => {
+            expect(js.indexOf('console.log("Hello from main page!")')).not.toBe(-1);
+        }),
+    ]);
 });
 
 test('other.js file exists', () => {
@@ -73,10 +89,8 @@ test('other.js file exists', () => {
     });
 });
 
-test('main.js file exists', () => {
-    return fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/main.js'), {'encoding': 'utf8'}).then((js) => {
-        expect(js.indexOf('console.log("Hello from main page!")')).not.toBe(-1);
-    });
+test('alt/other.js file doesn\'t exist', async () => {
+    expect(fsPromises.stat(path.resolve(publicPath, 'assets/javascripts/alt/other.js'))).rejects.toThrow();
 });
 
 test('icons generated', () => {

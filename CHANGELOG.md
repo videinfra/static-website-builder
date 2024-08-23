@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.13.0] - 2024-08-23
+### Added
+- Added 'outpuSubFolder' property to entries configuration
+
 ## [1.12.1] - 2024-08-19
 ### Added
 - Version string to the dynamically loaded JS files

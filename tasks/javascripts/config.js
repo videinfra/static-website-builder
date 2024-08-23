@@ -62,7 +62,7 @@ exports.javascripts = {
         },
 
         output: {
-            filename: './[name].js',
+            filename: './[folder]/[name].js',
         },
 
         // Webpack plugins, either an array or a function which return an array of plugins

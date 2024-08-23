@@ -27,18 +27,10 @@ var defaultStatsOptions = {
   errorDetails: false
 };
 
-var cache = {};
-
 module.exports = function (options, wp, done) {
-  if (cache.wp !== wp || cache.options !== options) {
-    cache = {};
-  }
-
-  cache.options = options;
-  cache.wp = wp;
-
   options = clone(options) || {};
   var config = options.config || options;
+  var cache = {};
 
   // Webpack 4 doesn't support the `quiet` attribute, however supports
   // setting `stats` to a string within an array of configurations

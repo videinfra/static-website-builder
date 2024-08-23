@@ -9,7 +9,19 @@ exports.data = {};
 exports.fonts = {};
 exports.icons = {};
 exports.images = {};
-exports.javascripts = {};
+exports.javascripts = {
+    entryList: [
+        {
+            name: '_entries.js',
+            shared: 'shared',
+        },
+        {
+            name: '_entries-alt.js',
+            shared: 'shared',
+            outpuSubFolder: 'alt'
+        },
+    ],
+};
 exports.stylesheets = {};
 exports.sizereport = false;
 
