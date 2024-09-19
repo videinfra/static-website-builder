@@ -25,5 +25,10 @@ if (additionalArgs[0] === 'init') {
         args = args.concat('--tasks', '');
     }
 
-    require('child_process').fork(gulpBinaryFile, args);
+    require('child_process')
+        .fork(gulpBinaryFile, args)
+        .on('exit', function(code){
+            // Exit with error if child process exited with an error
+            process.exit(code);
+        });
 }
