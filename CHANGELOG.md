@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.13.4] - 2024-10-08
+### Fixed
+- Fail gulp process when htmlmin task fails
+
 ## [1.13.1] - 2024-09-19
 ### Added
 - Fail whole gulp process when one of the tasks fail
