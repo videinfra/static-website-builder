@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.14.0] - 2025-01-16
+### Added
+- Fail build process when TWIG task fails
+
 ## [1.13.4] - 2024-10-08
 ### Fixed
 - Fail gulp process when htmlmin task fails

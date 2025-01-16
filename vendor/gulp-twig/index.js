@@ -43,7 +43,7 @@ module.exports = function (options) {
             twig = Twig.twig,
             twigOpts = {
                 path: file.path,
-                async: false
+                async: false,
             },
             template;
 
@@ -58,6 +58,9 @@ module.exports = function (options) {
         }
         if (options.namespaces !== undefined) {
             twigOpts.namespaces = options.namespaces;
+        }
+        if (options.rethrow !== undefined) {
+            twigOpts.rethrow = options.rethrow;
         }
         if (options.cache !== true) {
             Twig.cache(false);

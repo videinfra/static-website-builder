@@ -33,6 +33,9 @@ exports.html = {
         // Disabled cache by default, it's enabled for production build only
         cache: false,
 
+        // Rethrow TWIG error so that process exists
+        rethrow: true,
+
         // Custom functions
         functions: [
             // require('../../plugins/twig/symfony-functions.js'),

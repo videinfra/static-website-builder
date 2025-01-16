@@ -27,6 +27,12 @@ module.exports = function preprocessHTMLConfig (config = {}, fullConfig) {
         if (config.twig.filters) {
             config.twig.filters = flattenDeep(config.twig.filters);
         }
+        if (Array.isArray(config.twig.extend)) {
+            const extendFnList = config.twig.extend;
+            config.twig.extend = function (Twig) {
+                extendFnList.forEach((fn) => fn(Twig));
+            };
+        }
 
         // Main 'dependents' config is shared between all tasks
         if (config.dependents) {
