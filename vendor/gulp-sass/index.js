@@ -88,8 +88,8 @@ const handleError = (error, file, callback) => {
  * @returns {string} Escaped value
  */
 const escapeSCSSVariable = (value) => {
-    if (value === true || value === false || !isNaN(value)) {
-        return value;
+    if (value !== '' && (value === true || value === false || !isNaN(value))) {
+        return String(value);
     } else {
         // Convert to string
         return "'" + value.toString().replace(/\\/g, '\\\\').replace(/'/g, '\\\'').replace(/\n/g, '\\n') + "'";
