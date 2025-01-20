@@ -1,8 +1,10 @@
 const paths = require('./../../lib/get-path');
 const getConfig = require('./../../lib/get-config');
 const getPaths = require('./../../lib/get-path');
+const merge = require('./../../lib/merge');
+const getEnvData = require('./../../tasks/env/get-env');
 const assign = require('lodash/assign');
-const gulpSass = require('gulp-sass');
+const gulpSass = require('../../vendor/gulp-sass/index');
 
 
 /**
@@ -33,7 +35,10 @@ module.exports = function processSASSConfig (config, fullConfig) {
         // Engine is a function which returns a gulp pipe function
         config.engine = function getSASSEngine () {
             const sass = config.legacy ? gulpSass(require('node-sass')) : gulpSass(require('sass'));
-            return sass(getConfig.getTaskConfig('stylesheets', 'sass')).on('error', sass.logError)
+            const sassConfig = getConfig.getTaskConfig('stylesheets', 'sass');
+
+            sassConfig.data = merge(getEnvData().sass, sassConfig.data || {});
+            return sass(sassConfig).on('error', sass.logError)
         };
 
         // Main 'dependents' config is shared between all tasks

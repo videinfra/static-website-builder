@@ -8,7 +8,7 @@ const getConfig = require('../../lib/get-config');
 const logError = require('../../lib/log-error');
 const getFileNamesSync = require('../../lib/get-file-names');
 const camelizeFileName = require('../../lib/camelize-file-name');
-
+const getEnvData = require('../env/get-env');
 
 function getData () {
     const folders = getPaths.getSourcePaths('data');
@@ -61,7 +61,8 @@ function getData () {
         return data;
     }, {});
 
-    return data;
+    // Merge with env variables
+    return merge(data, getEnvData().twig);
 }
 
 

@@ -33,6 +33,13 @@ exports.plugins = [
     require('../../../plugins/twig'),
 ];
 
+exports.env = {
+    map: {
+        'HOST': 'host',
+        'FOO': 'foo',
+        'BAR': 'bar',
+    },
+};
 
 /*
  * Path configuration
@@ -45,4 +52,5 @@ exports.plugins = [
 exports.paths = {
     src: './init/test/src',
     dest: './tests/build/public',
+    env: ['./init/test/.env', './init/test/.env.local'],
 };

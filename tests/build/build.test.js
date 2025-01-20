@@ -93,6 +93,22 @@ test('alt/other.js file doesn\'t exist', async () => {
     expect(fsPromises.stat(path.resolve(publicPath, 'assets/javascripts/alt/other.js'))).rejects.toThrow();
 });
 
+test('.env and .env.local files loaded', () => {
+    return Promise.all([
+        fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/main.js'), {'encoding': 'utf8'}).then((js) => {
+            expect(js.indexOf('console.log("env.host ==","https://test-local.tld")')).not.toBe(-1);
+            expect(js.indexOf('console.log("env.foo ==","foo-global")')).not.toBe(-1);
+            expect(js.indexOf('console.log("env.bar ==","bar-local")')).not.toBe(-1);
+        }),
+        fsPromises.readFile(path.resolve(publicPath, 'env.html'), {'encoding': 'utf8'}).then((html) => {
+            expect(html.indexOf('<p>HOST: https://test-local.tld</p>')).not.toBe(-1);
+        }),
+        fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/env-test.css'), {'encoding': 'utf8'}).then((css) => {
+            expect(css.indexOf('.env-test:before{content:"https://test-local.tld"}')).not.toBe(-1);
+        }),
+    ]);
+});
+
 test('icons generated', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/images/icons.svg'), {'encoding': 'utf8'}).then((svg) => {
         expect(svg.indexOf('<symbol id="example-arrow">')).not.toBe(-1);

@@ -1,5 +1,6 @@
 const paths = require('../../lib/get-path');
 const merge = require('../../lib/merge');
+const getEnvData = require('../env/get-env');
 const get = require('lodash/get');
 const map = require('lodash/map');
 const cloneDeep = require('lodash/cloneDeep');
@@ -83,6 +84,11 @@ module.exports = function preprocessJavascriptsConfig (config, fullConfig) {
             .replace('[folder]/', entry.outpuSubFolder ? entry.outpuSubFolder + '/' : '')
             .replace('[folder]', entry.outpuSubFolder ? entry.outpuSubFolder : '');
 
+        // Use process.env... variables from .env files
+        const envVariables = merge(getEnvData().js, {
+            'process.env.NODE_ENV': JSON.stringify(global.production ? 'production' : 'development'),
+        });
+
         const buildConfig = merge(entryConfig, {
             webpack: {
                 mode: global.production ? 'production' : 'development',
@@ -96,9 +102,7 @@ module.exports = function preprocessJavascriptsConfig (config, fullConfig) {
 
                 // Plugins, add ENV variables
                 plugins: [
-                    new webpack.DefinePlugin({
-                        'process.env.NODE_ENV': JSON.stringify(global.production ? 'production' : 'development'),
-                    }),
+                    new webpack.DefinePlugin(envVariables),
                     new WatchExternalFilesPlugin.default({
                         verbose: false,
                         files: [
