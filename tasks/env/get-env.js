@@ -46,7 +46,7 @@ function getEnvData () {
         if (key in envVariables) {
             const value = envVariables[key];
             const camelCase = map[key];
-            const kebabCase = map[key].replace(/([a-z])([A-Z])/g, '$1-$2').replace(/_([a-z])/ig, '-$1').toLowerCase();
+            const kebabCase = map[key];
             twigVariables[camelCase] = normalizeTwigVariable(value);
             envOutVariables[camelCase] = value;
             jsVariables[`process.env.${ camelCase }`] = escapeJSVariable(value);

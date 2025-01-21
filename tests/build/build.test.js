@@ -114,6 +114,7 @@ test('.env and .env.local files loaded', () => {
             expect(css.indexOf('--env-test-bool-true:true')).not.toBe(-1);
             expect(css.indexOf('--env-test-bool-false:false')).not.toBe(-1);
             expect(css.indexOf('--env-test-type-number:123.456')).not.toBe(-1);
+            expect(css.indexOf('--env-test-type-empty:""')).not.toBe(-1);
         }),
     ]);
 });
