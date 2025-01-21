@@ -6,4 +6,5 @@
  */
 module.exports = {
     'world': 'World',
+    'hostFromGlobalJS': process.env.host,
 };

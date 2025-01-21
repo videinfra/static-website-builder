@@ -16,6 +16,11 @@ function getData () {
     const loaders = getConfig.getTaskConfig('data', 'loaders');
     const ignore = getConfig.getTaskConfig('data', 'ignore');
     const group = getConfig.getTaskConfig('data', 'groupByFileName');
+    const envData = getEnvData();
+
+    // Merge into process.env before loading data because these may be used
+    // in data
+    merge(process.env, envData.env);
 
     const data = reduce(folders, (data, folder) => {
         getFileNamesSync(folder).forEach(fileName => {
@@ -62,7 +67,7 @@ function getData () {
     }, {});
 
     // Merge with env variables
-    return merge(data, getEnvData().twig);
+    return merge(data, envData.twig);
 }
 
 

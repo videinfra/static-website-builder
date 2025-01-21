@@ -14,11 +14,11 @@ function escapeJSVariable (value) {
 function getEnvData () {
     const envVariables = {};
     const twigVariables = {};
-    const scssVariables = {};
+    const scssVariables = { env: {} };
     const jsVariables = {};
+    const envOutVariables = {};
 
     const envFiles = paths.getPathConfig().env.map((path) => paths.getProjectPath(path));
-
 
     dotenv.config({
         // dotenv file order is reversed, values in first file overwrite all other
@@ -36,8 +36,9 @@ function getEnvData () {
             const camelCase = map[key];
             const kebabCase = map[key].replace(/([a-z])([A-Z])/g, '$1-$2').replace(/_([a-z])/ig, '-$1').toLowerCase();
             twigVariables[camelCase] = value;
+            envOutVariables[camelCase] = value;
             jsVariables[`process.env.${ camelCase }`] = escapeJSVariable(value);
-            scssVariables[`env-${ kebabCase }`] = value;
+            scssVariables.env[kebabCase] = value;
         }
     });
 
@@ -45,6 +46,7 @@ function getEnvData () {
         twig: twigVariables,
         sass: scssVariables,
         js: jsVariables,
+        env: envOutVariables,
     }
 }
 

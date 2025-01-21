@@ -109,6 +109,12 @@ test('.env and .env.local files loaded', () => {
     ]);
 });
 
+test('process.env available in html/data', () => {
+    return fsPromises.readFile(path.resolve(publicPath, 'env.html'), {'encoding': 'utf8'}).then((html) => {
+        expect(html.indexOf('<p>HOST FROM GLOBAL JS: https://test-local.tld</p>')).not.toBe(-1);
+    });
+});
+
 test('icons generated', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/images/icons.svg'), {'encoding': 'utf8'}).then((svg) => {
         expect(svg.indexOf('<symbol id="example-arrow">')).not.toBe(-1);

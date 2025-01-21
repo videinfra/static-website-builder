@@ -1,3 +1,3 @@
 .env-test:before {
-    content: $env-host;
+    content: map-get($env, host);
 }

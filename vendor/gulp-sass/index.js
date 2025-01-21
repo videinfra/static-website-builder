@@ -9,6 +9,7 @@ const replaceExtension = require('replace-ext');
 const stripAnsi = require('strip-ansi');
 const clonedeep = require('lodash.clonedeep');
 const applySourceMap = require('vinyl-sourcemaps-apply');
+const sassStingify = require('./sass-stringify')
 
 const PLUGIN_NAME = 'gulp-sass';
 
@@ -129,19 +130,7 @@ const gulpSass = (options, sync) => {
 
     // Stringiyfy variables
     if (options.data) {
-        const scssVariables = [];
-
-        if (typeof options.data === 'string') {
-            // Assume it's valid SCSS
-            scssVariables.push(options.data);
-        } else {
-            for (let key in options.data) {
-                const value = escapeSCSSVariable(options.data[key]);
-                scssVariables.push(`$${key}: ${value};`);
-            }
-        }
-
-        opts.data = scssVariables.join('') + opts.data;
+        opts.data = sassStingify(options.data) + opts.data;
     }
 
     // We set the file path here so that libsass can correctly resolve import paths
