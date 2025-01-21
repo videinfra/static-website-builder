@@ -1,3 +1,27 @@
 .env-test:before {
     content: map-get($env, host);
 }
+
+:root {
+    #{ --env-test-type-number }: map-get($env, type-number);
+}
+
+@if map-get($env, type-bool-true) {
+    :root {
+        --env-test-bool-true: true;
+    }
+} @else {
+    :root {
+        --env-test-bool-true: false;
+    }
+}
+
+@if map-get($env, type-bool-false) {
+    :root {
+        --env-test-bool-false: true;
+    }
+} @else {
+    :root {
+        --env-test-bool-false: false;
+    }
+}

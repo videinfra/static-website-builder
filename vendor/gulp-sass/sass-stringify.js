@@ -1,7 +1,7 @@
 module.exports = function sassStingify (data, isDeep = false) {
     if (data === null || data === undefined) {
         return 'false';
-    } else if (data !== '' && (data === true || data === false || !isNaN(data))) {
+    } else if (data !== '' && (data === 'true' || data === 'false' || data === true || data === false || !isNaN(data))) {
         // Convert to simple value
         return String(data);
     } else if (Array.isArray(data)) {

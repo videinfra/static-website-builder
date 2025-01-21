@@ -3,11 +3,23 @@ const dotenv = require('dotenv');
 const getConfig = require('../../lib/get-config');
 
 function escapeJSVariable (value) {
-    if (value === true || value === false || !isNaN(value)) {
+    if (value === 'true' || value === 'false' || value === true || value === false || !isNaN(value)) {
         return value;
     } else {
         // Convert to string
         return "'" + value.replace(/\\/g, '\\\\').replace(/'/g, '\\\'').replace(/\n/g, '\\n') + "'";
+    }
+}
+
+function normalizeTwigVariable (value) {
+    if (value === 'true') {
+        return true;
+    } else if (value === 'false') {
+        return false;
+    } else if (value !== '' && !isNaN(value)) {
+        return parseFloat(value);
+    } else {
+        return value;
     }
 }
 
@@ -35,7 +47,7 @@ function getEnvData () {
             const value = envVariables[key];
             const camelCase = map[key];
             const kebabCase = map[key].replace(/([a-z])([A-Z])/g, '$1-$2').replace(/_([a-z])/ig, '-$1').toLowerCase();
-            twigVariables[camelCase] = value;
+            twigVariables[camelCase] = normalizeTwigVariable(value);
             envOutVariables[camelCase] = value;
             jsVariables[`process.env.${ camelCase }`] = escapeJSVariable(value);
             scssVariables.env[kebabCase] = value;

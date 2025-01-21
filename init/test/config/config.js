@@ -38,6 +38,9 @@ exports.env = {
         'HOST': 'host',
         'FOO': 'foo',
         'BAR': 'bar',
+        'TYPE_BOOL_TRUE': 'typeBoolTrue',
+        'TYPE_BOOL_FALSE': 'typeBoolFalse',
+        'TYPE_NUMBER': 'typeNumber',
     },
 };
 
