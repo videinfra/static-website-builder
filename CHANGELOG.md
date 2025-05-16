@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.15.5] - 2025-05-16
+### Added
+- "preposition_nbsp" TWIG filter
+
 ## [1.15.0] - 2025-01-20
 ### Added
 - Env file support
