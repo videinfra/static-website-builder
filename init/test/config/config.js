@@ -31,6 +31,9 @@ exports.plugins = [
 
     // Enables TwigJS engine .twig file compilation
     require('../../../plugins/twig'),
+
+    // Enables TWIG Symfony filters
+    require('../../../plugins/twig/symfony-filters'),
 ];
 
 exports.env = {

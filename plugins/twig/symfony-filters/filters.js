@@ -78,5 +78,21 @@ module.exports.push({
     }
 });
 
+/**
+ * Preposition filter
+ * Adds a non-breaking space between prepositions and other words
+ *
+ * @example
+ *   {{ 'hello at world' | preposition_nbsp }}
+ *   Output: hello at&nbsp;world
+ */
 
+const preposition_nbsp = require('./preposition_nbsp');
+
+module.exports.push({
+    name: 'preposition_nbsp',
+    func: function (text) {
+        return preposition_nbsp(text);
+    }
+});
 
