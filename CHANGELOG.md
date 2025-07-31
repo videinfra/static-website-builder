@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.15.7] - 2025-07-31
+### Added
+- Optional chaining to the JS
+
 ## [1.15.5] - 2025-05-16
 ### Added
 - "preposition_nbsp" TWIG filter
