@@ -26,7 +26,7 @@ function normalizeTwigVariable (value) {
 function getEnvData () {
     const envVariables = {};
     const twigVariables = {};
-    const scssVariables = { env: {} };
+    const scssVariables = { env: { _tmp: 1 } }; // _tmp is used to avoid SCSS error if object is empty
     const jsVariables = {};
     const envOutVariables = {};
 
