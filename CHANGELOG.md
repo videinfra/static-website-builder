@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.15.9] - 2025-09-10
+- Added dashes to the "preposition_nbsp" TWIG filter
+
 ## [1.15.7] - 2025-07-31
 ### Added
 - Optional chaining to the JS
