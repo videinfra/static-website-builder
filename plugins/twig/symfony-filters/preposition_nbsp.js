@@ -1,7 +1,8 @@
 const prepositions = [
     'about', 'above', 'across', 'after', 'against', 'along', 'amid', 'among', 'around', 'as', 'at', 'before', 'behind', 'below', 'beneath', 'beside', 'besides', 'between', 'beyond', 'by', 'concerning', 'despite', 'down', 'during', 'except', 'for', 'from', 'in', 'inside', 'into', 'like', 'near', 'of', 'off', 'on', 'onto', 'out', 'outside', 'over', 'past', 'regarding', 'round', 'since', 'through', 'throughout', 'to', 'toward', 'towards', 'under', 'underneath', 'until', 'unto', 'up', 'upon', 'with', 'within', 'without', 'a', 'an', 'the',
-    'в', 'на', 'по', 'к', 'у', 'от', 'из', 'с', 'над', 'под', 'при', 'без', 'до', 'для', 'за', 'через', 'перед', 'около', 'вокруг', 'о', 'об', 'обо', 'про', 'среди', 'между', 'ради', 'вдоль', 'вне', 'кроме', 'сквозь', 'вследствие', 'благодаря', 'согласно', 'вопреки', 'вроде', 'насчёт', 'касательно', 'против', 'со', 'во', 'ко', 'ото', 'изо', 'надо', 'подо', 'передо', 'передо', 'и'
+    'в', 'на', 'по', 'к', 'у', 'от', 'из', 'с', 'над', 'под', 'при', 'без', 'до', 'для', 'за', 'через', 'перед', 'около', 'вокруг', 'о', 'об', 'обо', 'про', 'среди', 'между', 'ради', 'вдоль', 'вне', 'кроме', 'сквозь', 'вследствие', 'благодаря', 'согласно', 'вопреки', 'вроде', 'насчёт', 'касательно', 'со', 'против', 'во', 'ко', 'ото', 'изо', 'надо', 'подо', 'передо', 'передо', 'из-за', 'чтобы', 'когда', 'его', 'которое', 'как', 'и', 'ей', 'они', 'мы', 'или', 'всё', 'я', 'которое', 'вашей', 'эти', 'что', 'вам', 'не уверены', 'а', 'вы', 'этим', 'вашим', 'все', 'если', 'о которой', 'в этом', 'но', 'которые', 'же', 'ваш', 'этой'
 ];
+
 
 // Word boundary regex
 //     (?<=         # Lookbehind, but don't consume
@@ -21,6 +22,7 @@ const regexNdashEntity = /\s+&ndash;/uig;
 const regexHyphenEntity = /\s+&#45;/uig;
 const regexHyphen2Entity = /\s+&hyphen;/uig;
 const regexFigureDashEntity = /\s+&#x2012;/uig;
+const regexDashEntity = /\s+&dash;/uig;
 
 let prepositionsRegex = null;
 
@@ -47,6 +49,7 @@ function prepositionNbsp(text) {
     text = text.replace(regexHyphenEntity, '&nbsp;&#45;', text);
     text = text.replace(regexHyphen2Entity, '&nbsp;&hyphen;', text);
     text = text.replace(regexFigureDashEntity, '&nbsp;&#x2012;', text);
+    text = text.replace(regexDashEntity, '&nbsp;&dash;', text);
 
     return text;
 }

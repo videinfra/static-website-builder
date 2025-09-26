@@ -27,6 +27,7 @@ test('preposition_nbsp hyphens', () => {
     expect(preposition_nbsp('hello - world')).toEqual('hello&nbsp;&#45; world');
     expect(preposition_nbsp('hello ‐ world')).toEqual('hello&nbsp;&hyphen; world');
     expect(preposition_nbsp('hello ‒ world')).toEqual('hello&nbsp;&#x2012; world');
+    expect(preposition_nbsp('hello &dash; world')).toEqual('hello&nbsp;&dash; world');
 
     // Don't replace hyphens with entities if not needed
     expect(preposition_nbsp('hello— world')).toEqual('hello— world');
