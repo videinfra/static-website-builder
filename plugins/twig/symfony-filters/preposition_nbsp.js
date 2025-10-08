@@ -10,6 +10,7 @@ const prepositions = [
 //     [^\\p{L}]    # Non-letter, works with unicode characters too
 const regexWordBoundary = '(?<=(^|[^\\p{L}]))';
 const regexEscape = /[.*+?^${}()|[\]\\]/g;
+const regexSplitTags = /<[^>]+>/ug;
 
 const regexMdash = /\s+—/uig;
 const regexNdash = /\s+–/uig;
@@ -31,27 +32,46 @@ function escapeRegExp(string) {
 }
 
 function prepositionNbsp(text) {
+    if (!text) {
+        return '';
+    }
+
     if (!prepositionsRegex) {
         const prepositionsEscaped = prepositions.map(preposition => escapeRegExp(preposition));
         prepositionsRegex = new RegExp(`${regexWordBoundary}(${prepositionsEscaped.join('|')})\\s+`, 'uig');
     }
 
-    text = text.replace(prepositionsRegex, '$2&nbsp;');
+    // Split text into regular text and HTML tags
+    const textTags = text.match(regexSplitTags) || [];
+    const textNoTags = text.split(regexSplitTags);
 
-    text = text.replace(regexMdash, '&nbsp;&mdash;', text);
-    text = text.replace(regexNdash, '&nbsp;&ndash;', text);
-    text = text.replace(regexHyphen, '&nbsp;&#45;', text);
-    text = text.replace(regexHyphen2, '&nbsp;&hyphen;', text);
-    text = text.replace(regexFigureDash, '&nbsp;&#x2012;', text);
+    // Replace prepositions in regular text
+    for (let i = 0; i < textNoTags.length; i++) {
+        let textPart = textNoTags[i];
 
-    text = text.replace(regexMdashEntity, '&nbsp;&mdash;', text);
-    text = text.replace(regexNdashEntity, '&nbsp;&ndash;', text);
-    text = text.replace(regexHyphenEntity, '&nbsp;&#45;', text);
-    text = text.replace(regexHyphen2Entity, '&nbsp;&hyphen;', text);
-    text = text.replace(regexFigureDashEntity, '&nbsp;&#x2012;', text);
-    text = text.replace(regexDashEntity, '&nbsp;&dash;', text);
+        // Replace prepositions with non-breaking space
+        textPart = textPart.replace(prepositionsRegex, '$2&nbsp;');
 
-    return text;
+        textPart = textPart.replace(regexMdash, '&nbsp;&mdash;', textPart);
+        textPart = textPart.replace(regexNdash, '&nbsp;&ndash;', textPart);
+        textPart = textPart.replace(regexHyphen, '&nbsp;&#45;', textPart);
+        textPart = textPart.replace(regexHyphen2, '&nbsp;&hyphen;', textPart);
+        textPart = textPart.replace(regexFigureDash, '&nbsp;&#x2012;', textPart);
+
+        textPart = textPart.replace(regexMdashEntity, '&nbsp;&mdash;', textPart);
+        textPart = textPart.replace(regexNdashEntity, '&nbsp;&ndash;', textPart);
+        textPart = textPart.replace(regexHyphenEntity, '&nbsp;&#45;', textPart);
+        textPart = textPart.replace(regexHyphen2Entity, '&nbsp;&hyphen;', textPart);
+        textPart = textPart.replace(regexFigureDashEntity, '&nbsp;&#x2012;', textPart);
+        textPart = textPart.replace(regexDashEntity, '&nbsp;&dash;', textPart);
+
+        textNoTags[i] = textPart;
+    }
+
+    // Iterate over regular text and and join back together with tags
+    return textNoTags.map((text, index) => {
+        return text + (textTags[index] || '');
+    }).join('');
 }
 
 module.exports = prepositionNbsp;

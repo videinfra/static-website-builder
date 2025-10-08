@@ -36,6 +36,12 @@ test('preposition_nbsp hyphens', () => {
     expect(preposition_nbsp('hello ‒ at world')).toEqual('hello&nbsp;&#x2012; at&nbsp;world');
 });
 
+test('preposition_nbsp skip tags', () => {
+    expect(preposition_nbsp('<a href="https://www.google.com">A nice day</a>')).toEqual('<a href="https://www.google.com">A&nbsp;nice day</a>');
+    expect(preposition_nbsp('Start <a download>This is a nice day</a> at <a download>another nice day</a>')).toEqual('Start <a download>This is a&nbsp;nice day</a> at&nbsp;<a download>another nice day</a>');
+    expect(preposition_nbsp('<link rel="preload" href="/assets/fonts/...ttf" as="font" type="font/ttf" crossorigin>')).toEqual('<link rel="preload" href="/assets/fonts/...ttf" as="font" type="font/ttf" crossorigin>');
+});
+
 test('Preposition TWIG filter applied', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'preposition.html'), {'encoding': 'utf8'}).then((html) => {
         expect(html).toBe('<html><body>hello at&nbsp;world</body></html>');
