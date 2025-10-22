@@ -38,7 +38,7 @@ module.exports = function processSASSConfig (config, fullConfig) {
             const sassConfig = getConfig.getTaskConfig('stylesheets', 'sass');
 
             if (config.legacy) {
-                sassConfig.silenceDeprecations = (sassConfig.silenceDeprecations || []).concat(['import', 'global-builtin', 'slash-div']);
+                sassConfig.silenceDeprecations = (sassConfig.silenceDeprecations || []).concat(['import', 'global-builtin', 'slash-div', 'color-functions']);
             }
 
             sassConfig.data = merge(getEnvData().sass, sassConfig.data || {});
