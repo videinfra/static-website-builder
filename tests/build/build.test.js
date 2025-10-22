@@ -47,7 +47,7 @@ test('CSS nano ignore test', () => {
 
 test('CSS nano nested calc test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/nested-calc-test.css'), {'encoding': 'utf8'}).then((css) => {
-        expect(css).toBe('body{padding-top:calc(10vw + (10vh * 1.5))}');
+        expect(css).toBe('body{padding-top:calc(10vw + 15vh)}');
     });
 });
 

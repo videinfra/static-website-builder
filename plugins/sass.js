@@ -5,13 +5,14 @@ exports.stylesheets = {
     // Add sass to the extensions
     extensions: ['scss', 'sass'],
 
-    // Use legacy `node-sass` instead of `sass`
+    // Silence deprecations for `sass`
     legacy: true,
 
     // SASS options
-    // see https://github.com/sass/node-sass#options
+    // see https://sass-lang.com/documentation/js-api/interfaces/options/
     sass: {
         includePaths: ['./node_modules'],
+        silenceDeprecations: ['legacy-js-api'],
     },
 
     // Dependents plugin for faster builds

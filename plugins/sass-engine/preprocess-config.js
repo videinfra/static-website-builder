@@ -34,8 +34,12 @@ module.exports = function processSASSConfig (config, fullConfig) {
 
         // Engine is a function which returns a gulp pipe function
         config.engine = function getSASSEngine () {
-            const sass = config.legacy ? gulpSass(require('node-sass')) : gulpSass(require('sass'));
+            const sass = gulpSass(require('sass'));
             const sassConfig = getConfig.getTaskConfig('stylesheets', 'sass');
+
+            if (config.legacy) {
+                sassConfig.silenceDeprecations = (sassConfig.silenceDeprecations || []).concat(['import', 'global-builtin', 'slash-div']);
+            }
 
             sassConfig.data = merge(getEnvData().sass, sassConfig.data || {});
             return sass(sassConfig).on('error', sass.logError)
