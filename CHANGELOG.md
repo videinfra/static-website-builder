@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.16.2] - 2025-10-29
+### Updated
+- Changed `sass` to sync for better performance
+
 ## [1.16.0] - 2025-10-22
 ### Updated
 - Removed `node-sass` and use `sass` module
