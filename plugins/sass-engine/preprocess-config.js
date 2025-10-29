@@ -42,7 +42,7 @@ module.exports = function processSASSConfig (config, fullConfig) {
             }
 
             sassConfig.data = merge(getEnvData().sass, sassConfig.data || {});
-            return sass(sassConfig).on('error', sass.logError)
+            return sass(sassConfig, /* sync */ true).on('error', sass.logError);
         };
 
         // Main 'dependents' config is shared between all tasks
