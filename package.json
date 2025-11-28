@@ -1,6 +1,6 @@
 {
   "name": "@videinfra/static-website-builder",
-  "version": "1.16.2",
+  "version": "1.16.3",
   "description": "Customizable static site project builder",
   "license": "MIT",
   "engines": {

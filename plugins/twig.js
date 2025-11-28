@@ -18,7 +18,7 @@ exports.html = {
     dependents: {
         '.twig': {
             parserSteps: [
-                /\{%\s+(?:from|extends|include)\s+['"]([^'"]+)/gm,
+                /\{%\s+(?:from|extends|include|embed)\s+['"]([^'"]+)/gm,
             ],
             prefixes: [],
             postfixes: [],
