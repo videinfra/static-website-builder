@@ -1,6 +1,6 @@
 {
   "name": "@videinfra/static-website-builder",
-  "version": "1.16.3",
+  "version": "1.17.0",
   "description": "Customizable static site project builder",
   "license": "MIT",
   "engines": {
@@ -26,9 +26,9 @@
   },
   "dependencies": {
     "@babel/core": "^7.21.8",
-    "@babel/preset-env": "^7.21.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+    "@babel/preset-env": "^7.21.5",
     "@csstools/postcss-nested-calc": "^3.0.0",
     "autoprefixer": "^10.4.14",
     "babel-loader": "^8.3.0",
@@ -49,6 +49,7 @@
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^9.0.1",
     "gulp-sass": "^5.1.0",
+    "gulp-sitemap": "^8.0.0",
     "gulp-sizereport": "^1.2.1",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-svgmin": "^4.1.0",

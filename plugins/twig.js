@@ -11,6 +11,7 @@ exports.html = {
         'shared/**/*',
         'partials/**/*',
         'macros/**/*',
+        'embeds/**/*',
         'layouts/**/*',
     ],
 
