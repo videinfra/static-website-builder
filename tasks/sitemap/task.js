@@ -11,7 +11,7 @@ const globs = require('./../../lib/globs-helper');
 const taskStart = require('../../lib/gulp/task-start');
 const taskEnd = require('../../lib/gulp/task-end');
 const taskBeforeDest = require('../../lib/gulp/task-before-dest');
-
+const taskWatch = require('../../lib/gulp/task-watch');
 
 const getGlobPaths = memoize(function () {
     const sourcePaths = getPaths.getDestPath('html');
@@ -31,22 +31,29 @@ const getGlobIgnorePaths = memoize(function () {
 });
 
 function sitemap () {
-    return function sitemap () {
-        return gulp.src(getGlobPaths())
-            .pipe(taskStart())
+    return gulp.src(getGlobPaths())
+        .pipe(taskStart())
 
-            // Prevent file from being rendered if it's in the ignore list
-            .pipe(gulpif(!!getGlobIgnorePaths().length, ignore.exclude(getGlobIgnorePaths(), {})))
+        // Prevent file from being rendered if it's in the ignore list
+        .pipe(gulpif(!!getGlobIgnorePaths().length, ignore.exclude(getGlobIgnorePaths(), {})))
 
-            // Preprocess sitemap
-            .pipe(gulpSitemap(getConfig.getTaskConfig('sitemap').sitemap))
+        // Preprocess sitemap
+        .pipe(gulpSitemap(getConfig.getTaskConfig('sitemap').sitemap))
 
-            .pipe(taskBeforeDest())
-            .pipe(gulp.dest(getPaths.getDestPath('sitemap')))
+        .pipe(taskBeforeDest())
+        .pipe(gulp.dest(getPaths.getDestPath('sitemap')))
 
-            // Reload on change
-            .pipe(taskEnd());
-    };
+        // Reload on change
+        .pipe(taskEnd());
 }
 
-exports.afterBuild = sitemap();
+function sitemapWatch () {
+    // Watch and execute immediatelly so that sitemap is generated on first run
+    return taskWatch(getGlobPaths(), sitemap) && sitemap();
+}
+
+exports.afterBuild = sitemap;
+exports.watch = sitemapWatch;
+
+// Execute after HTML task
+exports.watch.order = 1;

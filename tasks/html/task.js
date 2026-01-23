@@ -86,6 +86,5 @@ function htmlWatch () {
     return taskWatch(getWatchGlobPaths(), html({ build: false }));
 }
 
-
 exports.build = html({ build: true });
 exports.watch = htmlWatch;
