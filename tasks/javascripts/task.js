@@ -32,6 +32,7 @@ const getWatchGlobPaths = memoize(function () {
 
     return globs.generate(
         globs.paths(sourcePaths).paths(entryFileNamesNames),
+        true,
     );
 });
 

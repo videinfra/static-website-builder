@@ -36,16 +36,16 @@ const getGlobIgnorePaths = memoize(function () {
     ]);
 });
 
-const getWatchGlobPaths = memoize(function () {
+const getWatchGlobPaths = function () {
     const sourcePaths = getPaths.getSourcePaths('html');
-    const extensions = getConfig.getTaskConfig('html', 'extensions');
-    const dataExtensions = getConfig.getTaskConfig('data', 'extensions');
+    const extensions = getConfig.getTaskConfig('html', 'extensions'); // HTML / TWIG files
+    const dataExtensions = getConfig.getTaskConfig('data', 'extensions'); // Data files
 
     return globs.generate(
-        globs.paths(sourcePaths).filesWithExtensions(extensions),     // HTML / TWIG files
-        globs.paths(sourcePaths).filesWithExtensions(dataExtensions)  // Data files
+        globs.paths(sourcePaths).filesWithExtensions(extensions.concat(dataExtensions)),
+        true, // for chokidar
     );
-});
+};
 
 
 const getEngine = memoize(function () {

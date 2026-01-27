@@ -11,14 +11,18 @@ const taskBeforeDest = require('../../lib/gulp/task-before-dest');
 const taskWatch = require('../../lib/gulp/task-watch');
 
 
-const getGlobPaths = memoize(function () {
+const getWatchGlobPaths = function (forChokidar = false) {
     const sourcePaths = getPaths.getSourcePaths('static');
     const ignore = getConfig.getTaskConfig('static', 'ignore');
 
     return globs.generate(
         globs.paths(sourcePaths).allFiles(),             // Files to watch
         globs.paths(sourcePaths).paths(ignore).ignore(), // List of files which to ignore
+        forChokidar,
     );
+};
+const getGlobPaths = memoize(function () {
+    return getWatchGlobPaths(false);
 });
 
 
@@ -35,7 +39,7 @@ function static () {
 }
 
 function staticWatch () {
-    return taskWatch(getGlobPaths(), static);
+    return taskWatch(getWatchGlobPaths(true), static);
 }
 
 

@@ -13,13 +13,17 @@ const taskEnd = require('../../lib/gulp/task-end');
 const taskBeforeDest = require('../../lib/gulp/task-before-dest');
 const taskWatch = require('../../lib/gulp/task-watch');
 
-const getGlobPaths = memoize(function () {
+const getWatchGlobPaths = function (forChokidar = false) {
     const sourcePaths = getPaths.getDestPath('html');
     const extensions = getConfig.getTaskConfig('sitemap', 'extensions');
 
     return globs.generate([
         globs.paths(sourcePaths).filesWithExtensions(extensions), // HTML files
-    ]);
+        globs.paths(gulp.dest(getPaths.getDestPath('sitemap', 'sitemap.xml'))).ignore(),
+    ], forChokidar);
+};
+const getGlobPaths = memoize(function () {
+    return getWatchGlobPaths(false);
 });
 
 const getGlobIgnorePaths = memoize(function () {
@@ -49,7 +53,7 @@ function sitemap () {
 
 function sitemapWatch () {
     // Watch and execute immediatelly so that sitemap is generated on first run
-    return taskWatch(getGlobPaths(), sitemap) && sitemap();
+    return taskWatch(getWatchGlobPaths(true), sitemap) && sitemap();
 }
 
 exports.afterBuild = sitemap;

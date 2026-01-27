@@ -16,7 +16,7 @@ const taskBeforeDest = require('../../lib/gulp/task-before-dest');
 const taskWatch = require('../../lib/gulp/task-watch');
 
 
-const getGlobPaths = memoize(function () {
+const getWatchGlobPaths = function (forChokidar = false) {
     const sourcePaths = getPaths.getSourcePaths('stylesheets');
     const extensions = getConfig.getTaskConfig('stylesheets', 'extensions');
     const ignore = getConfig.getTaskConfig('stylesheets', 'ignore');
@@ -24,7 +24,12 @@ const getGlobPaths = memoize(function () {
     return globs.generate(
         globs.paths(sourcePaths).filesWithExtensions(extensions), // Files to watch
         globs.paths(sourcePaths).paths(ignore).ignore(),          // List of files which to ignore
+        forChokidar,
     );
+};
+
+const getGlobPaths = memoize(function () {
+    return getWatchGlobPaths(false);
 });
 
 
@@ -60,7 +65,7 @@ function stylesheets () {
 }
 
 function stylesheetsWatch () {
-    return taskWatch(getGlobPaths(), stylesheets);
+    return taskWatch(getWatchGlobPaths(true), stylesheets);
 }
 
 

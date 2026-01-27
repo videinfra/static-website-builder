@@ -30,10 +30,5 @@ module.exports = function preprocessBrowserSyncConfig (config = {}, fullConfig) 
         }
     }
 
-    // Set additional files to watch, convert file paths to globs
-    if (config.files) {
-        config.files = globs.paths(getPaths.getProjectPath()).paths(config.files).generate();
-    }
-
     return config;
 }
