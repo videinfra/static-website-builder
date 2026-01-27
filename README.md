@@ -5,7 +5,7 @@
 
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 
-`static-website-builder` is a customizable static site project builder powered by Gulp, Webpack, Babel, SASS, PostCSS, TwigJS, BrowserSync
+`static-website-builder` is a customizable static site project builder powered by Gulp, Rolldown, SASS, PostCSS, TwigJS, BrowserSync
 
 ## Features
 
@@ -15,7 +15,7 @@
 - TWIG: Optional TwigJS template engine with optional plugins for additional functions and filters
 - Stylesheets: Autoprefixing and minification with PostCSS support 
 - SASS: Optional SASS / SCSS compilation
-- Javascript: Transpilation with Babel, bundling and minification
+- Javascript: Transpilation, bundling and minification with rolldown
 - SVG icons: Sprite generation from individual SVG files
 
 

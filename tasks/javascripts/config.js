@@ -1,99 +1,48 @@
 exports.javascripts = {
-    // Glob list of files, which to ignore, relative to the javascript source folder
-    // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
-    ignore: [],
-
     // JS file extensions
-    extensions: ['js', 'json'],
+    extensions: ['js', 'ts', 'tsx', 'jsx', 'json'],
 
     // Instead of 'entry' we provide filename which list all entries
-    // Can be either an object or array of object to have multiple webpack
-    // build, one for each of the entry list files
+    // Can be either an object or array of object to have multiple rolldown
+    // builds, one for each of the entry list files
     entryList: {
         // Path to the entry list file
         name: '_entries.js',
 
-        // Entry shared chunk name, creates webpack.optimization chunks
+        // Entry shared chunk name, creates a share chunk if needed
         shared: 'shared',
     },
 
-    // Webpack configuration
-    // see https://webpack.js.org/configuration/
-    webpack: {
-        resolve: {
-            // extensions are copied from 'extensions' config by preprocess
-            alias: {}
-        },
+    rolldown: {
+        // Sets the target environment for the generated JavaScript
+        // transform: '...',
 
-        module: {
-            rules: [
-                {
-                    test: /\.m?js$/,
-                    exclude: /(node_modules)/,
-                    use: {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env'],
-                            plugins: [
-                                '@babel/plugin-proposal-object-rest-spread',
-                                '@babel/plugin-proposal-optional-chaining',
-                            ],
-                        }
-                    }
-                }
-            ],
-        },
-
-        // Default optimization, 'shared' will be overwritten by entryList.shared value
-        optimization: {
-            runtimeChunk: {
-                name: 'shared'
-            },
-            splitChunks: {
-                cacheGroups: {
-                    default: false,
-                    vendor: false,
-
-                    shared: {
-                        name: 'shared',
-                        chunks: 'all',
-                        minChunks: 3,
-                        enforce: true,
-                    }
-                }
-            }
-        },
+        // Input files, set from entries in preprocess-config.js
+        // input: {},
 
         output: {
-            filename: './[folder]/[name].js',
+            // format: 'esm',
+            dir: './[folder]',
         },
-
-        // Webpack plugins, either an array or a function which return an array of plugins
-        plugins: [],
-
-        performance: {
-            // Disable entrypoint size limit warning
-            hints: false,
-        },
-
-        // stats: 'minimal'
-        stats: 'errors-warnings',
-
     },
 
     // Production only settings, overwrites default settings
     production: {
-        webpack: {
-            // Source maps
-            devtool: false,
+        rolldown: {
+            output: {
+                sourcemap: 'hidden',
+                minify: true,
+            },
         },
     },
 
     // Development only settings, overwrites default settings
     development: {
-        webpack: {
-            // Source maps
-            devtool: 'eval-cheap-source-map',
+        rolldown: {
+            output: {
+                sourcemap: true,
+                minify: 'dce-only',
+            },
         },
     },
 };

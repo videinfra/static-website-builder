@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0] - 2026-01-27
+### Added
+- Replaced webpack with rolldown
+
 ## [1.17.1] - 2026-01-23
 ### Added
 - Sitemap generation in watch mode too

@@ -35,7 +35,6 @@ const getEngine = memoize(function () {
 
 
 function stylesheets () {
-    // console.log(getConfig.getTaskConfig('stylesheets', 'dependents'));
     return gulp.src(getGlobPaths())
         .pipe(taskStart())
 

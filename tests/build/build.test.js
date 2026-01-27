@@ -64,10 +64,7 @@ test('Font file fake not copied', () => {
 test('shared.js file exists', () => {
     return Promise.all([
         fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/shared.js'), {'encoding': 'utf8'}).then((js) => {
-            expect(js.indexOf('console.log("Shared file loaded")')).not.toBe(-1);
-        }),
-        fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/alt/shared.js'), {'encoding': 'utf8'}).then((js) => {
-            expect(js.indexOf('console.log("Shared file loaded")')).not.toBe(-1);
+            expect(js.indexOf('console.log(`Shared file loaded`)')).not.toBe(-1);
         }),
     ]);
 });
@@ -75,18 +72,26 @@ test('shared.js file exists', () => {
 test('main.js file exists', () => {
     return Promise.all([
         fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/main.js'), {'encoding': 'utf8'}).then((js) => {
-            expect(js.indexOf('console.log("Hello from main page!")')).not.toBe(-1);
+            expect(js.indexOf('console.log(`Hello from main page!`')).not.toBe(-1);
         }),
         fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/alt/main.js'), {'encoding': 'utf8'}).then((js) => {
-            expect(js.indexOf('console.log("Hello from main page!")')).not.toBe(-1);
+            expect(js.indexOf('console.log(`Hello from main page!`')).not.toBe(-1);
         }),
     ]);
 });
 
 test('other.js file exists', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/other.js'), {'encoding': 'utf8'}).then((js) => {
-        expect(js.indexOf('console.log("Hello from other page!")')).not.toBe(-1);
+        expect(js.indexOf('console.log(`Hello from other page!`)')).not.toBe(-1);
     });
+});
+
+test('something.ts was converted', () => {
+    return Promise.all([
+        fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/something.js'), {'encoding': 'utf8'}).then((js) => {
+            expect(js.indexOf('console.log({name:`something`})')).not.toBe(-1);
+        }),
+    ]);
 });
 
 test('alt/other.js file doesn\'t exist', async () => {
@@ -96,12 +101,12 @@ test('alt/other.js file doesn\'t exist', async () => {
 test('.env and .env.local files loaded', () => {
     return Promise.all([
         fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/main.js'), {'encoding': 'utf8'}).then((js) => {
-            expect(js.indexOf('console.log("env.host ==","https://test-local.tld")')).not.toBe(-1);
-            expect(js.indexOf('console.log("env.foo ==","foo-global")')).not.toBe(-1);
-            expect(js.indexOf('console.log("env.bar ==","bar-local")')).not.toBe(-1);
-            expect(js.indexOf('console.log("env.typeBoolTrue ==",!0)')).not.toBe(-1);
-            expect(js.indexOf('console.log("env.typeBoolFalse ==",!1)')).not.toBe(-1);
-            expect(js.indexOf('console.log("env.typeNumber ==",123.456)')).not.toBe(-1);
+            expect(js.indexOf('console.log(`env.host ==`,`https://test-local.tld`)')).not.toBe(-1);
+            expect(js.indexOf('console.log(`env.foo ==`,`foo-global`)')).not.toBe(-1);
+            expect(js.indexOf('console.log(`env.bar ==`,`bar-local`)')).not.toBe(-1);
+            expect(js.indexOf('console.log(`env.typeBoolTrue ==`,!0)')).not.toBe(-1);
+            expect(js.indexOf('console.log(`env.typeBoolFalse ==`,!1)')).not.toBe(-1);
+            expect(js.indexOf('console.log(`env.typeNumber ==`,123.456)')).not.toBe(-1);
         }),
         fsPromises.readFile(path.resolve(publicPath, 'env.html'), {'encoding': 'utf8'}).then((html) => {
             expect(html.indexOf('<p>HOST: https://test-local.tld</p>')).not.toBe(-1);
