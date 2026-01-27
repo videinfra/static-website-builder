@@ -28,7 +28,7 @@
     "@csstools/postcss-nested-calc": "^3.0.0",
     "@rollup/plugin-replace": "^6.0.3",
     "autoprefixer": "^10.4.14",
-    "browser-sync": "^2.29.3",
+    "browser-sync": "^3.0.4",
     "chalk": "4.0.0",
     "chokidar": "^3.5.3",
     "cross-env": "^7.0.3",
