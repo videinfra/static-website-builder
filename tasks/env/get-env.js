@@ -36,7 +36,8 @@ function getEnvData () {
         // dotenv file order is reversed, values in first file overwrite all other
         // file values
         path: envFiles.reverse(),
-        processEnv: envVariables
+        processEnv: envVariables,
+        quiet: true,
     });
 
     // Remap property names
