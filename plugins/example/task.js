@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const memoize = require('nano-memoize');
+const { nanomemoize } = require('nano-memoize');
 
 const globs = require('@videinfra/example-website-builder/lib/globs-helper');
 const getConfig = require('@videinfra/example-website-builder/lib/get-config');
@@ -12,7 +12,7 @@ const taskWatch = require('../../lib/gulp/task-watch');
 
 // Paths and files which gulp will watch and run on
 // Using memoize to cache the result, for performance
-const getGlobPaths = memoize(function () {
+const getWatchGlobPaths = function (forChokidar = false) {
     const sourcePaths = getPaths.getSourcePaths('example');
     const extensions = getConfig.getTaskConfig('example', 'extensions');
     const ignore = getConfig.getTaskConfig('example', 'ignore');
@@ -22,6 +22,9 @@ const getGlobPaths = memoize(function () {
         globs.paths(sourcePaths).filesWithExtensions(extensions), // Files to watch
         globs.paths(sourcePaths).paths(ignore).ignore(),          // Exclude files and folders from being processed
     );
+};
+const getGlobPaths = nanomemoize(function () {
+    return getWatchGlobPaths(false);
 });
 
 
@@ -41,7 +44,7 @@ function example () {
 }
 
 function exampleWatch () {
-    return taskWatch(getGlobPaths(), example);
+    return taskWatch(getWatchGlobPaths(true), example);
 }
 
 

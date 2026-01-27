@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
-const memoize = require('nano-memoize');
+const { nanomemoize } = require('nano-memoize');
 const cached = require('gulp-cached');
 const dependents = require('gulp-dependents');
 
@@ -28,12 +28,12 @@ const getWatchGlobPaths = function (forChokidar = false) {
     );
 };
 
-const getGlobPaths = memoize(function () {
+const getGlobPaths = nanomemoize(function () {
     return getWatchGlobPaths(false);
 });
 
 
-const getEngine = memoize(function () {
+const getEngine = nanomemoize(function () {
     const engine = getConfig.getTaskConfig('stylesheets', 'engine');
     return engine ? engine() : (() => {});
 });

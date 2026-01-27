@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const svgstore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
-const memoize = require('nano-memoize');
+const { nanomemoize } = require('nano-memoize');
 
 const globs = require('./../../lib/globs-helper');
 const getPaths = require('./../../lib/get-path');
@@ -25,7 +25,7 @@ const getWatchGlobPaths = function (forChokidar = false) {
         forChokidar,
     );
 };
-const getGlobPaths = memoize(function () {
+const getGlobPaths = nanomemoize(function () {
     return getWatchGlobPaths(false);
 });
 

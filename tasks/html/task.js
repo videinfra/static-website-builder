@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const data = require('gulp-data');
 const gulpif = require('gulp-if');
 const htmlmin = require('gulp-htmlmin')
-const memoize = require('nano-memoize');
+const { nanomemoize } = require('nano-memoize');
 const cached = require('gulp-cached');
 const dependents = require('gulp-dependents');
 const ignore = require('gulp-ignore');
@@ -19,7 +19,7 @@ const taskWatch = require('../../lib/gulp/task-watch');
 const getData = require('../data/get-data');
 
 
-const getGlobPaths = memoize(function () {
+const getGlobPaths = nanomemoize(function () {
     const sourcePaths = getPaths.getSourcePaths('html');
     const extensions = getConfig.getTaskConfig('html', 'extensions');
 
@@ -28,7 +28,7 @@ const getGlobPaths = memoize(function () {
     ]);
 });
 
-const getGlobIgnorePaths = memoize(function () {
+const getGlobIgnorePaths = nanomemoize(function () {
     const ignore = getConfig.getTaskConfig('html', 'ignore');
 
     return globs.generate([
@@ -48,7 +48,7 @@ const getWatchGlobPaths = function () {
 };
 
 
-const getEngine = memoize(function () {
+const getEngine = nanomemoize(function () {
     const engine = getConfig.getTaskConfig('html', 'engine');
     return engine ? engine() : (() => {});
 });

@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
-const memoize = require('nano-memoize');
+const { nanomemoize } = require('nano-memoize');
 const ignore = require('gulp-ignore');
 const gulpSitemap = require('gulp-sitemap');
 
@@ -22,11 +22,11 @@ const getWatchGlobPaths = function (forChokidar = false) {
         globs.paths(gulp.dest(getPaths.getDestPath('sitemap', 'sitemap.xml'))).ignore(),
     ], forChokidar);
 };
-const getGlobPaths = memoize(function () {
+const getGlobPaths = nanomemoize(function () {
     return getWatchGlobPaths(false);
 });
 
-const getGlobIgnorePaths = memoize(function () {
+const getGlobIgnorePaths = nanomemoize(function () {
     const ignore = getConfig.getTaskConfig('sitemap', 'ignore');
 
     return globs.generate([

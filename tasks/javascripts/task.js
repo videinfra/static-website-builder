@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const { parallel } = require('gulp');
-const memoize = require('nano-memoize');
+const { nanomemoize } = require('nano-memoize');
 const gulpRolldown = require('../../vendor/gulp-rolldown/index.js')
 
 const merge = require('../../lib/merge');
@@ -14,7 +14,7 @@ const taskBeforeDest = require('../../lib/gulp/task-before-dest');
 const taskWatch = require('../../lib/gulp/task-watch');
 const dynamicTask = require('../../lib/gulp/dynamic-task');
 
-const getGlobPaths = memoize(function () {
+const getGlobPaths = nanomemoize(function () {
     const sourcePaths = getPaths.getSourcePaths('javascripts');
     const extensions = getConfig.getTaskConfig('javascripts', '0', 'rolldown', 'resolve', 'extensions');
 
@@ -23,7 +23,7 @@ const getGlobPaths = memoize(function () {
     );
 });
 
-const getWatchGlobPaths = memoize(function () {
+const getWatchGlobPaths = nanomemoize(function () {
     const sourcePaths = getPaths.getSourcePaths('javascripts');
     const entries = getConfig.getTaskConfig('javascripts', '0', 'entryList');
 
