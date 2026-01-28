@@ -1,7 +1,7 @@
-const del = require('del')
-const getConfig = require('./../../lib/get-config');
+import del from 'del';
+import { getTaskConfig } from '../../lib/get-config.js';
 
-exports.beforeBuild = function clean (callback) {
-    const patterns = getConfig.getTaskConfig('clean', 'patterns');
+export function beforeBuild(callback) {
+    const patterns = getTaskConfig('clean', 'patterns');
     return del(patterns, { force: true });
-};
+}

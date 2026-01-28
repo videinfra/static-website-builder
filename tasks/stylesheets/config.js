@@ -1,4 +1,7 @@
-exports.stylesheets = {
+import * as stylesheetsTask from './task.js';
+import * as preprocessStylesheetsConfig from './preprocess-config.js';
+
+export const stylesheets = {
     // Engine is a function which returns a gulp pipe function, eg. sass()
     // Intended to be used by plugins, not manually
     engine: null,
@@ -12,8 +15,7 @@ exports.stylesheets = {
 
     // Auto prefixer options
     // see https://github.com/postcss/autoprefixer#options
-    autoprefixer: {
-    },
+    autoprefixer: {},
 
     // PostCSS Nested Calc
     // see https://www.npmjs.com/package/@csstools/postcss-nested-calc
@@ -45,8 +47,8 @@ exports.stylesheets = {
             mergeIdents: false,
             reduceIdents: false,
             discardUnused: {
-                fontFace: false
-            }
+                fontFace: false,
+            },
         },
     },
 
@@ -56,7 +58,7 @@ exports.stylesheets = {
         // See https://www.npmjs.com/package/gulp-sourcemaps
         sourcemaps: {
             init: {},
-            write: {}
+            write: {},
         },
 
         // Minification disabled in development mode
@@ -64,25 +66,20 @@ exports.stylesheets = {
     },
 };
 
-exports.preprocess = {
-    stylesheets: [
-        require('./preprocess-config'),
-    ]
+export const preprocess = {
+    stylesheets: [preprocessStylesheetsConfig],
 };
 
-exports.tasks = {
-    stylesheets: [
-        require('./task'),
-    ]
+export const tasks = {
+    stylesheets: [stylesheetsTask],
 };
-
 
 /**
  * Paths relative to the global src and dest folders
  */
-exports.paths = {
+export const paths = {
     stylesheets: {
-        'src': 'stylesheets',
-        'dest': 'assets/stylesheets',
-    }
+        src: 'stylesheets',
+        dest: 'assets/stylesheets',
+    },
 };

@@ -1,11 +1,11 @@
-module.exports = [];
+const exports = [];
 
 /**
  * Filter with lodash 'omit' functionality
  * !!!CAUTION!!! There is no filter in TWIG with this functionality!
  */
 
-module.exports.push({
+exports.push({
     name: 'omit',
     func: function (data, args) {
         const output = {};
@@ -26,7 +26,7 @@ module.exports.push({
  * !!!CAUTION!!! There is no filter in TWIG with this functionality!
  */
 
-module.exports.push({
+exports.push({
     name: 'pick',
     func: function (data, args) {
         const output = {};
@@ -47,10 +47,10 @@ module.exports.push({
  * !!!CAUTION!!! There is no filter in TWIG with this functionality!
  */
 
-const filter = require('lodash/filter');
-const omit = require('lodash/omit');
+import filter  from 'lodash/filter.js';
+import omit  from 'lodash/omit.js';
 
-module.exports.push({
+exports.push({
     name: 'filter',
     func: function (data, args) {
         const predicate = omit(args[0], ['_keys']);
@@ -63,9 +63,9 @@ module.exports.push({
  * !!!CAUTION!!! There is no reject in TWIG with this functionality!
  */
 
-const reject = require('lodash/reject');
+import reject  from 'lodash/reject.js';
 
-module.exports.push({
+exports.push({
     name: 'reject',
     func: function (data, args) {
         const predicate = omit(args[0], ['_keys']);
@@ -78,12 +78,14 @@ module.exports.push({
  * !!!CAUTION!!! There is no filter in TWIG with this functionality!
  */
 
-const find = require('lodash/find');
+import find  from 'lodash/find.js';
 
-module.exports.push({
+exports.push({
     name: 'find',
     func: function (data, args) {
         const predicate = omit(args[0], ['_keys']);
         return find(data, predicate);
     }
 });
+
+export default exports;

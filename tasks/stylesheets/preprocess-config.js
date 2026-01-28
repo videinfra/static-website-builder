@@ -1,7 +1,7 @@
-const cssnano = require('cssnano');
-const autoprefixer = require('autoprefixer');
-const postcssNestedCalc = require('@csstools/postcss-nested-calc');
-const find = require('lodash/find');
+import cssnano  from 'cssnano';
+import autoprefixer  from 'autoprefixer';
+import postcssNestedCalc  from '@csstools/postcss-nested-calc';
+import find  from 'lodash/find.js';
 
 /**
  * Modify configuration
@@ -10,7 +10,7 @@ const find = require('lodash/find');
  * @param {object} fullConfig Full configuration
  * @returns {object} Transformed stylesheet configuration
  */
-module.exports = function processStylesheetsConfig (config, fullConfig) {
+export default function processStylesheetsConfig (config, fullConfig) {
     if (config && config.cssnano) {
         // Autoprefixer ir running separatelly in postcss
         config.cssnano.autoprefixer = false;

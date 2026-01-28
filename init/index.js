@@ -1,56 +1,63 @@
-const path = require('../lib/get-path');
-const copyFolder = require('../lib/init/copy-folder');
-const readPackage = require('../lib/init/read-package');
-const mergePackage = require('../lib/init/merge-package');
-const folderExists = require('../lib/init/folder-exists');
-const getFolderList = require('../lib/init/get-folder-list');
-const chalk = require('chalk');
+import { getBuilderPath, getProjectPath } from '../lib/get-path.js';
+import copyFolder from '../lib/init/copy-folder.js';
+import readPackage from '../lib/init/read-package.js';
+import mergePackage from '../lib/init/merge-package.js';
+import folderExists from '../lib/init/folder-exists.js';
+import getFolderList from '../lib/init/get-folder-list.js';
 
-module.exports = function init (template = 'default') {
-    let   templateName = template || 'default';
-    let   copyFrom = path.getBuilderPath('init', templateName);
-    const copyTo = path.getProjectPath();
+import chalk from 'chalk';
+import { exec } from 'child_process';
+
+export default function init(template = 'default') {
+    let templateName = template || 'default';
+    let copyFrom = getBuilderPath('init', templateName);
+    const copyTo = getProjectPath();
 
     if (template === 'test' || !folderExists(copyFrom)) {
-        console.log(chalk.red(`Template "${ templateName }" doesn't exist`));
+        console.log(chalk.red(`Template "${templateName}" doesn't exist`));
 
-        getFolderList(path.getBuilderPath('init')).then((templates) => {
+        getFolderList(getBuilderPath('init')).then((templates) => {
             console.log('Available templates:');
-            console.log(chalk.cyan(`    ${ templates.join('\n    ') }`));
+            console.log(chalk.cyan(`    ${templates.join('\n    ')}`));
         });
         return;
     }
 
-    console.log(chalk.magenta(`Generating project files using template "${ templateName }"`));
+    console.log(chalk.magenta(`Generating project files using template "${templateName}"`));
 
     // Copy files
     const filesCopied = copyFolder(copyFrom, copyTo);
 
     // Merge template package.json into projects package.json
-    const packageMerged = readPackage(path.getBuilderPath('init', templateName, 'package.json'), {}).then((package) => {
-        return mergePackage(path.getProjectPath('package.json'), package).then(() => {
-            if (package.dependencies || package.devDependencies) {
-                console.log(chalk.magenta('Installing npm dependencies'));
+    const packageMerged = readPackage(getBuilderPath('init', templateName, 'package.json'), {}).then((packageJSON) => {
+        return mergePackage(getProjectPath('package.json'), packageJSON)
+            .then(() => {
+                if (packageJSON.dependencies || packageJSON.devDependencies) {
+                    console.log(chalk.magenta('Installing npm dependencies'));
 
-                return new Promise((resolve, reject) => {
-                    require('child_process').exec('npm install', function (error, stdout, stderr) {
-                        resolve();
+                    return new Promise((resolve, _reject) => {
+                        exec('npm install', function (_error, _stdout, _stderr) {
+                            resolve();
+                        });
                     });
-                });
-            }
-        }).catch((err) => {
-            // Skip errors
-            return Promise.resolve();
-        });
+                }
+            })
+            .catch((_err) => {
+                // Skip errors
+                return Promise.resolve();
+            });
     });
 
-    Promise.all([filesCopied, packageMerged]).then(() => {
-        console.log(chalk.green('All done\n'));
+    Promise.all([filesCopied, packageMerged]).then(
+        () => {
+            console.log(chalk.green('All done\n'));
 
-        console.log('To start the dev server:\n' + chalk.cyan('    npm run start'));
+            console.log('To start the dev server:\n' + chalk.cyan('    npm run start'));
 
-        console.log('To build the project:\n' + chalk.cyan('    npm run build'));
-    }, (err) => {
-        throw err;
-    });
+            console.log('To build the project:\n' + chalk.cyan('    npm run build'));
+        },
+        (err) => {
+            throw err;
+        },
+    );
 }

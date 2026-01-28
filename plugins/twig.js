@@ -1,7 +1,12 @@
+import * as preprocessTwigConfig from './twig-engine/preprocess-config.js';
+// import * as symfonyFunctions from './twig/symfony-functions.js';
+// import * as symfonyFilters from './twig/symfony-filters.js';
+// import * as lodashFilters from './twig/lodash-filters.js';
+
 /**
  * TWIG plugin attaches itself to the HTML task
  */
-exports.html = {
+export const html = {
     // Add twig to the extensions
     extensions: ['twig'],
 
@@ -39,13 +44,13 @@ exports.html = {
 
         // Custom functions
         functions: [
-            // require('../../plugins/twig/symfony-functions.js'),
+            // symfonyFunctions,
         ],
 
         // Custom filters
         filters: [
-            // require('../../plugins/twig/lodash-filters.js'),
-            // require('../../plugins/twig/symfony-functions.js'),
+            // lodashFilters,
+            // symfonyFilters,
         ],
 
         // Production only settings, overwrites default settings
@@ -62,8 +67,8 @@ exports.html = {
     version: false,
 };
 
-exports.preprocess = {
+export const preprocess = {
     html: [
-        require('./twig-engine/preprocess-config'),
+        preprocessTwigConfig,
     ]
 };

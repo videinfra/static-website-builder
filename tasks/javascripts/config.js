@@ -1,4 +1,7 @@
-exports.javascripts = {
+import * as preprocessJavascriptsConfig from './preprocess-config.js';
+import * as javascriptsTask from './task.js';
+
+export const javascripts = {
     // JS file extensions
     extensions: ['js', 'ts', 'tsx', 'jsx', 'json'],
 
@@ -47,25 +50,20 @@ exports.javascripts = {
     },
 };
 
-exports.preprocess = {
-    javascripts: [
-        require('./preprocess-config'),
-    ]
+export const preprocess = {
+    javascripts: [preprocessJavascriptsConfig],
 };
 
-exports.tasks = {
-    javascripts: [
-        require('./task'),
-    ]
+export const tasks = {
+    javascripts: [javascriptsTask],
 };
-
 
 /**
  * Paths relative to the global src and dest folders
  */
-exports.paths = {
+export const paths = {
     javascripts: {
-        'src': 'javascripts',
-        'dest': 'assets/javascripts',
-    }
+        src: 'javascripts',
+        dest: 'assets/javascripts',
+    },
 };

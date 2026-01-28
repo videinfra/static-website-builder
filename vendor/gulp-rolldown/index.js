@@ -1,9 +1,10 @@
-const Transform = require('stream').Transform
-const PluginError = require('plugin-error')
+import { Transform } from 'stream';
+import PluginError from 'plugin-error';
 
-const PLUGIN_NAME = 'gulp-starter-rolldown'
-const rolldown = require('rolldown');
-const browserSync = require('browser-sync');
+import { watch, build } from 'rolldown';
+import browserSync from 'browser-sync';
+
+const PLUGIN_NAME = 'gulp-starter-rolldown';
 
 /**
  * Evaluate entry file
@@ -38,14 +39,14 @@ function virtualEntryPlugin(entries) {
         name: 'virtual-entry-plugin', // this name will show up in logs and errors
 
         resolveId: {
-			order: 'post',
-			handler(source) {
-				if (keys.includes(source)) {
+            order: 'post',
+            handler(source) {
+                if (keys.includes(source)) {
                     return source;
                 }
                 return null; // other ids should be handled as usual
-			}
-		},
+            },
+        },
 
         load(id) {
             if (keys.includes(id)) {
@@ -60,23 +61,22 @@ const watcherList = {};
 
 // transformer class
 class GulpRolldown extends Transform {
-
     _build(file, cb, inputOptions, outputOptions) {
-        rolldown.build(inputOptions)
+        build(inputOptions)
             .then((result) => {
                 // Prevent gulp from outputing anything
                 cb();
             })
-            .catch(err => {
+            .catch((err) => {
                 process.nextTick(() => {
-                    this.emit('error', new PluginError(PLUGIN_NAME, err))
-                    cb()
+                    this.emit('error', new PluginError(PLUGIN_NAME, err));
+                    cb();
                 });
             });
     }
 
     _watch(file, cb, inputOptions, outputOptions) {
-        const watcher = watcherList[file.path] = rolldown.watch(inputOptions);
+        const watcher = (watcherList[file.path] = watch(inputOptions));
 
         watcher.on('event', (event) => {
             if (event.code === 'BUNDLE_END') {
@@ -94,12 +94,12 @@ class GulpRolldown extends Transform {
     _transform(file, encoding, cb) {
         // Empty or unavailable files, not supported
         if (file.isNull()) {
-            return cb(null, file)
+            return cb(null, file);
         }
 
         // Stream, not supported
         if (file.isStream()) {
-            return cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'))
+            return cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
         }
 
         const entries = this.inputOptions.entries;
@@ -117,11 +117,11 @@ class GulpRolldown extends Transform {
 
         // Transform options
         const fullDir = this.outputOptions.fullDir;
-        const inputOptions = Object.assign({}, this.inputOptions)
+        const inputOptions = Object.assign({}, this.inputOptions);
         const outputOptions = Object.assign({}, this.outputOptions);
 
-        delete(inputOptions.entries);
-        delete(outputOptions.fullDir);
+        delete inputOptions.entries;
+        delete outputOptions.fullDir;
 
         // Parse entry file
         const entryContent = evalEntry(file.contents.toString());
@@ -152,9 +152,7 @@ class GulpRolldown extends Transform {
 
         // Set input files
         inputOptions.input = Object.keys(entryContent);
-        inputOptions.plugins = [
-            virtualEntryPlugin(entryContent),
-        ].concat(inputOptions.plugins || []);
+        inputOptions.plugins = [virtualEntryPlugin(entryContent)].concat(inputOptions.plugins || []);
 
         // Set full paths when running watch or build
         inputOptions.output = outputOptions;
@@ -174,11 +172,11 @@ class GulpRolldown extends Transform {
  * @param {object} outputOptions
  * @returns
  */
-module.exports = function factory(inputOptions, outputOptions) {
-    const stream = new GulpRolldown({objectMode: true})
+export default function factory(inputOptions, outputOptions) {
+    const stream = new GulpRolldown({ objectMode: true });
 
-    stream.inputOptions = inputOptions
-    stream.outputOptions = outputOptions
+    stream.inputOptions = inputOptions;
+    stream.outputOptions = outputOptions;
 
-    return stream
+    return stream;
 }

@@ -1,19 +1,24 @@
 // 2024-02-13, Kaspars Zuks: added "options.async" support
-var map = require('map-stream');
-var rext = require('replace-ext');
-var log = require('fancy-log');
-var PluginError = require('plugin-error');
+import map from 'map-stream';
+import rext from 'replace-ext';
+import log from 'fancy-log';
+import PluginError from 'plugin-error';
+import Twig from 'twig';
 
 const PLUGIN_NAME = 'gulp-twig';
 
-module.exports = function (options) {
+export default function (options) {
     'use strict';
-    options = Object.assign({}, {
-      changeExt: true,
-      extname: '.html',
-      useFileContents: false,
-      async: true,
-    }, options || {});
+    options = Object.assign(
+        {},
+        {
+            changeExt: true,
+            extname: '.html',
+            useFileContents: false,
+            async: true,
+        },
+        options || {},
+    );
 
     function modifyContents(file, cb) {
         var data = file.data || Object.assign({}, options.data);
@@ -26,21 +31,20 @@ module.exports = function (options) {
             return cb(new PluginError(PLUGIN_NAME, 'Streaming not supported!'));
         }
 
-        data._file   = file;
-        if(options.changeExt === false || options.extname === true){
+        data._file = file;
+        if (options.changeExt === false || options.extname === true) {
             data._target = {
-                 path: file.path,
-                 relative: file.relative
-             }
-        }else{
+                path: file.path,
+                relative: file.relative,
+            };
+        } else {
             data._target = {
                 path: rext(file.path, options.extname || ''),
-                relative: rext(file.relative, options.extname || '')
-            }
+                relative: rext(file.relative, options.extname || ''),
+            };
         }
 
-        var Twig = require('twig'),
-            twig = Twig.twig,
+        var twig = Twig.twig,
             twigOpts = {
                 path: file.path,
                 async: false,
@@ -78,20 +82,21 @@ module.exports = function (options) {
             });
         }
 
-        if(options.extend) {
+        if (options.extend) {
             Twig.extend(options.extend);
             delete options.extend;
         }
 
         if (options.useFileContents) {
-          var fileContents = file.contents.toString();
-          twigOpts.data = fileContents
+            var fileContents = file.contents.toString();
+            twigOpts.data = fileContents;
         }
 
         template = twig(twigOpts);
 
         if (options.async) {
-            template.renderAsync(data)
+            template
+                .renderAsync(data)
                 .then(function (output) {
                     file.contents = new Buffer(output);
                     file.path = data._target.path;
@@ -111,7 +116,7 @@ module.exports = function (options) {
         } else {
             try {
                 file.contents = new Buffer(template.render(data));
-            }catch(e){
+            } catch (e) {
                 if (options.errorLogToConsole) {
                     log(PLUGIN_NAME + ' ' + e);
                     return cb();
@@ -130,4 +135,4 @@ module.exports = function (options) {
     }
 
     return map(modifyContents);
-};
+}

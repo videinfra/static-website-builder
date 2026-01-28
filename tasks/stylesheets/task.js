@@ -1,25 +1,25 @@
-const gulp = require('gulp');
-const gulpif = require('gulp-if');
-const postcss = require('gulp-postcss');
-const sourcemaps = require('gulp-sourcemaps');
-const { nanomemoize } = require('nano-memoize');
-const cached = require('gulp-cached');
-const dependents = require('gulp-dependents');
+import gulp  from 'gulp';
+import gulpif  from 'gulp-if';
+import postcss  from 'gulp-postcss';
+import sourcemaps  from 'gulp-sourcemaps';
+import nanomemoize from 'nano-memoize';
+import cached  from 'gulp-cached';
+import dependents  from 'gulp-dependents';
 
-const globs = require('./../../lib/globs-helper');
-const getPaths = require('../../lib/get-path');
-const getConfig = require('../../lib/get-config');
+import globs  from './../../lib/globs-helper.js';
+import { getDestPath, getSourcePaths } from '../../lib/get-path.js';
+import { getTaskConfig } from '../../lib/get-config.js';
 
-const taskStart = require('../../lib/gulp/task-start');
-const taskEnd = require('../../lib/gulp/task-end');
-const taskBeforeDest = require('../../lib/gulp/task-before-dest');
-const taskWatch = require('../../lib/gulp/task-watch');
+import taskStart  from '../../lib/gulp/task-start.js';
+import taskEnd  from '../../lib/gulp/task-end.js';
+import taskBeforeDest  from '../../lib/gulp/task-before-dest.js';
+import taskWatch  from '../../lib/gulp/task-watch.js';
 
 
 const getWatchGlobPaths = function (forChokidar = false) {
-    const sourcePaths = getPaths.getSourcePaths('stylesheets');
-    const extensions = getConfig.getTaskConfig('stylesheets', 'extensions');
-    const ignore = getConfig.getTaskConfig('stylesheets', 'ignore');
+    const sourcePaths = getSourcePaths('stylesheets');
+    const extensions = getTaskConfig('stylesheets', 'extensions');
+    const ignore = getTaskConfig('stylesheets', 'ignore');
 
     return globs.generate(
         globs.paths(sourcePaths).filesWithExtensions(extensions), // Files to watch
@@ -28,13 +28,13 @@ const getWatchGlobPaths = function (forChokidar = false) {
     );
 };
 
-const getGlobPaths = nanomemoize(function () {
+const getGlobPaths = nanomemoize.nanomemoize(function () {
     return getWatchGlobPaths(false);
 });
 
 
 const getEngine = function () {
-    const engine = getConfig.getTaskConfig('stylesheets', 'engine');
+    const engine = getTaskConfig('stylesheets', 'engine');
     return engine ? engine() : (() => {});
 };
 
@@ -44,21 +44,21 @@ function stylesheets () {
         .pipe(taskStart())
 
         // Faster incremental builds, skip files which didn't changed or their dependencies didn't changed
-        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'dependents'), cached('stylesheets')))
-        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'dependents'), dependents(getConfig.getTaskConfig('dependents'))))
+        .pipe(gulpif(!!getTaskConfig('stylesheets', 'dependents'), cached('stylesheets')))
+        .pipe(gulpif(!!getTaskConfig('stylesheets', 'dependents'), dependents(getTaskConfig('dependents'))))
 
-        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.init(getConfig.getTaskConfig('stylesheets', 'sourcemaps', 'init')))) // Start Sourcemaps
+        .pipe(gulpif(!!getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.init(getTaskConfig('stylesheets', 'sourcemaps', 'init')))) // Start Sourcemaps
 
         // Engine
-        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'engine'), getEngine()))
+        .pipe(gulpif(!!getTaskConfig('stylesheets', 'engine'), getEngine()))
 
         // Autoprefixer, postcss
-        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'postcss'), postcss(getConfig.getTaskConfig('stylesheets', 'postcss', 'plugins'), getConfig.getTaskConfig('stylesheets', 'postcss', 'options'))))
+        .pipe(gulpif(!!getTaskConfig('stylesheets', 'postcss'), postcss(getTaskConfig('stylesheets', 'postcss', 'plugins'), getTaskConfig('stylesheets', 'postcss', 'options'))))
 
-        .pipe(gulpif(!!getConfig.getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.write('.', getConfig.getTaskConfig('stylesheets', 'sourcemaps', 'write'))))
+        .pipe(gulpif(!!getTaskConfig('stylesheets', 'sourcemaps'), sourcemaps.write('.', getTaskConfig('stylesheets', 'sourcemaps', 'write'))))
 
         .pipe(taskBeforeDest())
-        .pipe(gulp.dest(getPaths.getDestPath('stylesheets')))
+        .pipe(gulp.dest(getDestPath('stylesheets')))
 
         // Reload on change
         .pipe(taskEnd());
@@ -69,5 +69,5 @@ function stylesheetsWatch () {
 }
 
 
-exports.build = stylesheets;
-exports.watch = stylesheetsWatch;
+export const build = stylesheets;
+export const watch = stylesheetsWatch;

@@ -6,24 +6,27 @@
  * in each tasks config.js file
  */
 
-exports.clean = {};
-exports.static = {};
-exports.html = {};
-exports.data = {};
-exports.fonts = {};
-exports.icons = {};
-exports.images = {};
-exports.javascripts = {};
-exports.stylesheets = {};
-exports.browserSync = {};
-exports.sizereport = {};
+import * as sassPlugin from '@videinfra/static-website-builder/plugins/sass';
+import * as twigPlugin from '@videinfra/static-website-builder/plugins/twig';
 
-exports.plugins = [
+export const clean = {};
+export const staticFiles = {};
+export const html = {};
+export const data = {};
+export const fonts = {};
+export const icons = {};
+export const images = {};
+export const javascripts = {};
+export const stylesheets = {};
+export const browserSync = {};
+export const sizereport = {};
+
+export const plugins = [
     // Enables SASS engine and .sass and .scss file compilation
-    require('@videinfra/static-website-builder/plugins/sass'),
+    sassPlugin,
 
     // Enables TwigJS engine .twig file compilation
-    require('@videinfra/static-website-builder/plugins/twig'),
+    twigPlugin,
 ];
 
 
@@ -35,7 +38,7 @@ exports.plugins = [
  * in each tasks config.js file
  */
 
-exports.paths = {
+export const paths = {
     src: './src',
     dest: './public',
 };

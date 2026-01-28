@@ -1,57 +1,56 @@
-const gulp = require('gulp');
-const gulpif = require('gulp-if');
-const svgstore = require('gulp-svgstore');
-const svgmin = require('gulp-svgmin');
-const { nanomemoize } = require('nano-memoize');
+import gulp from 'gulp';
+import gulpif from 'gulp-if';
+import svgstore from 'gulp-svgstore';
+import svgmin from 'gulp-svgmin';
+import nanomemoize from 'nano-memoize';
 
-const globs = require('./../../lib/globs-helper');
-const getPaths = require('./../../lib/get-path');
-const getConfig = require('./../../lib/get-config');
+import globs from './../../lib/globs-helper.js';
+import { getSourcePaths, getDestPath } from './../../lib/get-path.js';
+import { getTaskConfig } from './../../lib/get-config.js';
 
-const taskStart = require('../../lib/gulp/task-start');
-const taskEnd = require('../../lib/gulp/task-end');
-const taskBeforeDest = require('../../lib/gulp/task-before-dest');
-const taskWatch = require('../../lib/gulp/task-watch');
-
+import taskStart from '../../lib/gulp/task-start.js';
+import taskEnd from '../../lib/gulp/task-end.js';
+import taskBeforeDest from '../../lib/gulp/task-before-dest.js';
+import taskWatch from '../../lib/gulp/task-watch.js';
 
 const getWatchGlobPaths = function (forChokidar = false) {
-    const sourcePaths = getPaths.getSourcePaths('icons');
-    const extensions = getConfig.getTaskConfig('icons', 'extensions');
-    const ignore = getConfig.getTaskConfig('icons', 'ignore');
+    const sourcePaths = getSourcePaths('icons');
+    const extensions = getTaskConfig('icons', 'extensions');
+    const ignore = getTaskConfig('icons', 'ignore');
 
     return globs.generate(
         globs.paths(sourcePaths).filesWithExtensions(extensions), // Files to watch
-        globs.paths(sourcePaths).paths(ignore).ignore(),          // List of files which to ignore
+        globs.paths(sourcePaths).paths(ignore).ignore(), // List of files which to ignore
         forChokidar,
     );
 };
-const getGlobPaths = nanomemoize(function () {
+const getGlobPaths = nanomemoize.nanomemoize(function () {
     return getWatchGlobPaths(false);
 });
 
+function icons() {
+    return (
+        gulp
+            .src(getGlobPaths())
+            .pipe(taskStart())
 
-function icons () {
-    return gulp
-        .src(getGlobPaths())
-        .pipe(taskStart())
+            // Minify SVG
+            .pipe(gulpif(!!getTaskConfig('icons', 'svgmin'), svgmin(getTaskConfig('icons', 'svgmin'))))
 
-        // Minify SVG
-        .pipe(gulpif(!!getConfig.getTaskConfig('icons', 'svgmin'), svgmin(getConfig.getTaskConfig('icons', 'svgmin'))))
+            // Create sprite
+            .pipe(svgstore(getTaskConfig('icons', 'svgstore')))
 
-        // Create sprite
-        .pipe(svgstore(getConfig.getTaskConfig('icons', 'svgstore')))
+            .pipe(taskBeforeDest())
+            .pipe(gulp.dest(getDestPath('icons')))
 
-        .pipe(taskBeforeDest())
-        .pipe(gulp.dest(getPaths.getDestPath('icons')))
-
-        // Reload on change
-        .pipe(taskEnd());
+            // Reload on change
+            .pipe(taskEnd())
+    );
 }
 
-function iconsWatch () {
+function iconsWatch() {
     return taskWatch(getWatchGlobPaths(true), icons);
 }
 
-
-exports.build = icons;
-exports.watch = iconsWatch;
+export const build = icons;
+export const watch = iconsWatch;

@@ -6,6 +6,7 @@
   "engines": {
     "node": ">=12"
   },
+  "type": "module",
   "scripts": {
     "lint": "eslint --report-unused-disable-directives --ignore-path .gitignore .",
     "fix": "npm run lint -- --fix",

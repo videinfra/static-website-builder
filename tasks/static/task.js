@@ -1,47 +1,46 @@
-const gulp = require('gulp');
-const { nanomemoize } = require('nano-memoize');
+import gulp from 'gulp';
+import nanomemoize from 'nano-memoize';
 
-const globs = require('./../../lib/globs-helper');
-const getPaths = require('./../../lib/get-path');
-const getConfig = require('./../../lib/get-config');
+import globs from './../../lib/globs-helper.js';
+import { getDestPath, getSourcePaths } from './../../lib/get-path.js';
+import { getTaskConfig } from './../../lib/get-config.js';
 
-const taskStart = require('../../lib/gulp/task-start');
-const taskEnd = require('../../lib/gulp/task-end');
-const taskBeforeDest = require('../../lib/gulp/task-before-dest');
-const taskWatch = require('../../lib/gulp/task-watch');
-
+import taskStart from '../../lib/gulp/task-start.js';
+import taskEnd from '../../lib/gulp/task-end.js';
+import taskBeforeDest from '../../lib/gulp/task-before-dest.js';
+import taskWatch from '../../lib/gulp/task-watch.js';
 
 const getWatchGlobPaths = function (forChokidar = false) {
-    const sourcePaths = getPaths.getSourcePaths('static');
-    const ignore = getConfig.getTaskConfig('static', 'ignore');
+    const sourcePaths = getSourcePaths('staticFiles');
+    const ignore = getTaskConfig('staticFiles', 'ignore');
 
     return globs.generate(
-        globs.paths(sourcePaths).allFiles(),             // Files to watch
+        globs.paths(sourcePaths).allFiles(), // Files to watch
         globs.paths(sourcePaths).paths(ignore).ignore(), // List of files which to ignore
         forChokidar,
     );
 };
-const getGlobPaths = nanomemoize(function () {
+const getGlobPaths = nanomemoize.nanomemoize(function () {
     return getWatchGlobPaths(false);
 });
 
+function staticFiles() {
+    return (
+        gulp
+            .src(getGlobPaths(), { since: gulp.lastRun(staticFiles) })
+            .pipe(taskStart())
 
-function static () {
-    return gulp
-        .src(getGlobPaths(), { since: gulp.lastRun(static) })
-        .pipe(taskStart())
+            .pipe(taskBeforeDest())
+            .pipe(gulp.dest(getDestPath('staticFiles')))
 
-        .pipe(taskBeforeDest())
-        .pipe(gulp.dest(getPaths.getDestPath('static')))
-
-        // Reload on change
-        .pipe(taskEnd());
+            // Reload on change
+            .pipe(taskEnd())
+    );
 }
 
-function staticWatch () {
-    return taskWatch(getWatchGlobPaths(true), static);
+function staticFilesWatch() {
+    return taskWatch(getWatchGlobPaths(true), staticFiles);
 }
 
-
-exports.build = static;
-exports.watch = staticWatch;
+export const build = staticFiles;
+export const watch = staticFilesWatch;

@@ -1,9 +1,10 @@
-const paths = require('../../lib/get-path');
-const merge = require('../../lib/merge');
-const getEnvData = require('../env/get-env');
-const get = require('lodash/get');
-const cloneDeep = require('lodash/cloneDeep');
-const replace = require('@rollup/plugin-replace');
+import { getDestPath, getBuilderPath, getProjectPath, getSourcePath } from '../../lib/get-path.js';
+import merge from '../../lib/merge.js';
+import getEnvData from '../env/get-env.js';
+import get from 'lodash/get.js';
+import cloneDeep from 'lodash/cloneDeep.js';
+import replace from '@rollup/plugin-replace';
+
 /**
  * Modify configuration
  *
@@ -11,7 +12,7 @@ const replace = require('@rollup/plugin-replace');
  * @param {object} fullConfig Full configuration
  * @returns {object} Transformed javascript configuration
  */
-module.exports = function preprocessJavascriptsConfig (config, fullConfig) {
+export default function preprocessJavascriptsConfig(config, fullConfig) {
     let entryList = config.entryList;
 
     // User may specify a function, execute it to get object / array
@@ -30,7 +31,7 @@ module.exports = function preprocessJavascriptsConfig (config, fullConfig) {
     entryList = entryList.map((entry, index) => {
         return {
             name: typeof entry === 'string' ? entry : entry.name,
-            shared: typeof entry !== 'string' && entry && entry.shared ? entry.shared : (index === 0 ? 'shared' : ''),
+            shared: typeof entry !== 'string' && entry && entry.shared ? entry.shared : index === 0 ? 'shared' : '',
             outpuSubFolder: typeof entry !== 'string' && entry && entry.outpuSubFolder ? entry.outpuSubFolder : '',
         };
     });
@@ -40,14 +41,11 @@ module.exports = function preprocessJavascriptsConfig (config, fullConfig) {
         entryConfig.rolldown = Object.assign({}, entryConfig.rolldown);
 
         // Output paths
-        const output = merge({
-        }, get(entryConfig, ['rolldown', 'output'], null));
+        const output = merge({}, get(entryConfig, ['rolldown', 'output'], null));
 
-        output.dir = output.dir
-            .replace('[folder]/', entry.outpuSubFolder ? entry.outpuSubFolder + '/' : '')
-            .replace('[folder]', entry.outpuSubFolder ? entry.outpuSubFolder : '');
+        output.dir = output.dir.replace('[folder]/', entry.outpuSubFolder ? entry.outpuSubFolder + '/' : '').replace('[folder]', entry.outpuSubFolder ? entry.outpuSubFolder : '');
 
-        output.dir = paths.getDestPath('javascripts', output.dir);
+        output.dir = getDestPath('javascripts', output.dir);
 
         // Use process.env... variables from .env files
         const envVariables = merge(getEnvData().js, {
@@ -73,24 +71,26 @@ module.exports = function preprocessJavascriptsConfig (config, fullConfig) {
                 output: output,
 
                 // Imports
-                resolve: merge({
-                    // File extensions
-                    extensions: entryConfig.extensions.map((extension) => `.${ extension }`),
+                resolve: merge(
+                    {
+                        // File extensions
+                        extensions: entryConfig.extensions.map((extension) => `.${extension}`),
 
-                    // Import folders
-                    modules: [
-                        // Allow imports from node_modules
-                        paths.getBuilderPath('node_modules'),
-                        paths.getProjectPath('node_modules'),
+                        // Import folders
+                        modules: [
+                            // Allow imports from node_modules
+                            getBuilderPath('node_modules'),
+                            getProjectPath('node_modules'),
 
-                        // Allow imports from source folder
-                        paths.getSourcePath('javascripts'),
-                    ],
-                }, get(entryConfig, ['rolldown', 'resolve'], {})),
-            }
+                            // Allow imports from source folder
+                            getSourcePath('javascripts'),
+                        ],
+                    },
+                    get(entryConfig, ['rolldown', 'resolve'], {}),
+                ),
+            },
         });
 
         return buildConfig;
     });
-
 }

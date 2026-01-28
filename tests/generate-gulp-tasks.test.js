@@ -1,6 +1,6 @@
-const pick = require('lodash/pick');
-const { generateTaskList } = require('../lib/generate-gulp-tasks');
-const { BEFORE_BUILD, BUILD, AFTER_BUILD, BEFORE_WATCH, WATCH, AFTER_WATCH } = require('../lib/task-order');
+import pick  from 'lodash/pick.js';
+import { generateTaskList }  from '../lib/generate-gulp-tasks.js';
+import { BEFORE_BUILD, BUILD, AFTER_BUILD, BEFORE_WATCH, WATCH }  from '../lib/task-order.js';
 
 test('Tasks are organized correctly', () => {
     const beforeBuildA = () => {};
@@ -27,8 +27,14 @@ test('Tasks are organized correctly', () => {
         ],
     }};
 
-    expect(pick(generateTaskList(taskConfig), ['default', 'build'])).toEqual({
+    expect(pick(generateTaskList(taskConfig), ['default', 'watch', 'build'])).toEqual({
         default: [
+            [beforeBuildA, beforeBuildB],
+            [buildA, buildB],
+            [beforeWatchA],
+            [watchA],
+        ],
+        watch: [
             [beforeBuildA, beforeBuildB],
             [buildA, buildB],
             [beforeWatchA],
@@ -62,7 +68,7 @@ test('Skipping tasks doesn\'t genearate empty arrays', () => {
         ],
     }};
 
-    const taskList = pick(generateTaskList(taskConfig), ['default', 'build']);
+    const taskList = pick(generateTaskList(taskConfig), ['default', 'watch', 'build']);
 
     for (let taskName in taskList) {
         taskList[taskName].forEach((parallel) => {

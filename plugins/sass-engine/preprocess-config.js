@@ -1,11 +1,10 @@
-const paths = require('./../../lib/get-path');
-const getConfig = require('./../../lib/get-config');
-const getPaths = require('./../../lib/get-path');
-const merge = require('./../../lib/merge');
-const getEnvData = require('./../../tasks/env/get-env');
-const assign = require('lodash/assign');
-const gulpSass = require('../../vendor/gulp-sass/index');
-
+import { getSourcePaths, getProjectPath } from './../../lib/get-path.js';
+import { getTaskConfig } from './../../lib/get-config.js';
+import merge from './../../lib/merge.js';
+import getEnvData from './../../tasks/env/get-env.js';
+import gulpSass from '../../vendor/gulp-sass/index.js';
+import assign from 'lodash/assign.js';
+import * as sass from 'sass';
 
 /**
  * Modify configuration
@@ -14,17 +13,17 @@ const gulpSass = require('../../vendor/gulp-sass/index');
  * @param {object} fullConfig Full configuration
  * @returns {object} Transformed stylesheet configuration
  */
-module.exports = function processSASSConfig (config, fullConfig) {
+export default function processSASSConfig(config, fullConfig) {
     if (config && config.sass) {
         if (config.sass.includePaths) {
             // Map include paths to the project folder
-            config.sass.includePaths = config.sass.includePaths.map((path) => paths.getProjectPath(path));
+            config.sass.includePaths = config.sass.includePaths.map((path) => getProjectPath(path));
         } else {
             config.sass.includePaths = [];
         }
 
         // Add stylesheet source path
-        const stylesheetSourcePath = getPaths.getSourcePaths('stylesheets')
+        const stylesheetSourcePath = getSourcePaths('stylesheets');
 
         stylesheetSourcePath.forEach((path) => {
             if (!config.sass.includePaths.includes(path)) {
@@ -33,26 +32,23 @@ module.exports = function processSASSConfig (config, fullConfig) {
         });
 
         // Engine is a function which returns a gulp pipe function
-        config.engine = function getSASSEngine () {
-            const sass = gulpSass(require('sass'));
-            const sassConfig = getConfig.getTaskConfig('stylesheets', 'sass');
+        config.engine = function getSASSEngine() {
+            const sassEngine = gulpSass(sass);
+            const sassConfig = getTaskConfig('stylesheets', 'sass');
 
             if (config.legacy) {
                 sassConfig.silenceDeprecations = (sassConfig.silenceDeprecations || []).concat(['import', 'global-builtin', 'slash-div', 'color-functions']);
             }
 
             sassConfig.data = merge(getEnvData().sass, sassConfig.data || {});
-            return sass(sassConfig, /* sync */ true).on('error', sass.logError);
+            return sassEngine(sassConfig, /* sync */ true).on('error', sassEngine.logError);
         };
 
         // Main 'dependents' config is shared between all tasks
         if (config.dependents) {
-
             for (let extension in config.dependents) {
                 config.dependents[extension].basePaths = config.dependents[extension].basePaths || [];
-                config.dependents[extension].basePaths = config.dependents[extension].basePaths.concat(
-                    getPaths.getSourcePaths('stylesheets')
-                );
+                config.dependents[extension].basePaths = config.dependents[extension].basePaths.concat(getSourcePaths('stylesheets'));
             }
 
             fullConfig.dependents = assign(fullConfig.dependents || {}, config.dependents);

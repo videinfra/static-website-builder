@@ -1,16 +1,16 @@
-const gulp = require('gulp');
-const size = require('gulp-sizereport');
+import gulp  from 'gulp';
+import size  from 'gulp-sizereport';
 
-const globs = require('./../../lib/globs-helper');
-const getPaths = require('./../../lib/get-path');
-const getConfig = require('./../../lib/get-config');
+import globs  from './../../lib/globs-helper.js';
+import { getDestPath } from './../../lib/get-path.js';
+import { getTaskConfig } from './../../lib/get-config.js';
 
 
 function sizeReport () {
     return gulp
-        .src(globs.paths(getPaths.getDestPath()).allFiles().generate())
-        .pipe(size(getConfig.getTaskConfig('sizereport')))
+        .src(globs.paths(getDestPath()).allFiles().generate())
+        .pipe(size(getTaskConfig('sizereport')))
 }
 
 
-exports.afterBuild = sizeReport;
+export const afterBuild = sizeReport;

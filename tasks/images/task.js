@@ -1,46 +1,46 @@
-const gulp = require('gulp');
-const { nanomemoize } = require('nano-memoize');
+import gulp from 'gulp';
+import nanomemoize from 'nano-memoize';
 
-const globs = require('./../../lib/globs-helper');
-const getPaths = require('./../../lib/get-path');
-const getConfig = require('./../../lib/get-config');
+import globs from './../../lib/globs-helper.js';
+import { getSourcePaths, getDestPath } from './../../lib/get-path.js';
+import { getTaskConfig } from './../../lib/get-config.js';
 
-const taskStart = require('../../lib/gulp/task-start');
-const taskEnd = require('../../lib/gulp/task-end');
-const taskBeforeDest = require('../../lib/gulp/task-before-dest');
-const taskWatch = require('../../lib/gulp/task-watch');
-
+import taskStart from '../../lib/gulp/task-start.js';
+import taskEnd from '../../lib/gulp/task-end.js';
+import taskBeforeDest from '../../lib/gulp/task-before-dest.js';
+import taskWatch from '../../lib/gulp/task-watch.js';
 
 const getWatchGlobPaths = function (forChokidar = false) {
-    const sourcePaths = getPaths.getSourcePaths('images');
-    const ignore = getConfig.getTaskConfig('images', 'ignore');
+    const sourcePaths = getSourcePaths('images');
+    const ignore = getTaskConfig('images', 'ignore');
 
     return globs.generate(
-        globs.paths(sourcePaths).allFiles(),             // Files to watch
+        globs.paths(sourcePaths).allFiles(), // Files to watch
         globs.paths(sourcePaths).paths(ignore).ignore(), // List of files which to ignore
         forChokidar,
     );
 };
-const getGlobPaths = nanomemoize(function () {
+const getGlobPaths = nanomemoize.nanomemoize(function () {
     return getWatchGlobPaths(false);
 });
 
-function images () {
-    return gulp
-        .src(getGlobPaths(), { since: gulp.lastRun(images) })
-        .pipe(taskStart())
+function images() {
+    return (
+        gulp
+            .src(getGlobPaths(), { since: gulp.lastRun(images) })
+            .pipe(taskStart())
 
-        .pipe(taskBeforeDest())
-        .pipe(gulp.dest(getPaths.getDestPath('images')))
+            .pipe(taskBeforeDest())
+            .pipe(gulp.dest(getDestPath('images')))
 
-        // Reload on change
-        .pipe(taskEnd());
+            // Reload on change
+            .pipe(taskEnd())
+    );
 }
 
-function imagesWatch () {
+function imagesWatch() {
     return taskWatch(getWatchGlobPaths(true), images);
 }
 
-
-exports.build = images;
-exports.watch = imagesWatch;
+export const build = images;
+export const watch = imagesWatch;

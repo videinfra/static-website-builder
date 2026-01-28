@@ -1,9 +1,9 @@
-const bs = require('browser-sync');
-const getConfig = require('./../../lib/get-config');
+import bs from 'browser-sync';
+import { getTaskConfig } from './../../lib/get-config.js';
 
-exports.watch = function browserSync (callback) {
-    bs.init(getConfig.getTaskConfig('browserSync'));
+export const watch = function browserSync(callback) {
+    bs.init(getTaskConfig('browserSync'));
 };
 
 // Execute as first task
-exports.watch.order = -2;
+watch.order = -2;

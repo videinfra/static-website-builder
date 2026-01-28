@@ -1,4 +1,7 @@
-module.exports = [];
+import { getTaskConfig }  from '../../../lib/get-config.js';
+import preposition_nbsp  from './preposition_nbsp.js';
+
+const exports = [];
 
 /**
  * CDN filter
@@ -8,15 +11,14 @@ module.exports = [];
  *   {{ '/images/px.gif' | cdn }}
  */
 
-const config = require('../../../lib/get-config');
 const cdnsResourceMap = {};
 let   cdnIndex = -1;
 
-module.exports.push({
+exports.push({
     name: 'cdnify',
     func: function (path) {
         const normalizedPath = (path || path === 0 ? String(path) : '');
-        const cdnsConfig = config.getTaskConfig('html', 'cdns');
+        const cdnsConfig = getTaskConfig('html', 'cdns');
 
         if (cdnsResourceMap[normalizedPath]) return cdnsResourceMap[normalizedPath]; // cache so that same resource always use same cdn
         if (!cdnsConfig || !cdnsConfig.length) return normalizedPath;
@@ -39,10 +41,10 @@ module.exports.push({
 
 const version = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 
-module.exports.push({
+exports.push({
     name: 'version',
     func: function (path) {
-        if (!config.getTaskConfig('html', 'version')) return path;
+        if (!getTaskConfig('html', 'version')) return path;
 
         const normalizedPath = (path || path === 0 ? String(path) : '');
         const parts    = normalizedPath.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/i);
@@ -64,7 +66,7 @@ module.exports.push({
  *   Output: hello world
  */
 
-module.exports.push({
+exports.push({
     name: 'humanize',
     func: function (text) {
         text = String(text);
@@ -87,12 +89,11 @@ module.exports.push({
  *   Output: hello at&nbsp;world
  */
 
-const preposition_nbsp = require('./preposition_nbsp');
-
-module.exports.push({
+exports.push({
     name: 'preposition_nbsp',
     func: function (text) {
         return preposition_nbsp(text);
     }
 });
 
+export default exports;

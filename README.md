@@ -51,7 +51,7 @@ Note: these commands are added to the project during `npm init`.
 
 ### Development server
 
-```npx run builder```
+```npx run builder watch```
 
 ### Generate production ready files
 
@@ -80,7 +80,7 @@ Built-in plugins:
 Plugins can be enabled by adding them to the `config/config.js`, eg.
 
 ```js
-exports.plugins = [
+export const plugins = [
     // Enables SASS engine and .sass and .scss file compilation
     require('@videinfra/static-website-builder/plugins/sass'),
 

@@ -2,14 +2,18 @@
  * Build a project for testing
  */
 
-exports.clean = {};
-exports.static = {};
-exports.html = {};
-exports.data = {};
-exports.fonts = {};
-exports.icons = {};
-exports.images = {};
-exports.javascripts = {
+import * as sassPlugin from '../../../plugins/sass.js';
+import * as twigPlugin from '../../../plugins/twig.js';
+import * as symfonyFiltersPlugin from '../../../plugins/twig/symfony-filters.js';
+
+export const clean = {};
+export const staticFiles = {};
+export const html = {};
+export const data = {};
+export const fonts = {};
+export const icons = {};
+export const images = {};
+export const javascripts = {
     entryList: [
         {
             name: '_entries.js',
@@ -22,21 +26,21 @@ exports.javascripts = {
         },
     ],
 };
-exports.stylesheets = {};
-exports.sizereport = false;
+export const stylesheets = {};
+export const sizereport = false;
 
-exports.plugins = [
+export const plugins = [
     // Enables SASS engine and .sass and .scss file compilation
-    require('../../../plugins/sass'),
+    sassPlugin,
 
     // Enables TwigJS engine .twig file compilation
-    require('../../../plugins/twig'),
+    twigPlugin,
 
     // Enables TWIG Symfony filters
-    require('../../../plugins/twig/symfony-filters'),
+    symfonyFiltersPlugin,
 ];
 
-exports.env = {
+export const env = {
     map: {
         'HOST': 'host',
         'FOO': 'foo',
@@ -56,7 +60,7 @@ exports.env = {
  * in each tasks config.js file
  */
 
-exports.paths = {
+export const paths = {
     src: './init/test/src',
     dest: './tests/build/public',
     env: ['./init/test/.env', './init/test/.env.local'],

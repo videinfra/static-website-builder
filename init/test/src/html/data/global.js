@@ -4,7 +4,7 @@
  * @example
  *     <div>{{ name }}</div>
  */
-module.exports = {
+export default {
     'world': 'World',
     'hostFromGlobalJS': process.env.host,
 };

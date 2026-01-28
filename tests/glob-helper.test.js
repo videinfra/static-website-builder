@@ -1,4 +1,4 @@
-const glob = require('../lib/globs-helper');
+import glob  from '../lib/globs-helper.js';
 
 test('glob normalize unix path', () => {
     const input = '/some/folder';

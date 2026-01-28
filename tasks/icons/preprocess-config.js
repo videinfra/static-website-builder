@@ -1,6 +1,6 @@
-const path = require('path');
-const isPlainObject = require('lodash/isPlainObject');
-const reduce = require('lodash/reduce');
+import path  from 'path';
+import isPlainObject  from 'lodash/isPlainObject.js';
+import reduce  from 'lodash/reduce.js';
 
 
 /**
@@ -24,7 +24,7 @@ function convertSVGMINObjectConfigIntoArray (config) {
  * @param {object} fullConfig Full configuration
  * @returns {object} Transformed icons configuration
  */
-module.exports = function preprocessIconsConfig (config, fullConfig) {
+export default function preprocessIconsConfig (config, fullConfig) {
     // Disable whole task if SVG store is disabled
     if (!config.svgstore) {
         return false;

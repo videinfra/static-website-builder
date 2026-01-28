@@ -74,4 +74,4 @@ function prepositionNbsp(text) {
     }).join('');
 }
 
-module.exports = prepositionNbsp;
+export default prepositionNbsp;

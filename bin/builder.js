@@ -1,20 +1,28 @@
 #!/usr/bin/env node
-const path = require('path')
+import path from 'path';
+import { fileURLToPath } from 'node:url';
+import minimist from 'minimist';
+import { fork } from 'child_process';
+import { createRequire } from 'node:module';
 
-const allArgs = require('minimist')(process.argv.slice(2));
+const require = createRequire(import.meta.url);
+const allArgs = minimist(process.argv.slice(2));
 const additionalArgs = allArgs._;
 
 if (additionalArgs[0] === 'init') {
-    const init = require('../init/index');
-    init(additionalArgs[1]);
+    import('../init/index').then(({ default: init }) => {
+        init(additionalArgs[1]);
+    });
 } else {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
     const builderEntryDir = path.resolve(__dirname, '../gulpfile.js');
     const gulpModulePath = path.dirname(require.resolve('gulp'));
     const gulpBinaryFile = path.join(gulpModulePath, '/bin/gulp');
 
     let args = ['--gulpfile', builderEntryDir];
 
-    if(additionalArgs.length) {
+    if (additionalArgs.length) {
         args = args.concat(additionalArgs);
     }
 
@@ -25,10 +33,8 @@ if (additionalArgs[0] === 'init') {
         args = args.concat('--tasks', '');
     }
 
-    require('child_process')
-        .fork(gulpBinaryFile, args)
-        .on('exit', function(code){
-            // Exit with error if child process exited with an error
-            process.exit(code);
-        });
+    fork(gulpBinaryFile, args).on('exit', function (code) {
+        // Exit with error if child process exited with an error
+        process.exit(code);
+    });
 }

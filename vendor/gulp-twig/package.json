@@ -9,6 +9,7 @@
   },
   "author": "Simon de Turck <simon@zimmen.com> (http://www.zimmen.com)",
   "main": "./index.js",
+  "type": "module",
   "dependencies": {
     "fancy-log": "^1.3.2",
     "map-stream": "^0.1.0",

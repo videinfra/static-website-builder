@@ -1,21 +1,21 @@
-const gulp = require('gulp');
-const { nanomemoize } = require('nano-memoize');
+import gulp  from 'gulp';
+import { nanomemoize }  from 'nano-memoize';
 
-const globs = require('@videinfra/example-website-builder/lib/globs-helper');
-const getConfig = require('@videinfra/example-website-builder/lib/get-config');
-const getPaths = require('@videinfra/example-website-builder/lib/get-path');
+import globs  from '@videinfra/example-website-builder/lib/globs-helper.js';
+import { getTaskConfig } from '@videinfra/example-website-builder/lib/get-config.js';
+import getPaths  from '@videinfra/example-website-builder/lib/get-path.js';
 
-const taskStart = require('@videinfra/example-website-builder/lib/gulp/task-start');
-const taskEnd = require('@videinfra/example-website-builder/lib/gulp/task-end');
-const taskWatch = require('../../lib/gulp/task-watch');
+import taskStart  from '@videinfra/example-website-builder/lib/gulp/task-start.js';
+import taskEnd  from '@videinfra/example-website-builder/lib/gulp/task-end.js';
+import taskWatch  from '@videinfra/example-website-builder/lib/gulp/task-watch.js';
 
 
 // Paths and files which gulp will watch and run on
 // Using memoize to cache the result, for performance
 const getWatchGlobPaths = function (forChokidar = false) {
     const sourcePaths = getPaths.getSourcePaths('example');
-    const extensions = getConfig.getTaskConfig('example', 'extensions');
-    const ignore = getConfig.getTaskConfig('example', 'ignore');
+    const extensions = getTaskConfig('example', 'extensions');
+    const ignore = getTaskConfig('example', 'ignore');
 
     // Combine source paths and extensions
     return globs.generate(
@@ -23,7 +23,7 @@ const getWatchGlobPaths = function (forChokidar = false) {
         globs.paths(sourcePaths).paths(ignore).ignore(),          // Exclude files and folders from being processed
     );
 };
-const getGlobPaths = nanomemoize(function () {
+const getGlobPaths = nanomemoize.nanomemoize(function () {
     return getWatchGlobPaths(false);
 });
 
@@ -51,5 +51,5 @@ function exampleWatch () {
 // Available tasks are: beforeWatch, watch, beforeBuild, build, afterBuild
 // Execution order for development is: beforeBuild -> build-> beforeWatch -> watch
 // Execution order for production is: beforeBuild -> build-> afterBuild
-exports.build = example;
-exports.watch = exampleWatch;
+export const build = example;
+export const watch = exampleWatch;
