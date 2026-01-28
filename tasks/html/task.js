@@ -48,10 +48,10 @@ const getWatchGlobPaths = function () {
 };
 
 
-const getEngine = nanomemoize(function () {
+const getEngine = function () {
     const engine = getConfig.getTaskConfig('html', 'engine');
     return engine ? engine() : (() => {});
-});
+};
 
 function html (options) {
     const build = options && !!options.build;

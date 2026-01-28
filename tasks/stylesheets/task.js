@@ -33,10 +33,10 @@ const getGlobPaths = nanomemoize(function () {
 });
 
 
-const getEngine = nanomemoize(function () {
+const getEngine = function () {
     const engine = getConfig.getTaskConfig('stylesheets', 'engine');
     return engine ? engine() : (() => {});
-});
+};
 
 
 function stylesheets () {
