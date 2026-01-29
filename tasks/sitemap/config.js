@@ -1,4 +1,7 @@
-exports.sitemap = {
+import * as sitemapTask from './task.js';
+import * as preprocessSitemapConfig from './preprocess-config.js';
+
+export const sitemap = {
     // Add twig to the extensions
     extensions: ['html'],
 
@@ -15,7 +18,7 @@ exports.sitemap = {
         changefreq: 'daily',
 
         // Custom priority function
-        priority: function(siteUrl, loc, entry) {
+        priority: function (siteUrl, loc, entry) {
             return loc === siteUrl ? 1 : 0.9;
         },
     },
@@ -27,23 +30,19 @@ exports.sitemap = {
     development: {},
 };
 
-exports.tasks = {
-    sitemap: [
-        require('./task'),
-    ]
+export const tasks = {
+    sitemap: [sitemapTask],
 };
 
-exports.preprocess = {
-    sitemap: [
-        require('./preprocess-config'),
-    ]
+export const preprocess = {
+    sitemap: [preprocessSitemapConfig],
 };
 
 /**
  * Paths relative to the global src and dest folders
  */
-exports.paths = {
+export const paths = {
     sitemap: {
-        'dest': '',
-    }
+        dest: '',
+    },
 };

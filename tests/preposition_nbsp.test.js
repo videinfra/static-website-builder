@@ -1,9 +1,10 @@
-const path = require('path');
-const publicPath = path.resolve(__dirname, 'build', 'public');
-const fs = require('fs')
-const fsPromises = fs.promises;
+import path from 'path';
+import { fileURLToPath } from 'node:url';
+import fsPromises from 'fs/promises';
+import preposition_nbsp from '../plugins/twig/symfony-filters/preposition_nbsp.js';
 
-const preposition_nbsp = require('../plugins/twig/symfony-filters/preposition_nbsp');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const publicPath = path.resolve(__dirname, 'build', 'public');
 
 test('preposition_nbsp english', () => {
     expect(preposition_nbsp('hello world')).toEqual('hello world');
@@ -43,7 +44,7 @@ test('preposition_nbsp skip tags', () => {
 });
 
 test('Preposition TWIG filter applied', () => {
-    return fsPromises.readFile(path.resolve(publicPath, 'preposition.html'), {'encoding': 'utf8'}).then((html) => {
+    return fsPromises.readFile(path.resolve(publicPath, 'preposition.html'), { encoding: 'utf8' }).then((html) => {
         expect(html).toBe('<html><body>hello at&nbsp;world</body></html>');
     });
 });

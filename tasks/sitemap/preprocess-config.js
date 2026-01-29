@@ -1,4 +1,4 @@
-const getEnvData = require('../env/get-env');
+import getEnvData  from '../env/get-env.js';
 
 /**
  * Modify configuration
@@ -7,7 +7,7 @@ const getEnvData = require('../env/get-env');
  * @param {object} fullConfig Full configuration
  * @returns {object} Transformed sitemap configuration
  */
-module.exports = function preprocessSitemapConfig (config = {}, fullConfig) {
+export default function preprocessSitemapConfig (config = {}, fullConfig) {
     const envData = getEnvData();
 
     // Set host

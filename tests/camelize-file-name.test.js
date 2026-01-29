@@ -1,4 +1,4 @@
-const camelizeFileName = require('../lib/camelize-file-name');
+import camelizeFileName  from '../lib/camelize-file-name.js';
 
 test('Camelize file name', () => {
     expect(camelizeFileName('test-file-name')).toBe('testFileName');

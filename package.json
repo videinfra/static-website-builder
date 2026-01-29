@@ -1,10 +1,10 @@
 {
   "name": "@videinfra/static-website-builder",
-  "version": "1.17.1",
+  "version": "2.0.0",
   "description": "Customizable static site project builder",
   "license": "MIT",
   "engines": {
-    "node": ">=14.15.0 <17"
+    "node": ">=20.0.0"
   },
   "bugs": {
     "url": "https://github.com/videinfra/static-website-builder/issues"
@@ -18,28 +18,26 @@
   },
   "main": "gulpfile.js/index.js",
   "author": "Vide Infra",
+  "type": "module",
   "scripts": {
-    "start": "cross-env BUILDER_MODE=development gulp",
+    "start": "cross-env BUILDER_MODE=development gulp watch",
     "build": "cross-env BUILDER_MODE=production gulp build",
-    "test": "gulp build --silent --config=init/test/config/config.js && jest",
-    "test-watch": "gulp --config=init/test/config/config.js"
+    "test": "gulp build --silent --config=init/test/config/config.js && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test-watch": "gulp watch --config=init/test/config/config.js",
+    "test-builder": "node bin/builder.js build --config=init/test/config/config.js"
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
-    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
-    "@babel/preset-env": "^7.21.5",
-    "@csstools/postcss-nested-calc": "^3.0.0",
-    "autoprefixer": "^10.4.14",
-    "babel-loader": "^8.3.0",
-    "browser-sync": "^2.29.3",
-    "chalk": "4.0.0",
-    "chokidar": "^3.5.3",
-    "cross-env": "^7.0.3",
-    "cssnano": "^6.0.1",
+    "@csstools/postcss-nested-calc": "^5.0.0",
+    "@rollup/plugin-replace": "^6.0.3",
+    "autoprefixer": "^10.4.23",
+    "browser-sync": "^3.0.4",
+    "chalk": "4.1.2",
+    "chokidar": "^5.0.0",
+    "cross-env": "^10.1.0",
+    "cssnano": "^7.1.2",
     "del": "^6.0.0",
-    "dotenv": "^16.4.7",
-    "gulp": "^4.0.2",
+    "dotenv": "^17.2.3",
+    "gulp": "^5.0.1",
     "gulp-cached": "^1.1.1",
     "gulp-data": "^1.3.1",
     "gulp-dependents": "^1.2.5",
@@ -47,25 +45,24 @@
     "gulp-if": "^3.0.0",
     "gulp-ignore": "^3.0.0",
     "gulp-plumber": "^1.2.1",
-    "gulp-postcss": "^9.0.1",
+    "gulp-postcss": "^10.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-sitemap": "^8.0.0",
     "gulp-sizereport": "^1.2.1",
-    "gulp-sourcemaps": "^3.0.0",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-svgmin": "^4.1.0",
     "gulp-svgstore": "^9.0.0",
     "lodash.clone": "^4.3.2",
     "lodash.some": "^4.2.2",
     "map-stream": "^0.1.0",
     "minimist": "^1.2.8",
-    "nano-memoize": "1.3.0",
-    "sass": "^1.93.2",
+    "nano-memoize": "3.0.16",
+    "rolldown": "^1.0.0-rc.1",
+    "sass": "^1.97.3",
     "through": "^2.3.8",
-    "twig": "^1.10.5",
-    "webpack": "^4.46.0",
-    "webpack-watch-files-plugin": "^1.2.1"
+    "twig": "^1.17.1"
   },
   "devDependencies": {
-    "jest": "^29.6.2"
+    "jest": "^30.2.0"
   }
 }

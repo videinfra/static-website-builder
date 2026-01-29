@@ -1,8 +1,10 @@
 /**
  * Configuration for the example plugin
  */
+import * as examplePreprocessConfig from './example/preprocess-config.js';
+import * as exampleTask from './example/task.js';
 
-exports.example = {
+export const example = {
     // Glob list of files, which to ignore
     // see https://gulpjs.com/docs/en/getting-started/explaining-globs/
     ignore: [],
@@ -12,23 +14,23 @@ exports.example = {
 };
 
 // Function which can validate and modify configuration
-exports.preprocess = {
+export const preprocess = {
     example: [
-        require('./example/preprocess-config'),
+        examplePreprocessConfig,
     ]
 };
 
 // Gulp task
-exports.tasks = {
+export const tasks = {
     example: [
-        require('./example/task'),
+        exampleTask,
     ]
 };
 
 /**
  * Paths relative to the global src and dest folders
  */
-exports.paths = {
+export const paths = {
     example: {
         'src': 'example',
         'dest': 'assets/example',

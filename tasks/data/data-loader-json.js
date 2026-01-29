@@ -1,5 +1,5 @@
-const fs = require('fs');
+import fs from 'fs';
 
-module.exports = function dataLoaderJSON (fileName) {
+export default function dataLoaderJSON(fileName) {
     return JSON.parse(fs.readFileSync(fileName, 'utf8'));
-};
+}

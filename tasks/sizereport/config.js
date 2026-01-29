@@ -1,8 +1,10 @@
+import * as siteReportTask from './task.js';
+
 /**
  * Generates a size report for all files in the output folder
  */
 
-exports.sizereport = {
+export const sizereport = {
     // Development only settings, overwrites default settings
     // disabled for development mode
     development: false,
@@ -14,8 +16,8 @@ exports.sizereport = {
     }
 };
 
-exports.tasks = {
+export const tasks = {
     sizereport: [
-        require('./task'),
+        siteReportTask,
     ]
 };

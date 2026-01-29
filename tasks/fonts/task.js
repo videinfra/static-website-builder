@@ -1,44 +1,47 @@
-const gulp = require('gulp');
-const memoize = require('nano-memoize');
+import gulp from 'gulp';
+import nanomemoize from 'nano-memoize';
 
-const globs = require('./../../lib/globs-helper');
-const getPaths = require('./../../lib/get-path');
-const getConfig = require('./../../lib/get-config');
+import globs from './../../lib/globs-helper.js';
+import { getSourcePaths, getDestPath } from './../../lib/get-path.js';
+import { getTaskConfig } from './../../lib/get-config.js';
 
-const taskStart = require('../../lib/gulp/task-start');
-const taskEnd = require('../../lib/gulp/task-end');
-const taskBeforeDest = require('../../lib/gulp/task-before-dest');
-const taskWatch = require('../../lib/gulp/task-watch');
+import taskStart from '../../lib/gulp/task-start.js';
+import taskEnd from '../../lib/gulp/task-end.js';
+import taskBeforeDest from '../../lib/gulp/task-before-dest.js';
+import taskWatch from '../../lib/gulp/task-watch.js';
 
-
-const getGlobPaths = memoize(function () {
-    const sourcePaths = getPaths.getSourcePaths('fonts');
-    const extensions = getConfig.getTaskConfig('fonts', 'extensions');
-    const ignore = getConfig.getTaskConfig('fonts', 'ignore');
+const getWatchGlobPaths = function (forChokidar = false) {
+    const sourcePaths = getSourcePaths('fonts');
+    const extensions = getTaskConfig('fonts', 'extensions');
+    const ignore = getTaskConfig('fonts', 'ignore');
 
     return globs.generate(
         globs.paths(sourcePaths).filesWithExtensions(extensions), // Files to watch
-        globs.paths(sourcePaths).paths(ignore).ignore(),          // List of files which to ignore
+        globs.paths(sourcePaths).paths(ignore).ignore(), // List of files which to ignore
+        forChokidar,
     );
+};
+const getGlobPaths = nanomemoize.nanomemoize(function () {
+    return getWatchGlobPaths(false);
 });
 
+function fonts() {
+    return (
+        gulp
+            .src(getGlobPaths(), { since: gulp.lastRun(fonts) })
+            .pipe(taskStart())
 
-function fonts () {
-    return gulp
-        .src(getGlobPaths(), { since: gulp.lastRun(fonts) })
-        .pipe(taskStart())
+            .pipe(taskBeforeDest())
+            .pipe(gulp.dest(getDestPath('fonts')))
 
-        .pipe(taskBeforeDest())
-        .pipe(gulp.dest(getPaths.getDestPath('fonts')))
-
-        // Reload on change
-        .pipe(taskEnd());
+            // Reload on change
+            .pipe(taskEnd())
+    );
 }
 
-function fontsWatch () {
-    return taskWatch(getGlobPaths(), fonts);
+function fontsWatch() {
+    return taskWatch(getWatchGlobPaths(true), fonts);
 }
 
-
-exports.build = fonts;
-exports.watch = fontsWatch;
+export const build = fonts;
+export const watch = fontsWatch;

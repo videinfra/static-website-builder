@@ -51,17 +51,16 @@ To render your CSS with a build task, then watch your files for changes, you mig
 ```js
 'use strict';
 
-const gulp = require('gulp');
+import gulp  from 'gulp';
 const sass = require('gulp-sass')(require('sass'));
 
-function buildStyles() {
+export function buildStyles() {
   return gulp.src('./sass/**/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./css'));
 };
 
-exports.buildStyles = buildStyles;
-exports.watch = function () {
+export function watch () {
   gulp.watch('./sass/**/*.scss', ['sass']);
 };
 ```
@@ -86,25 +85,21 @@ To change the final output of your CSS, you can pass an options object to your r
 For example, to compress your CSS, you can call `sass({outputStyle: 'compressed'}`. In the context of a Gulp task, that looks like this:
 
 ```js
-function buildStyles() {
+export function buildStyles() {
   return gulp.src('./sass/**/*.scss')
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(gulp.dest('./css'));
 };
-
-exports.buildStyles = buildStyles;
 ```
 
 Or this for synchronous rendering:
 
 ```js
-function buildStyles() {
+export function buildStyles() {
   return gulp.src('./sass/**/*.scss')
     .pipe(sass.sync({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(gulp.dest('./css'));
 };
-
-exports.buildStyles = buildStyles;
 ```
 
 ### Include a source map
@@ -112,33 +107,29 @@ exports.buildStyles = buildStyles;
 `gulp-sass` can be used in tandem with [`gulp-sourcemaps`](https://github.com/gulp-sourcemaps/gulp-sourcemaps) to generate source maps for the Sass-to-CSS compilation. You will need to initialize `gulp-sourcemaps` _before_ running `gulp-sass`, and write the source maps after.
 
 ```js
-const sourcemaps = require('gulp-sourcemaps');
+import sourcemaps  from 'gulp-sourcemaps';
 
-function buildStyles() {
+export function buildStyles() {
   return gulp.src('./sass/**/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./css'));
 }
-
-exports.buildStyles = buildStyles;
 ```
 
 By default, `gulp-sourcemaps` writes the source maps inline, in the compiled CSS files. To write them to a separate file, specify a path relative to the `gulp.dest()` destination in the `sourcemaps.write()` function.
 
 ```js
-const sourcemaps = require('gulp-sourcemaps');
+import sourcemaps  from 'gulp-sourcemaps';
 
-function buildStyles() {
+export function buildStyles() {
   return gulp.src('./sass/**/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest('./css'));
 };
-
-exports.buildStyles = buildStyles;
 ```
 
 <h2 id="migrating-to-version-5">Migrating to version 5</h2>
@@ -159,7 +150,7 @@ These changes look something like this:
 
 ```diff
 - const sass = require('gulp-sass'));
-- const compiler = require('sass');
+- import compiler  from 'sass';
 - sass.compiler = compiler;
 + const sass = require('gulp-sass')(require('sass'));
 ```

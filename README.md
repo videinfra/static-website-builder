@@ -5,7 +5,11 @@
 
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 
-`static-website-builder` is a customizable static site project builder powered by Gulp, Webpack, Babel, SASS, PostCSS, TwigJS, BrowserSync
+`static-website-builder` is a customizable static site project builder powered by Gulp, Rolldown, SASS, PostCSS, TwigJS, BrowserSync
+
+## Requirements
+
+- Node.js >= 20.0.0
 
 ## Features
 
@@ -15,7 +19,7 @@
 - TWIG: Optional TwigJS template engine with optional plugins for additional functions and filters
 - Stylesheets: Autoprefixing and minification with PostCSS support 
 - SASS: Optional SASS / SCSS compilation
-- Javascript: Transpilation with Babel, bundling and minification
+- Javascript/Typescript: Transpilation, bundling and minification with rolldown
 - SVG icons: Sprite generation from individual SVG files
 
 
@@ -47,7 +51,7 @@ Note: these commands are added to the project during `npm init`.
 
 ### Development server
 
-```npx run builder```
+```npx run builder watch```
 
 ### Generate production ready files
 
@@ -76,7 +80,7 @@ Built-in plugins:
 Plugins can be enabled by adding them to the `config/config.js`, eg.
 
 ```js
-exports.plugins = [
+export const plugins = [
     // Enables SASS engine and .sass and .scss file compilation
     require('@videinfra/static-website-builder/plugins/sass'),
 

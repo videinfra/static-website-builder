@@ -4,6 +4,6 @@
  * @example
  *     <div>{{ name }}</div>
  */
-module.exports = {
+export default {
     'name': 'World',
 };

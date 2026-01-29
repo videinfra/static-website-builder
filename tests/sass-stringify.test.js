@@ -1,4 +1,4 @@
-const sassStingify = require('../vendor/gulp-sass/sass-stringify');
+import sassStingify  from '../vendor/gulp-sass/sass-stringify.js';
 
 test('SASS stringify boolean', () => {
     expect(sassStingify(true)).toEqual('true');

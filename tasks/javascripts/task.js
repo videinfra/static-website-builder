@@ -1,51 +1,60 @@
-const gulp = require('gulp');
-const { parallel } = require('gulp');
-const webpack = require('webpack');
-const gulpWebpack = require('../../vendor/webpack-stream/index.js');
-const memoize = require('nano-memoize');
+import gulp from 'gulp';
+import { parallel } from 'gulp';
+import nanomemoize from 'nano-memoize';
+import gulpRolldown from '../../vendor/gulp-rolldown/index.js';
 
-const merge = require('../../lib/merge');
-const globs = require('./../../lib/globs-helper');
-const getPaths = require('./../../lib/get-path');
-const getConfig = require('./../../lib/get-config');
+import merge from '../../lib/merge.js';
+import globs from './../../lib/globs-helper.js';
+import { getSourcePaths, getDestPath } from './../../lib/get-path.js';
+import { getTaskConfig } from './../../lib/get-config.js';
 
-const taskStart = require('../../lib/gulp/task-start');
-const taskEnd = require('../../lib/gulp/task-end');
-const taskBeforeDest = require('../../lib/gulp/task-before-dest');
-const dynamicTask = require('../../lib/gulp/dynamic-task');
+import taskStart from '../../lib/gulp/task-start.js';
+import taskEnd from '../../lib/gulp/task-end.js';
+import taskBeforeDest from '../../lib/gulp/task-before-dest.js';
+import taskWatch from '../../lib/gulp/task-watch.js';
+import dynamicTask from '../../lib/gulp/dynamic-task.js';
 
-const getGlobPaths = memoize(function () {
-    const sourcePaths = getPaths.getSourcePaths('javascripts');
-    const extensions = getConfig.getTaskConfig('javascripts', '0', 'webpack', 'resolve', 'extensions');
-    const ignore = getConfig.getTaskConfig('javascripts', '0', 'ignore');
+const getGlobPaths = nanomemoize.nanomemoize(function () {
+    const sourcePaths = getSourcePaths('javascripts');
+    const extensions = getTaskConfig('javascripts', '0', 'rolldown', 'resolve', 'extensions');
 
     return globs.generate(
         globs.paths(sourcePaths).filesWithExtensions(extensions), // Files to watch
-        globs.paths(sourcePaths).paths(ignore).ignore(),          // List of files which to ignore
     );
 });
 
+const getWatchGlobPaths = nanomemoize.nanomemoize(function () {
+    const sourcePaths = getSourcePaths('javascripts');
+    const entries = getTaskConfig('javascripts', '0', 'entryList');
 
-function javascripts (watch) {
-    const configs = getConfig.getTaskConfig('javascripts');
+    // Watch only or entry files; rolldown will watch all other files
+    const entryFileNamesNames = entries.map((entry) => entry.name);
+
+    return globs.generate(globs.paths(sourcePaths).paths(entryFileNamesNames), true);
+});
+
+function javascripts(watch) {
+    const configs = getTaskConfig('javascripts');
 
     // Configs is an array, for each of the entry files separate config is created
     const tasks = configs.map(function (config, index) {
         // Gulp task function
         const fn = function () {
-            return gulp.src(getGlobPaths())
-                .pipe(taskStart())
+            const rolldownConfig = merge(config.rolldown);
 
-                .pipe(gulpWebpack(
-                    merge(config.webpack, {'watch': watch === true}),
-                    webpack
-                ))
+            return (
+                gulp
+                    .src(getGlobPaths())
+                    .pipe(taskStart())
 
-                .pipe(taskBeforeDest())
-                .pipe(gulp.dest(getPaths.getDestPath('javascripts')))
+                    .pipe(gulpRolldown(rolldownConfig, rolldownConfig.output))
 
-                // Reload on change
-                .pipe(taskEnd());
+                    .pipe(taskBeforeDest())
+                    .pipe(gulp.dest(getDestPath('javascripts')))
+
+                    // Reload on change
+                    .pipe(taskEnd())
+            );
         };
 
         // Set name of the gulp task function, currently it doesn't have a name yet
@@ -53,7 +62,7 @@ function javascripts (watch) {
         let name = 'javascripts' + (watch ? 'Watch' : '');
 
         if (configs.length > 1) {
-            let entryFileName = config.entryList.name.replace('.json', '').replace('.js', '');
+            let entryFileName = config.rolldown.entries.name.replace('.json', '').replace('.js', '');
             name += entryFileName[0].toUpperCase() + entryFileName.slice(1);
         }
 
@@ -65,11 +74,13 @@ function javascripts (watch) {
     return parallel(...tasks);
 }
 
-function javascriptsWatch () {
-    // webpack watch is used instead of gulp watch
-    return javascripts(true);
+function javascriptsWatch() {
+    return function javascriptsWatch() {
+        // We need to watch only entry files, all other files are being watched by rolldown
+        return taskWatch(getWatchGlobPaths(), javascripts(true), true);
+    };
 }
 
 // Dynamic task will be executed when config is ready and must return gulp tasks
-exports.build = dynamicTask(javascripts);
-exports.watch = dynamicTask(javascriptsWatch);
+export const build = dynamicTask(javascripts);
+export const watch = dynamicTask(javascriptsWatch);

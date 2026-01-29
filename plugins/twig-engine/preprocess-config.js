@@ -1,8 +1,8 @@
-const twig = require('../../vendor/gulp-twig/index');
-const getConfig = require('./../../lib/get-config');
-const getPaths = require('./../../lib/get-path');
-const flattenDeep = require('lodash/flattenDeep');
-const assign = require('lodash/assign');
+import twig  from '../../vendor/gulp-twig/index.js';
+import { getTaskConfig } from './../../lib/get-config.js';
+import { getSourcePaths }  from './../../lib/get-path.js';
+import flattenDeep  from 'lodash/flattenDeep.js';
+import assign  from 'lodash/assign.js';
 
 
 /**
@@ -12,13 +12,13 @@ const assign = require('lodash/assign');
  * @param {object} fullConfig Full configuration
  * @returns {object} Transformed HTML configuration
  */
-module.exports = function preprocessHTMLConfig (config = {}, fullConfig) {
+export default function preprocessHTMLConfig (config = {}, fullConfig) {
     if (config.twig) {
-        config.twig.base = getPaths.getSourcePaths('html');
+        config.twig.base = getSourcePaths('html');
 
         // Engine is a function which returns a gulp pipe function
         config.engine = function getTwigEngine () {
-            return twig(getConfig.getTaskConfig('html', 'twig'));
+            return twig(getTaskConfig('html', 'twig'));
         };
 
         if (config.twig.functions) {

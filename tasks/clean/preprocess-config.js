@@ -1,5 +1,5 @@
-const getPaths = require('./../../lib/get-path');
-const globs = require('./../../lib/globs-helper');
+import { getDestPath } from './../../lib/get-path.js';
+import globs from './../../lib/globs-helper.js';
 
 /**
  * Modify configuration
@@ -8,11 +8,11 @@ const globs = require('./../../lib/globs-helper');
  * @param {object} fullConfig Full configuration
  * @returns {object} Transformed clean configuration
  */
-module.exports = function preprocessCleanConfig (config = {}, fullConfig) {
+export default function preprocessCleanConfig(config = {}, fullConfig) {
     if (!config.patterns || !config.patterns.length) {
-        config.patterns = globs.paths(getPaths.getDestPath()).generate();
+        config.patterns = globs.paths(getDestPath()).generate();
     } else {
-        config.patterns = globs.paths(getPaths.getDestPath()).paths(config.patterns).generate();
+        config.patterns = globs.paths(getDestPath()).paths(config.patterns).generate();
     }
 
     return config;

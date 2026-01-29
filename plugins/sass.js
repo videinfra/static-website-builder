@@ -1,7 +1,9 @@
+import * as preprocessSassConfig from './sass-engine/preprocess-config.js';
+
 /**
  * SASS plugin attaches itself to the stylesheets task
  */
-exports.stylesheets = {
+export const stylesheets = {
     // Add sass to the extensions
     extensions: ['scss', 'sass'],
 
@@ -32,8 +34,8 @@ exports.stylesheets = {
     },
 };
 
-exports.preprocess = {
+export const preprocess = {
     stylesheets: [
-        require('./sass-engine/preprocess-config'),
+        preprocessSassConfig,
     ]
 };

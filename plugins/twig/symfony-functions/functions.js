@@ -1,4 +1,4 @@
-const filters = require('../symfony-filters/filters.js');
+import filters  from '../symfony-filters/filters.js';
 
 function applyFilter (filter) {
     const args = [];
@@ -20,7 +20,7 @@ function applyFilter (filter) {
 /**
  * Symphony asset() TWIG function
  */
-module.exports = [
+export default [
     {
         name: 'asset',
         func: function (path) {

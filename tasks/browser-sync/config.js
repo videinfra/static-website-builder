@@ -1,7 +1,10 @@
+import * as preprocessBrowserSyncConfig from './preprocess-config.js';
+import * as taskBrowserSync from './task.js';
+
 /**
  * Browsersync DEV server settings
  */
-exports.browserSync = {
+export const browserSync = {
     // Production only settings, overwrites default settings
     production: false,
 
@@ -11,15 +14,15 @@ exports.browserSync = {
     },
 };
 
-exports.preprocess = {
+export const preprocess = {
     browserSync: [
-        require('./preprocess-config'),
+        preprocessBrowserSyncConfig,
     ]
 };
 
-exports.tasks = {
+export const tasks = {
     browserSync: [
-        require('./task'),
+        taskBrowserSync,
     ]
 };
 
@@ -27,7 +30,7 @@ exports.tasks = {
 /**
  * Paths relative to the global src and dest folders
  */
-exports.paths = {
+export const paths = {
     browserSync: {
         // Server root directory, relative to the project
         // If not set then global dest folder
