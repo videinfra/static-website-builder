@@ -1,4 +1,5 @@
 import { getTaskConfig }  from '../../../lib/get-config.js';
+import { loadEnvData } from '../../../tasks/env/get-env.js';
 import preposition_nbsp  from './preposition_nbsp.js';
 
 const exports = [];
@@ -32,19 +33,21 @@ exports.push({
 
 /**
  * Version filter
- * Adds a random version string to the url
+ * Adds a version string to the url
  *
  * @example
  *   {{ '/images/px.gif' | version }}
  *   Output: /images/px.gif?dshnv
  */
 
-const version = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-
 exports.push({
     name: 'version',
     func: function (path) {
         if (!getTaskConfig('html', 'version')) return path;
+        const envData = loadEnvData();
+        const assetVersion = envData['ASSETS_VERSION'];
+
+        if (!assetVersion) return path;
 
         const normalizedPath = (path || path === 0 ? String(path) : '');
         const parts    = normalizedPath.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/i);
@@ -52,7 +55,7 @@ exports.push({
         const params   = parts[2] || '';
         const hash     = parts[3] || '';
 
-        return pathname + params + (params ? '&' : '?') + version + hash;
+        return pathname + params + (params ? '&v=' : '?v=') + assetVersion + hash;
     }
 });
 

@@ -1,6 +1,6 @@
 import { getDestPath, getBuilderPath, getProjectPath, getSourcePath } from '../../lib/get-path.js';
 import merge from '../../lib/merge.js';
-import getEnvData from '../env/get-env.js';
+import getEnvData, { loadEnvData } from '../env/get-env.js';
 import get from 'lodash/get.js';
 import cloneDeep from 'lodash/cloneDeep.js';
 import replace from '@rollup/plugin-replace';
@@ -52,6 +52,20 @@ export default function preprocessJavascriptsConfig(config, fullConfig) {
             'process.env.NODE_ENV': JSON.stringify(global.production ? 'production' : 'development'),
         });
 
+        // Rewrite shared.js and rolldown-runtime.js to include cache busting asset version so that we could
+        // preload those assets using <link rel="preload" as="script" href="{{ asset(...) }}" />
+        const envData = loadEnvData();
+        const assetVersion = envData['ASSETS_VERSION'];
+        const replacements = {};
+
+        if (assetVersion) {
+            replacements['/rolldown-runtime.js'] = `/rolldown-runtime.js?v=${assetVersion}`;
+
+            if (entry.shared) {
+                replacements[`/${entry.shared}.js`] = `/${entry.shared}.js?v=${assetVersion}`;
+            }
+        }
+
         const buildConfig = merge(entryConfig, {
             rolldown: {
                 // Entries, this file is resolved by gulp-rolldown and converted into
@@ -62,8 +76,7 @@ export default function preprocessJavascriptsConfig(config, fullConfig) {
                     replace({
                         preventAssignment: true,
                         ...envVariables,
-                        // './shared.js': './shared.js?rcujz',
-                        // './rolldown-runtime.js': './rolldown-runtime.js?rcujz',
+                        ...replacements,
                     }),
                 ],
 

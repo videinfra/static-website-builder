@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import nanomemoize from 'nano-memoize';
 import { getPathConfig, getProjectPath } from '../../lib/get-path.js';
 import { getTaskConfig } from '../../lib/get-config.js';
 
@@ -23,13 +24,12 @@ function normalizeTwigVariable(value) {
     }
 }
 
-function getEnvData() {
+/**
+ * Load data from the .env files
+ * @returns {object} List of environment variables
+ */
+export const loadEnvData = nanomemoize.nanomemoize(function () {
     const envVariables = {};
-    const twigVariables = {};
-    const scssVariables = { env: { _tmp: 1 } }; // _tmp is used to avoid SCSS error if object is empty
-    const jsVariables = {};
-    const envOutVariables = {};
-
     const envFiles = getPathConfig().env.map((path) => getProjectPath(path));
 
     dotenv.config({
@@ -39,6 +39,23 @@ function getEnvData() {
         processEnv: envVariables,
         quiet: true,
     });
+
+    // Set assets version if it doesn't exist
+    envVariables['ASSETS_VERSION'] = envVariables['ASSETS_VERSION'] || String(Math.floor(Date.now() / 1000));
+
+    return envVariables;
+});
+
+/**
+ * Returns environment variables mapped to the specified names
+ * @returns {object} Mapped environment variables
+ */
+export default function getEnvData() {
+    const envVariables = loadEnvData();
+    const twigVariables = {};
+    const scssVariables = { env: { _tmp: 1 } }; // _tmp is used to avoid SCSS error if object is empty
+    const jsVariables = {};
+    const envOutVariables = {};
 
     // Remap property names
     const map = getTaskConfig('env', 'map');
@@ -62,5 +79,3 @@ function getEnvData() {
         env: envOutVariables,
     };
 }
-
-export default getEnvData;

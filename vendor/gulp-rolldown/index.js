@@ -4,6 +4,9 @@ import PluginError from 'plugin-error';
 import { watch, build } from 'rolldown';
 import browserSync from 'browser-sync';
 
+import virtualEntryPlugin from './plugin-virtual-entry.js';
+import rawPlugin from './plugin-raw.js';
+
 const PLUGIN_NAME = 'gulp-starter-rolldown';
 
 /**
@@ -24,37 +27,6 @@ function evalEntry(code) {
     }
 
     return result;
-}
-
-/**
- * Virtual entry plugin to generate files from each of the entries in the entry file
- *
- * @param {object} entries Entries object from the entry file
- * @returns {object} Virtual entry plugin
- */
-function virtualEntryPlugin(entries) {
-    const keys = Object.keys(entries);
-
-    return {
-        name: 'virtual-entry-plugin', // this name will show up in logs and errors
-
-        resolveId: {
-            order: 'post',
-            handler(source) {
-                if (keys.includes(source)) {
-                    return source;
-                }
-                return null; // other ids should be handled as usual
-            },
-        },
-
-        load(id) {
-            if (keys.includes(id)) {
-                return entries[id].map((entry) => `import '${entry}';`).join('\n');
-            }
-            return null; // other ids should be handled as usual
-        },
-    };
 }
 
 const watcherList = {};
@@ -116,18 +88,13 @@ class GulpRolldown extends Transform {
         }
 
         // Transform options
-        const fullDir = this.outputOptions.fullDir;
         const inputOptions = Object.assign({}, this.inputOptions);
         const outputOptions = Object.assign({}, this.outputOptions);
 
         delete inputOptions.entries;
-        delete outputOptions.fullDir;
 
         // Parse entry file
         const entryContent = evalEntry(file.contents.toString());
-        if (!entryContent) {
-            // @TODO Couldn't read entry file, throw an error???
-        }
 
         // Add code splitting with shared
         if (entries.shared) {
@@ -152,7 +119,10 @@ class GulpRolldown extends Transform {
 
         // Set input files
         inputOptions.input = Object.keys(entryContent);
-        inputOptions.plugins = [virtualEntryPlugin(entryContent)].concat(inputOptions.plugins || []);
+        inputOptions.plugins = [
+            rawPlugin(),
+            virtualEntryPlugin(entryContent),
+        ].concat(inputOptions.plugins || []);
 
         // Set full paths when running watch or build
         inputOptions.output = outputOptions;
