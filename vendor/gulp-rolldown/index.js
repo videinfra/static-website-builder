@@ -119,10 +119,7 @@ class GulpRolldown extends Transform {
 
         // Set input files
         inputOptions.input = Object.keys(entryContent);
-        inputOptions.plugins = [
-            rawPlugin(),
-            virtualEntryPlugin(entryContent),
-        ].concat(inputOptions.plugins || []);
+        inputOptions.plugins = [rawPlugin(), virtualEntryPlugin(entryContent)].concat(inputOptions.plugins || []);
 
         // Set full paths when running watch or build
         inputOptions.output = outputOptions;
