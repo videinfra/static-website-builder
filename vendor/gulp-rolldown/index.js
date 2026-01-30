@@ -56,6 +56,8 @@ class GulpRolldown extends Transform {
 
                 // Reload browser
                 browserSync.reload();
+            } else if (event.code === 'ERROR') {
+                this.emit('error', new PluginError(PLUGIN_NAME, event.error));
             }
         });
 
