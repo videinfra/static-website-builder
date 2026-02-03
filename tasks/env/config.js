@@ -8,6 +8,9 @@
  */
 
 export const env = {
+    // Write ASSET_VERSION to .env file to enable cache busting
+    writeAssetVersion: false,
+
     // How env variable names should be remapped
     // Example:
     //     map: { 'HOST': 'host', 'RECAPTCHA3_PUBLIC_KEY': 'recaptcha3_site_key' }

@@ -1,6 +1,6 @@
 {
   "name": "@videinfra/static-website-builder",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Customizable static site project builder",
   "license": "MIT",
   "engines": {
@@ -22,7 +22,7 @@
   "scripts": {
     "start": "cross-env BUILDER_MODE=development gulp watch",
     "build": "cross-env BUILDER_MODE=production gulp build",
-    "test": "gulp build --silent --config=init/test/config/config.js && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "gulp build --silent --config=init/test/config/config.js && node --disable-warning=ExperimentalWarning --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test-watch": "gulp watch --config=init/test/config/config.js",
     "test-builder": "node bin/builder.js build --config=init/test/config/config.js"
   },

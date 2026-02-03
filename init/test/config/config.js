@@ -41,6 +41,10 @@ export const plugins = [
 ];
 
 export const env = {
+    // Write ASSET_VERSION to .env file to enable cache busting
+    // writeAssetVersion: './init/test/.env.local',
+
+    // How env variable names should be remapped
     map: {
         'HOST': 'host',
         'FOO': 'foo',

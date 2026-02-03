@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import dotenv from 'dotenv';
 import nanomemoize from 'nano-memoize';
 import { getPathConfig, getProjectPath } from '../../lib/get-path.js';
@@ -25,6 +26,32 @@ function normalizeTwigVariable(value) {
 }
 
 /**
+ * Write asset version to the env file
+ * @param {string} assetVersion Asset version string
+ */
+function writeEnvFileAssetVersion(assetVersion) {
+    const envFilePath = getTaskConfig('env', 'writeAssetVersion');
+    if (envFilePath) {
+        const envFile = getProjectPath(envFilePath);
+
+        try {
+            let envContent = fs.readFileSync(envFile, 'utf8');
+
+            // Replace ASSETS_VERSION if it exists
+            if (envContent.includes('ASSETS_VERSION=')) {
+                envContent = envContent.replace(/ASSETS_VERSION=.*/, `ASSETS_VERSION=${assetVersion}`);
+            } else {
+                envContent += `\nASSETS_VERSION=${assetVersion}`;
+            }
+
+            fs.writeFileSync(envFile, envContent);
+        } catch (error) {
+            console.error(`Error writing env file "${envFile}"`, error);
+        }
+    }
+}
+
+/**
  * Load data from the .env files
  * @returns {object} List of environment variables
  */
@@ -41,7 +68,10 @@ export const loadEnvData = nanomemoize.nanomemoize(function () {
     });
 
     // Set assets version if it doesn't exist
-    envVariables['ASSETS_VERSION'] = envVariables['ASSETS_VERSION'] || String(Math.floor(Date.now() / 1000));
+    if (!envVariables['ASSETS_VERSION'] || getTaskConfig('env', 'writeAssetVersion')) {
+        envVariables['ASSETS_VERSION'] = String(Math.floor(Date.now() / 1000));
+        writeEnvFileAssetVersion(envVariables['ASSETS_VERSION']);
+    }
 
     return envVariables;
 });
@@ -50,7 +80,7 @@ export const loadEnvData = nanomemoize.nanomemoize(function () {
  * Returns environment variables mapped to the specified names
  * @returns {object} Mapped environment variables
  */
-export default function getEnvData() {
+const getEnvData = nanomemoize.nanomemoize(function () {
     const envVariables = loadEnvData();
     const twigVariables = {};
     const scssVariables = { env: { _tmp: 1 } }; // _tmp is used to avoid SCSS error if object is empty
@@ -78,4 +108,6 @@ export default function getEnvData() {
         js: jsVariables,
         env: envOutVariables,
     };
-}
+});
+
+export default getEnvData;
