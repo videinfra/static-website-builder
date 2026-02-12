@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.6] - 2026-02-12
+### Fixed
+- Broken fonts due to incorrect encoding
+
 ## [2.0.5] - 2026-02-12
 ### Added
 - Expose `currentPagePath` to Twig templates
