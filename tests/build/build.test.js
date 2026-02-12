@@ -131,6 +131,12 @@ test('process.env available in html/data', () => {
     });
 });
 
+test('currentPagePath available in templates', () => {
+    return fsPromises.readFile(path.resolve(publicPath, 'other.html'), { encoding: 'utf8' }).then((html) => {
+        expect(html.indexOf('Current page path: "/other"')).not.toBe(-1);
+    });
+});
+
 test('icons generated', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/images/icons.svg'), { encoding: 'utf8' }).then((svg) => {
         expect(svg.indexOf('<symbol id="example-arrow">')).not.toBe(-1);

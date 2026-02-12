@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.5] - 2026-02-12
+### Added
+- Expose `currentPagePath` to Twig templates
+
+## [2.0.4] - 2026-02-11
+### Fixed
+- Path error on windows
+
 ## [2.0.3] - 2026-02-03
 ### Added
 - Allow writing ASSETS_VERSION to .env file

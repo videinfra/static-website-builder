@@ -78,19 +78,58 @@ let cache = null;
 
 export default function (options) {
     const build = options && !!options.build;
+    const htmlSourceFolders = getSourcePaths('html');
 
-    return function () {
+    /**
+     * Calculate current page path based on file path which is being processed
+     * @param {*} file
+     * @returns {string} Current page path
+     */
+    const getCurrentPagePath = function (file) {
+        let currentPagePath = '';
+
+        // Remove extension
+        const htmlFilePath = file.path ? file.path.replace(/\..+?$/, '') : '';
+
+        // Remove html source folder from path
+        if (htmlFilePath && htmlSourceFolders.length) {
+            for (let i = 0; i < htmlSourceFolders.length; i++) {
+                const htmlSourceFolder = htmlSourceFolders[i];
+                if (htmlFilePath.indexOf(htmlSourceFolder) === 0) {
+                    currentPagePath = htmlFilePath
+                        .replace(htmlSourceFolder, '')
+                        .replace(/[\/\\]index$/, '');
+
+                    // Make sure that the root page is just '/', not empty string
+                    currentPagePath = currentPagePath || '/';
+                }
+            }
+        }
+
+        return currentPagePath;
+    }
+
+    return function (file) {
+        // We expose `currentPagePath` to Twig templates
+        const currentPagePath = getCurrentPagePath(file);
+
         if (build) {
             // Cache during full build
             if (!cache) {
                 cache = getData();
             }
 
-            return cache;
+            return {
+                currentPagePath,
+                ...cache
+            };
         } else {
             // Don't cache during watch build
             cache = null;
-            return getData();
+            return {
+                currentPagePath,
+                ...getData(),
+            };
         }
     };
 }
