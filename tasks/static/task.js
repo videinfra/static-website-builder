@@ -27,7 +27,11 @@ const getGlobPaths = nanomemoize.nanomemoize(function () {
 function staticFiles() {
     return (
         gulp
-            .src(getGlobPaths(), { since: gulp.lastRun(staticFiles) })
+            .src(getGlobPaths(), {
+                since: gulp.lastRun(staticFiles),
+                // Don't decode / encode binary files, this would break them
+                encoding: false,
+            })
             .pipe(taskStart())
 
             .pipe(taskBeforeDest())
