@@ -61,3 +61,7 @@ export const stylesheetsWatch = gulpTasks['stylesheets-watch'];
 
 export const javascripts = gulpTasks['javascripts-build'];
 export const javascriptsWatch = gulpTasks['javascripts-watch'];
+
+// Gulp tasks for @videinfra/static-website-builder-images-plugin
+export const imageSizes = gulpTasks['imageSizes-build'];
+export const imageSizesWatch = gulpTasks['imageSizes-watch'];
