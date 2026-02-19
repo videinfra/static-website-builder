@@ -18,6 +18,11 @@ exports.sitemap = {
         priority: function(siteUrl, loc, entry) {
             return loc === siteUrl ? 1 : 0.9;
         },
+
+        // Remove file extension from the URL
+        getLoc: function(siteUrl, loc, entry) {
+            return loc.replace(/\.\w+$/, '');
+        },
     },
 
     // Production only settings, overwrites default settings
