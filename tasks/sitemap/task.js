@@ -2,7 +2,7 @@ import gulp from 'gulp';
 import gulpif from 'gulp-if';
 import nanomemoize from 'nano-memoize';
 import ignore from 'gulp-ignore';
-import gulpSitemap from 'gulp-sitemap';
+import gulpSitemap from '../../vendor/gulp-sitemap/index.js';
 
 import { getDestPath } from './../../lib/get-path.js';
 import { getTaskConfig } from './../../lib/get-config.js';

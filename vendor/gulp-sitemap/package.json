@@ -1,0 +1,48 @@
+{
+  "name": "gulp-sitemap",
+  "version": "8.0.0",
+  "description": "Generate a search engine friendly sitemap.xml using a Gulp stream",
+  "repository": "pgilad/gulp-sitemap",
+  "license": "MIT",
+  "author": "Gilad Peleg <gilad@giladpeleg.com> (https://www.giladpeleg.com)",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "lib"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "test": "mocha -R spec test/*.spec.js"
+  },
+  "keywords": [
+    "gulpplugin",
+    "gulp",
+    "js",
+    "javascript",
+    "SEO",
+    "sitemap",
+    "sitemap.xml",
+    "Google",
+    "search-engine",
+    "xml"
+  ],
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "fancy-log": "^1.3.3",
+    "lodash": "^4.17.15",
+    "multimatch": "^4.0.0",
+    "plugin-error": "^1.0.1",
+    "slash": "^3.0.0",
+    "through2": "^3.0.1",
+    "vinyl": "^2.2.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-rename": "^1.4.0",
+    "mocha": "^6.2.2",
+    "should": "^13.2.3",
+    "strip-ansi": "^5.2.0"
+  }
+}
