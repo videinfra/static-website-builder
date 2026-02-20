@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const memoize = require('nano-memoize');
 const ignore = require('gulp-ignore');
-const gulpSitemap = require('gulp-sitemap');
+const gulpSitemap = require('../../vendor/gulp-sitemap/index.js');
 
 const getPaths = require('./../../lib/get-path');
 const getConfig = require('./../../lib/get-config');

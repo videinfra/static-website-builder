@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.17.3] - 2026-02-20
+### Fixed
+- URLSET in sitemap.xml
+
 ## [1.17.2] - 2026-02-19
 ### Fixed
 - Removed file extension from the sitemap URLs
