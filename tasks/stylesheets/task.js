@@ -33,13 +33,13 @@ const getGlobPaths = nanomemoize.nanomemoize(function () {
 });
 
 
-const getEngine = function () {
+const getEngine = function (disposeOnly = false) {
     const engine = getTaskConfig('stylesheets', 'engine');
-    return engine ? engine() : (() => {});
+    return engine ? engine(disposeOnly) : (() => {});
 };
 
 
-function stylesheets () {
+function stylesheetsBuild () {
     return gulp.src(getGlobPaths())
         .pipe(taskStart())
 
@@ -65,9 +65,14 @@ function stylesheets () {
 }
 
 function stylesheetsWatch () {
-    return taskWatch(getWatchGlobPaths(true), stylesheets);
+    return taskWatch(getWatchGlobPaths(true), stylesheetsBuild);
+}
+
+function stylesheetsBuildEnd () {
+    getEngine(true);
+    return Promise.resolve();
 }
 
 
-export const build = stylesheets;
+export const build = gulp.series(stylesheetsBuild, stylesheetsBuildEnd);
 export const watch = stylesheetsWatch;

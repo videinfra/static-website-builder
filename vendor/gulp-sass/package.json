@@ -55,7 +55,7 @@
     "node-sass": "^7.0.1",
     "postcss": "^8.4.5",
     "rimraf": "^3.0.2",
-    "sass": "^1.45.1",
+    "sass-embedded": "^1.97.3",
     "vinyl": "^2.2.1"
   }
 }

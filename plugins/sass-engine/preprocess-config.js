@@ -4,7 +4,7 @@ import merge from './../../lib/merge.js';
 import getEnvData from './../../tasks/env/get-env.js';
 import gulpSass from '../../vendor/gulp-sass/index.js';
 import assign from 'lodash/assign.js';
-import * as sass from 'sass';
+import * as sass from 'sass-embedded';
 
 /**
  * Modify configuration
@@ -32,7 +32,15 @@ export default function processSASSConfig(config, fullConfig) {
         });
 
         // Engine is a function which returns a gulp pipe function
-        config.engine = function getSASSEngine() {
+        config._engineCache = null;
+        config.engine = function getSASSEngine(disposeOnly = false) {
+            if (config._engineCache) {
+                config._engineCache.dispose();
+            }
+            if (disposeOnly) {
+                return;
+            }
+
             const sassEngine = gulpSass(sass);
             const sassConfig = getTaskConfig('stylesheets', 'sass');
 
@@ -41,7 +49,10 @@ export default function processSASSConfig(config, fullConfig) {
             }
 
             sassConfig.data = merge(getEnvData().sass, sassConfig.data || {});
-            return sassEngine(sassConfig, /* sync */ true).on('error', sassEngine.logError);
+            config._engineCache = sassEngine(sassConfig).on('error', sassEngine.logError);
+            config._engineCache.dispose = sassEngine.dispose;
+
+            return config._engineCache;
         };
 
         // Main 'dependents' config is shared between all tasks

@@ -1,13 +1,15 @@
+@use 'sass:map';
+
 .env-test:before {
-    content: map-get($env, host);
+    content: map.get($env, host);
 }
 
 :root {
-    #{ --env-test-type-number }: map-get($env, typeNumber);
-    #{ --env-test-type-empty }: map-get($env, typeEmpty);
+    #{ --env-test-type-number }: map.get($env, typeNumber);
+    #{ --env-test-type-empty }: map.get($env, typeEmpty);
 }
 
-@if map-get($env, typeBoolTrue) {
+@if map.get($env, typeBoolTrue) {
     :root {
         --env-test-bool-true: true;
     }
@@ -17,7 +19,7 @@
     }
 }
 
-@if map-get($env, typeBoolFalse) {
+@if map.get($env, typeBoolFalse) {
     :root {
         --env-test-bool-false: true;
     }

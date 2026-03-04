@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0] - 2026-03-04
+### Changed
+- Updated gulp-sass to use sass-embedded instead of sass
+- Updated gulp-sass to remove legacy code and use only sync mode
+
 ## [2.0.9] - 2026-02-19
 ### Fixed
 - Removed file extension from the sitemap URLs

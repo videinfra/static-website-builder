@@ -1,6 +1,6 @@
 {
   "name": "@videinfra/static-website-builder",
-  "version": "2.0.10",
+  "version": "2.1.0",
   "description": "Customizable static site project builder",
   "license": "MIT",
   "engines": {
@@ -58,7 +58,7 @@
     "minimist": "^1.2.8",
     "nano-memoize": "3.0.16",
     "rolldown": "^1.0.0-rc.1",
-    "sass": "^1.97.3",
+    "sass-embedded": "^1.97.3",
     "through": "^2.3.8",
     "twig": "^1.17.1"
   },
