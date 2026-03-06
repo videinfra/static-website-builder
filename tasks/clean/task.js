@@ -1,7 +1,7 @@
-import del from 'del';
+import { deleteAsync } from 'del';
 import { getTaskConfig } from '../../lib/get-config.js';
 
 export function beforeBuild(callback) {
     const patterns = getTaskConfig('clean', 'patterns');
-    return del(patterns, { force: true });
+    return deleteAsync(patterns, { force: true }).then(() => callback());
 }

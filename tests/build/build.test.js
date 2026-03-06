@@ -18,38 +18,49 @@ test('Multiple TWIG templates rendered', () => {
 
 test('SASS variable test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/variable-test.css'), { encoding: 'utf8' }).then((css) => {
-        expect(css).toBe('main{background:#fff;color:#222}');
+        expect(css.startsWith('main{background:#fff;color:#222}')).toBe(true);
     });
 });
 
 test('SASS import test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/import-test.css'), { encoding: 'utf8' }).then((css) => {
-        expect(css).toBe('.btn{background:#222;color:#fff}');
+        expect(css.startsWith('.btn{background:#222;color:#fff}')).toBe(true);
     });
 });
 
 test('SASS sub-folder import test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/sub-folder/import-test.css'), { encoding: 'utf8' }).then((css) => {
-        expect(css).toBe('.btn{background:#222;color:#fff}');
+        expect(css.startsWith('.btn{background:#222;color:#fff}')).toBe(true);
     });
 });
 
 test('SASS autoprefixer test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/autoprefixer-test.css'), { encoding: 'utf8' }).then((css) => {
-        expect(css).toBe('main{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}');
+        expect(css.startsWith('main{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}')).toBe(true);
     });
 });
 
 test('CSS nano ignore test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/ignore-test.css'), { encoding: 'utf8' }).then((css) => {
-        expect(css).toBe(':root{--yes: ;--no:initial}');
+        expect(css.startsWith(':root{--yes: ;--no:initial}')).toBe(true);
     });
 });
 
 test('CSS nano nested calc test', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/nested-calc-test.css'), { encoding: 'utf8' }).then((css) => {
-        expect(css).toBe('body{padding-top:calc(10vw + 15vh)}');
+        expect(css.startsWith('body{padding-top:calc(10vw + 15vh)}')).toBe(true);
     });
+});
+
+test('CSS has sourcemap URL', () => {
+    return fsPromises.readFile(path.resolve(publicPath, 'assets/stylesheets/nested-calc-test.css'), { encoding: 'utf8' }).then((css) => {
+        expect(css.includes('sourceMappingURL=')).toBe(true);
+    });
+});
+
+test('CSS sourcemap generated', () => {
+    expect.assertions(1);
+    return expect(fsPromises.access(path.resolve(publicPath, 'assets/stylesheets/nested-calc-test.css.map'))).resolves.toBe(undefined);
 });
 
 test('Font file woff copied', () => {
@@ -139,7 +150,7 @@ test('currentPagePath available in templates', () => {
 
 test('icons generated', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'assets/images/icons.svg'), { encoding: 'utf8' }).then((svg) => {
-        expect(svg.indexOf('<symbol id="example-arrow">')).not.toBe(-1);
+        expect(svg.indexOf('<symbol id="example-arrow" viewBox="0 0 20 20">')).not.toBe(-1);
     });
 });
 

@@ -1,5 +1,6 @@
 // 2024-02-13, Kaspars Zuks: added "options.async" support
-import map from 'map-stream';
+// 2026-03-06, Kaspars Zuks: replaced map-stream with through2
+import through from 'through2';
 import rext from 'replace-ext';
 import log from 'fancy-log';
 import PluginError from 'plugin-error';
@@ -20,7 +21,7 @@ export default function (options) {
         options || {},
     );
 
-    function modifyContents(file, cb) {
+    function modifyContents(file, _enc, cb) {
         var data = file.data || Object.assign({}, options.data);
 
         if (file.isNull()) {
@@ -134,5 +135,5 @@ export default function (options) {
         }
     }
 
-    return map(modifyContents);
+    return through.obj(modifyContents);
 }

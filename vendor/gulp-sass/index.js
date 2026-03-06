@@ -5,11 +5,11 @@
 
 import path from 'path';
 import { Transform } from 'stream';
-import picocolors from 'picocolors';
+import chalk from 'chalk';
 import PluginError from 'plugin-error';
 import replaceExtension from 'replace-ext';
 import stripAnsi from 'strip-ansi';
-import clonedeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep.js';
 import sassStingify from './sass-stringify.js';
 
 const PLUGIN_NAME = 'gulp-sass';
@@ -36,7 +36,7 @@ const filePush = (file, css, callback) => {
 const handleError = (error, file, callback) => {
     const filePath = (error.file === 'stdin' ? file.path : error.file) || file.path;
     const relativePath = path.relative(process.cwd(), filePath);
-    const message = `${picocolors.underline(relativePath)}\n${error.formatted}`;
+    const message = `${chalk.underline(relativePath)}\n${error.formatted}`;
 
     error.messageFormatted = message;
     error.messageOriginal = error.message;
@@ -69,7 +69,7 @@ const gulpSass = (options) => {
             return;
         }
 
-        const opts = clonedeep(options || {});
+        const opts = cloneDeep(options || {});
         let source = file.contents.toString();
 
         // Stringiyfy variables

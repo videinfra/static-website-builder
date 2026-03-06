@@ -42,16 +42,9 @@ export default function preprocessIconsConfig (config, fullConfig) {
         }
 
         // Use function to output svgmin configuration
-        // Add ID attribute transformation
         config.svgmin = function getSVGMinOptions (file) {
-            var prefix = path.basename(file.relative, path.extname(file.relative));
             return {
-                plugins: [{
-                    cleanupIDs: {
-                        prefix: prefix + '-',
-                        minify: true
-                    }
-                }].concat(svgmin)
+                plugins: [].concat(svgmin)
             }
         };
     }

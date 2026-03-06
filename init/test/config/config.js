@@ -26,7 +26,15 @@ export const javascripts = {
         },
     ],
 };
-export const stylesheets = {};
+export const stylesheets = {
+    // Overwriting to test that source maps are generated
+    production: {
+        sourcemaps: {
+            init: {},
+            write: {},
+        },
+    },
+};
 export const sizereport = false;
 
 export const plugins = [

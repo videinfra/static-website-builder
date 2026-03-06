@@ -1,7 +1,7 @@
 import gulp from 'gulp';
 import gulpif from 'gulp-if';
 import svgstore from 'gulp-svgstore';
-import svgmin from 'gulp-svgmin';
+import svgmin from '../../vendor/gulp-svgmin/src/index.js';
 import nanomemoize from 'nano-memoize';
 
 import globs from './../../lib/globs-helper.js';
