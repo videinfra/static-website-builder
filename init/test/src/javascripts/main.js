@@ -6,3 +6,4 @@ console.log('env.bar ==', process.env.bar);
 console.log('env.typeBoolTrue ==', process.env.typeBoolTrue);
 console.log('env.typeBoolFalse ==', process.env.typeBoolFalse);
 console.log('env.typeNumber ==', process.env.typeNumber);
+console.log('env.nonExisting ==', process.env.nonExisting);

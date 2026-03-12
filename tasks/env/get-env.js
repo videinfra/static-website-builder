@@ -5,7 +5,7 @@ import { getPathConfig, getProjectPath } from '../../lib/get-path.js';
 import { getTaskConfig } from '../../lib/get-config.js';
 
 function escapeJSVariable(value) {
-    if (value === 'true' || value === 'false' || value === true || value === false || !isNaN(value)) {
+    if (value === 'true' || value === 'false' || value === true || value === false || (value !== '' && !isNaN(value))) {
         return value;
     } else {
         // Convert to string
@@ -91,15 +91,13 @@ const getEnvData = nanomemoize.nanomemoize(function () {
     const map = getTaskConfig('env', 'map');
 
     Object.keys(map).forEach((key) => {
-        if (key in envVariables) {
-            const value = envVariables[key];
-            const camelCase = map[key];
-            const kebabCase = map[key];
-            twigVariables[camelCase] = normalizeTwigVariable(value);
-            envOutVariables[camelCase] = value;
-            jsVariables[`process.env.${camelCase}`] = escapeJSVariable(value);
-            scssVariables.env[kebabCase] = value;
-        }
+        const value = key in envVariables ? envVariables[key] : '';
+        const camelCase = map[key];
+        const kebabCase = map[key];
+        twigVariables[camelCase] = normalizeTwigVariable(value);
+        envOutVariables[camelCase] = value;
+        jsVariables[`process.env.${camelCase}`] = escapeJSVariable(value);
+        scssVariables.env[kebabCase] = value;
     });
 
     return {

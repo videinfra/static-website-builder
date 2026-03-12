@@ -61,6 +61,7 @@ export const env = {
         'TYPE_BOOL_FALSE': 'typeBoolFalse',
         'TYPE_NUMBER': 'typeNumber',
         'TYPE_EMPTY': 'typeEmpty',
+        'NON_EXISTING': 'nonExisting',
     },
 };
 
