@@ -36,7 +36,7 @@ const filePush = (file, css, callback) => {
 const handleError = (error, file, callback) => {
     const filePath = (error.file === 'stdin' ? file.path : error.file) || file.path;
     const relativePath = path.relative(process.cwd(), filePath);
-    const message = `${chalk.underline(relativePath)}\n${error.formatted}`;
+    const message = `${chalk.underline(relativePath)}\n${error.formatted || error.message}`;
 
     error.messageFormatted = message;
     error.messageOriginal = error.message;

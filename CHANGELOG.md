@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.2] - 2026-04-08
+### Fixed
+- Fixed gulp-sass missing error message
+
 ## [2.2.1] - 2026-03-12
 ### Fixed
 - Fixed env variables not being set to empty string when not found
