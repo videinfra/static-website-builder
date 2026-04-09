@@ -15,8 +15,9 @@ export default function getTranslations(locale, group) {
     // Invalidate cache after 1 second
     if (!build && cacheTime && Date.now() - cacheTime > 1000) {
         cache = {};
-        cacheTime = Date.now();
     }
+
+    cacheTime = Date.now();
 
     if (cache[locale] && cache[locale][group]) {
         return cache[locale][group];
