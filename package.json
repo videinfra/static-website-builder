@@ -1,6 +1,6 @@
 {
   "name": "@videinfra/static-website-builder",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "description": "Customizable static site project builder",
   "license": "MIT",
   "engines": {
@@ -50,6 +50,7 @@
     "gulp-sizereport": "^1.2.1",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-svgstore": "^9.0.0",
+    "js-yaml": "^4.1.1",
     "lodash.clone": "^4.3.2",
     "lodash.some": "^4.2.2",
     "minimist": "^1.2.8",

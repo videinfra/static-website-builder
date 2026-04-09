@@ -1,0 +1,15 @@
+<p>ROUTE: {{ app.request.attributes.get('_route') }}</p>
+<p>PATH: {{ path(app.request.attributes.get('_route')) }}</p>
+<p>DE_PATH: {{ path(app.request.attributes.get('_route'), { _locale: 'de' }) }}</p>
+<p>EN_PATH: {{ path(app.request.attributes.get('_route'), { _locale: 'en' }) }}</p>
+<p>HOMEPAGE PATH: {{ path('app.homepage') }}</p>
+<p>HOMEPAGE DE_PATH: {{ path('app.homepage', { _locale: 'de' }) }}</p>
+<p>HOMEPAGE EN_PATH: {{ path('app.homepage', { _locale: 'en' }) }}</p>
+
+<p>TITLE: {{ 'title'|trans({}, 'test') }}</p>
+<p>CATEGORY: {{ 'category.name'|trans({}, 'test') }}</p>
+<p>MISSING: {{ 'missing'|trans({}, 'test') }}</p>
+<p>INVALID_GROUP: {{ 'invalid_group'|trans({}, 'invalid_group') }}</p>
+<p>MISSING_ATTRIBUTES: {{ 'missing_attributes'|trans }}</p>
+
+<p>TITLE 2: {{ 'title'|trans({}, 'test-2') }}</p>

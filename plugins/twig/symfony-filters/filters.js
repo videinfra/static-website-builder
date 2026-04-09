@@ -1,5 +1,6 @@
 import { getTaskConfig }  from '../../../lib/get-config.js';
 import { loadEnvData } from '../../../tasks/env/get-env.js';
+import getTranslations from '../../../tasks/translations/get-translations.js';
 import preposition_nbsp  from './preposition_nbsp.js';
 
 const exports = [];
@@ -96,6 +97,40 @@ exports.push({
     name: 'preposition_nbsp',
     func: function (text) {
         return preposition_nbsp(text);
+    }
+});
+
+/**
+ * Translation filter
+ *
+ * @example
+ *   {{ 'hello world' | trans }}
+ */
+exports.push({
+    name: 'trans',
+    func: function (data, args) {
+        const group = args[1];
+        const currentPagePath = this.context.currentPagePath;
+        const locales = this.context.app.request.languages;
+        let locale = currentPagePath.split('/')[1];
+
+        if (!locales.includes(locale)) {
+            locale = this.context.app.request.defaultLocale;
+        }
+
+        // Find translation
+        let translations = getTranslations(locale, group);
+        const dataParts = data.split('.');
+
+        for (let i = 0; i < dataParts.length; i++) {
+            if (translations && dataParts[i] in translations) {
+                translations = translations[dataParts[i]];
+            } else {
+                return data;
+            }
+        }
+
+        return translations;
     }
 });
 

@@ -80,6 +80,29 @@ export default function (options) {
     const build = options && !!options.build;
     const htmlSourceFolders = getSourcePaths('html');
 
+    // Find locale information
+    const translationConfig = getTaskConfig('translations');
+    const locales = translationConfig.locales;
+    const defaultLocale = translationConfig.defaultLocale;
+
+    /**
+     * Create symfony request parameter
+     * @param {object} values
+     * @returns {object}
+     */
+    function symfonyRequestProperty(values) {
+        values = values || {};
+        return {
+            all: values,
+            get: function (name) {
+                return name in values ? values[name] : null;
+            },
+            has: function (name) {
+                return !!(name in values);
+            },
+        };
+    }
+
     /**
      * Calculate current page path based on file path which is being processed
      * @param {*} file
@@ -109,9 +132,67 @@ export default function (options) {
         return currentPagePath;
     }
 
+    const getRouteFromPath = function (path) {
+        if (!path || path === '/') {
+            return 'app.homepage';
+        } else {
+            return path;
+        }
+    }
+
     return function (file) {
         // We expose `currentPagePath` to Twig templates
         const currentPagePath = getCurrentPagePath(file);
+
+        // Resolve locales
+        let currentPagePathWithoutLocale = currentPagePath;
+        let locale = currentPagePath.split('/')[1];
+
+        if (!locales.includes(locale)) {
+            locale = defaultLocale;
+        } else {
+            currentPagePathWithoutLocale = currentPagePath.replace(`/${locale}`, '') || '/';
+        }
+
+        const symonyAppData = {
+            app: {
+                environment: global.production ? 'prod' : 'dev',
+                debug: false,
+
+                request: {
+                    content: null,
+                    languages: locales,
+                    charsets: null,
+                    encodings: null,
+                    acceptableContentTypes: null,
+                    pathInfo: currentPagePath,
+                    requestUri: currentPagePath,
+                    baseUrl: '',
+                    basePath: null,
+                    method: 'GET',
+                    format: null,
+                    locale: locale,
+                    defaultLocale: defaultLocale,
+
+                    attributes: symfonyRequestProperty({
+                        _locale: locale,
+                        _route: getRouteFromPath(currentPagePathWithoutLocale),
+                        _route_params: {
+                            _locale: locale,
+                        },
+                    }),
+                    query: symfonyRequestProperty(),
+                    server: symfonyRequestProperty(),
+                    files: symfonyRequestProperty(),
+                    cookies: symfonyRequestProperty(),
+                    headers: symfonyRequestProperty(),
+
+                    get: function () {
+                        return null;
+                    },
+                }
+            }
+        };
 
         if (build) {
             // Cache during full build
@@ -119,17 +200,17 @@ export default function (options) {
                 cache = getData();
             }
 
-            return {
+            return merge({
                 currentPagePath,
-                ...cache
-            };
+                ...cache,
+            }, symonyAppData);
         } else {
             // Don't cache during watch build
             cache = null;
-            return {
+            return merge({
                 currentPagePath,
                 ...getData(),
-            };
+            }, symonyAppData);
         }
     };
 }

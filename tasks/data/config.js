@@ -1,5 +1,6 @@
 import dataLoaderJs from './data-loader-js.js';
 import dataLoaderJson from './data-loader-json.js';
+import dataLoaderYml from './data-loader-yml.js';
 
 /**
  * Data loading for HTML task
@@ -13,6 +14,7 @@ export const data = {
     loaders: {
         js: dataLoaderJs,
         json: dataLoaderJson,
+        yml: dataLoaderYml,
     },
 
     // Glob list of files, which to ignore, relative to the data source folder

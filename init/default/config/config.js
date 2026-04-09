@@ -6,9 +6,6 @@
  * in each tasks config.js file
  */
 
-import * as sassPlugin from '@videinfra/static-website-builder/plugins/sass';
-import * as twigPlugin from '@videinfra/static-website-builder/plugins/twig';
-
 export const clean = {};
 export const staticFiles = {};
 export const html = {};
@@ -20,15 +17,20 @@ export const javascripts = {};
 export const stylesheets = {};
 export const browserSync = {};
 export const sizereport = {};
+export const translations = {};
 
 export const plugins = [
     // Enables SASS engine and .sass and .scss file compilation
-    sassPlugin,
+    (await import('@videinfra/static-website-builder/plugins/sass.js')),
 
     // Enables TwigJS engine .twig file compilation
-    twigPlugin,
-];
+    (await import('@videinfra/static-website-builder/plugins/twig.js')),
 
+    // Additional twig plugins
+    (await import('@videinfra/static-website-builder/plugins/twig/symfony-filters.js')),
+    (await import('@videinfra/static-website-builder/plugins/twig/lodash-filters.js')),
+    (await import('@videinfra/static-website-builder/plugins/twig/symfony-functions.js')),
+];
 
 /*
  * Path configuration

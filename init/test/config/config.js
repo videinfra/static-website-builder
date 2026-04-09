@@ -5,6 +5,7 @@
 import * as sassPlugin from '../../../plugins/sass.js';
 import * as twigPlugin from '../../../plugins/twig.js';
 import * as symfonyFiltersPlugin from '../../../plugins/twig/symfony-filters.js';
+import * as symfonyFunctionsPlugin from '../../../plugins/twig/symfony-functions.js';
 
 export const clean = {};
 export const staticFiles = {};
@@ -46,6 +47,9 @@ export const plugins = [
 
     // Enables TWIG Symfony filters
     symfonyFiltersPlugin,
+
+    // Enables TWIG Symfony functions
+    symfonyFunctionsPlugin,
 ];
 
 export const env = {
@@ -63,6 +67,11 @@ export const env = {
         'TYPE_EMPTY': 'typeEmpty',
         'NON_EXISTING': 'nonExisting',
     },
+};
+
+export const translations = {
+    locales: ['en', 'de'],
+    defaultLocale: 'en',
 };
 
 /*

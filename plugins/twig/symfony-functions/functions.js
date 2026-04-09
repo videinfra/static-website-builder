@@ -27,5 +27,24 @@ export default [
             const normalizedPath = (path || path === 0 ? String(path) : '');
             return applyFilter('version', applyFilter('cdnify', normalizedPath));
         }
-    }
+    },
+
+    // Fake "path" filter, it tries to replicate Symfony's path() function
+    {
+        name: 'path',
+        func: function (path, args) {
+            // Find locale information
+            const locale = args?._locale || this.context.app.request.locale;
+            const defaultLocale = this.context.app.request.defaultLocale;
+            const pathPrefix = locale === defaultLocale ? '' : `/${locale}`;
+
+            if (path === 'app.homepage') {
+                return `${pathPrefix}/`;
+            } else if (path.startsWith('app.')) {
+                return `${pathPrefix}/${path.slice(4).replace(/_/g, '-')}`;
+            } else {
+                return `${pathPrefix}${path}`;
+            }
+        },
+    },
 ];
