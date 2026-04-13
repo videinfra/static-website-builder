@@ -33,9 +33,10 @@ export default function getTranslations(locale, group) {
                     cache = merge(cache, { [locale]: { [group]: fileData }});
                 } catch (err) {
                     logError({
-                        message: `Failed to parse "${path.join(getPathConfig().src, getPathConfig().data.src, fileName)}"`,
+                        message: `Failed to parse "${path.join(getPathConfig().src, getPathConfig().data.src, `${group}.${locale}.yml`)}"`,
                         plugin: 'data',
                     });
+                    console.error(err.message);
                 }
             }
         });
