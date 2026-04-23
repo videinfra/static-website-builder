@@ -1,5 +1,7 @@
 import { getConfigAsync } from './lib/get-config.js';
 import generateGulpTasks from './lib/generate-gulp-tasks.js';
+import { getProjectPath } from './lib/get-path.js';
+import dotenv from 'dotenv';
 
 // Set mode globally it can be used by tasks
 let hasProductionArg = false;
@@ -15,9 +17,27 @@ for (let i = 0; i < process.argv.length; i++) {
 global.production = global.production || hasProductionArg || process.env.NODE_ENV === 'production';
 global.development = !global.production;
 
-// Config file
-let builderConfigFile = process.env.BUILDER_CONFIG_FILE || 'config/config.js';
+// Load environment variables from .env files
+let builderConfigFile = 'config/config.js';
 
+if (process.env.BUILDER_CONFIG_FILE) {
+    builderConfigFile = process.env.BUILDER_CONFIG_FILE;
+} else {
+    const envVariables = {};
+    dotenv.config({
+        // dotenv file order is reversed, values in first file overwrite all other
+        // file values
+        path: ['../.env', '../.env.local'].map((path) => getProjectPath(path)).reverse(),
+        processEnv: envVariables,
+        quiet: true,
+    });
+
+    if (envVariables.BUILDER_CONFIG_FILE) {
+        builderConfigFile = envVariables.BUILDER_CONFIG_FILE;
+    }
+}
+
+// Config file
 if (process.argv.indexOf('--config') !== -1) {
     builderConfigFile = process.argv[process.argv.indexOf('--config') + 1];
 } else {
