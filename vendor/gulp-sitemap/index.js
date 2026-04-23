@@ -50,8 +50,8 @@ module.exports = function (options = {}) {
                 return callback(new PluginError(pluginName), msg);
             }
 
-            //skip 404 file
-            if (/404\.html?$/i.test(file.relative)) {
+            // skip 404 and 500 files
+            if (/(404|500)\.html?$/i.test(file.relative)) {
                 return callback();
             }
 

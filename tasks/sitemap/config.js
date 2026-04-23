@@ -23,8 +23,13 @@ export const sitemap = {
         },
 
         // Remove file extension from the URL
-        getLoc: function(siteUrl, loc, entry) {
+        getLoc: function (siteUrl, loc, entry) {
             return loc.replace(/\.\w+$/, '');
+        },
+
+        // Remove lastmod, we don't know that
+        lastmod: function () {
+            return null;
         },
     },
 
