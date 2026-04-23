@@ -14,7 +14,10 @@ export const env = {
     // How env variable names should be remapped
     // Example:
     //     map: { 'HOST': 'host', 'RECAPTCHA3_PUBLIC_KEY': 'recaptcha3_site_key' }
-    map: {}
+    map: {},
+
+    // Additional data to add to env variables
+    data: {},
 };
 
 export const paths = {

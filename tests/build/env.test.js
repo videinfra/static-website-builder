@@ -34,6 +34,14 @@ test('.env and .env.local files loaded', () => {
     ]);
 });
 
+test('Additional ENV data is set', () => {
+    return Promise.all([
+        fsPromises.readFile(path.resolve(publicPath, 'assets/javascripts/main.js'), { encoding: 'utf8' }).then((js) => {
+            expect(js.indexOf('console.log(`env.baz ==`,`bazValue`)')).not.toBe(-1);
+        }),
+    ]);
+});
+
 test('process.env available in html/data', () => {
     return fsPromises.readFile(path.resolve(publicPath, 'env.html'), { encoding: 'utf8' }).then((html) => {
         expect(html.indexOf('<p>HOST FROM GLOBAL JS: https://test-local.tld</p>')).not.toBe(-1);

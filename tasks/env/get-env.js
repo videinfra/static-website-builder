@@ -88,16 +88,26 @@ const getEnvData = nanomemoize.nanomemoize(function () {
     const envOutVariables = {};
 
     // Remap property names
-    const map = getTaskConfig('env', 'map');
+    const map = getTaskConfig('env', 'map') || {};
 
     Object.keys(map).forEach((key) => {
         const value = key in envVariables ? envVariables[key] : '';
-        const camelCase = map[key];
-        const kebabCase = map[key];
-        twigVariables[camelCase] = normalizeTwigVariable(value);
-        envOutVariables[camelCase] = value;
-        jsVariables[`process.env.${camelCase}`] = escapeJSVariable(value);
-        scssVariables.env[kebabCase] = value;
+        const mappedKey = map[key];
+        twigVariables[mappedKey] = normalizeTwigVariable(value);
+        envOutVariables[mappedKey] = value;
+        jsVariables[`process.env.${mappedKey}`] = escapeJSVariable(value);
+        scssVariables.env[mappedKey] = value;
+    });
+
+    // Add additional data
+    const data = getTaskConfig('env', 'data') || {};
+
+    Object.keys(data).forEach((key) => {
+        const value = data[key];
+        twigVariables[key] = normalizeTwigVariable(value);
+        envOutVariables[key] = value;
+        jsVariables[`process.env.${key}`] = escapeJSVariable(value);
+        scssVariables.env[key] = value;
     });
 
     return {

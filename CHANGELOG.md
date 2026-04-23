@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.1] - 2026-04-23
+### Added
+- Allow to specify additional static data for env variables in task config
+
 ## [2.4.0] - 2026-04-23
 ### Added
 - Allow to specify builder config file path using `BUILDER_CONFIG_FILE` env variable

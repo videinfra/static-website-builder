@@ -67,6 +67,11 @@ export const env = {
         'TYPE_EMPTY': 'typeEmpty',
         'NON_EXISTING': 'nonExisting',
     },
+
+    // Additional env variables
+    data: {
+        'baz': 'bazValue',
+    },
 };
 
 export const translations = {
