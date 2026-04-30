@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.3] - 2026-04-30
+### Fixed
+- Disable page reload on sitemap change
+
 ## [2.4.2] - 2026-04-23
 ### Added
 - Multilingual sitemap generation

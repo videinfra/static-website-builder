@@ -51,9 +51,6 @@ function sitemap() {
 
             .pipe(taskBeforeDest())
             .pipe(gulp.dest(getDestPath('sitemap')))
-
-            // Reload on change
-            .pipe(taskEnd())
     );
 }
 
