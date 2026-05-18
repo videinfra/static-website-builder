@@ -112,15 +112,16 @@ export default function (options) {
         let currentPagePath = '';
 
         // Remove extension
-        const htmlFilePath = file.path ? file.path.replace(/\..+?$/, '') : '';
+        const htmlFilePath = file.path ? file.path.replace('.html', '').replace('.twig', '') : '';
 
         // Remove html source folder from path
         if (htmlFilePath && htmlSourceFolders.length) {
             for (let i = 0; i < htmlSourceFolders.length; i++) {
                 const htmlSourceFolder = htmlSourceFolders[i];
-                if (htmlFilePath.indexOf(htmlSourceFolder) === 0) {
-                    currentPagePath = htmlFilePath
-                        .replace(htmlSourceFolder, '')
+                const relativePath = path.relative(htmlSourceFolder, htmlFilePath);
+
+                if (!relativePath.startsWith('..')) {
+                    currentPagePath = ('/' + relativePath)
                         .replace(/[\/\\]index$/, '');
 
                     // Make sure that the root page is just '/', not empty string
