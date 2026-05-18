@@ -160,7 +160,7 @@ function processEntry(entry, siteConfig) {
     if (hreflang && hreflang.length > 0) {
         const file = entry.file;
         hreflang.forEach(function(item) {
-            const href = item.getHref(siteConfig.siteUrl, file, item.lang, loc);
+            const href = item.getHref(siteConfig.siteUrl, file, item.lang, loc).replace('.html', '').replace('.twig', '');
             const tag = '<xhtml:link rel="alternate" hreflang="' + item.lang + '" href="' + href + '" />';
             returnArr.push(siteConfig.spacing + siteConfig.spacing + tag);
         });

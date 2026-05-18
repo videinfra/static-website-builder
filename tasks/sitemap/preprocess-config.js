@@ -40,7 +40,7 @@ export default function preprocessSitemapConfig (config = {}, fullConfig) {
                         url = siteUrl + '/' + file;
                     }
 
-                    return url.replace(/\/{2,}/g, '/').replace(/\/$/, '');
+                    return url.replace(/([^:])\/{2,}/g, '$1/').replace(/\/$/, '');
                 }
             };
         });

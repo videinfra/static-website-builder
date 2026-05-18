@@ -24,7 +24,7 @@ export const sitemap = {
 
         // Remove file extension from the URL
         getLoc: function (siteUrl, loc, entry) {
-            return loc.replace(/\.\w+$/, '');
+            return loc.replace('.html', '').replace('.twig', '');
         },
 
         // Remove lastmod, we don't know that
