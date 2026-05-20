@@ -33,6 +33,7 @@ export default function preprocessJavascriptsConfig(config, fullConfig) {
             name: typeof entry === 'string' ? entry : entry.name,
             shared: typeof entry !== 'string' && entry && entry.shared ? entry.shared : index === 0 ? 'shared' : '',
             outpuSubFolder: typeof entry !== 'string' && entry && entry.outpuSubFolder ? entry.outpuSubFolder : '',
+            minShareCount: typeof entry !== 'string' && entry && entry.minShareCount ? entry.minShareCount : 3,
         };
     });
 

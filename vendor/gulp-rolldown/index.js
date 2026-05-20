@@ -104,7 +104,7 @@ class GulpRolldown extends Transform {
                 groups: [].concat(outputOptions.codeSplitting?.groups || [], [
                     {
                         name: entries.shared,
-                        minShareCount: 3,
+                        minShareCount: entries.minShareCount || 3,
                     },
                 ]),
             });
