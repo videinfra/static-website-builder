@@ -3,7 +3,8 @@ import merge from '../../lib/merge.js';
 import getEnvData, { loadEnvData } from '../env/get-env.js';
 import get from 'lodash/get.js';
 import cloneDeep from 'lodash/cloneDeep.js';
-import replace from '@rollup/plugin-replace';
+import { replacePlugin } from 'rolldown/plugins';
+import versionPlugin from '../../vendor/gulp-rolldown/plugin-version.js';
 
 /**
  * Modify configuration
@@ -59,14 +60,6 @@ export default function preprocessJavascriptsConfig(config, fullConfig) {
         const assetVersion = envData['ASSETS_VERSION'];
         const replacements = {};
 
-        if (assetVersion) {
-            replacements['/rolldown-runtime.js'] = `/rolldown-runtime.js?v=${assetVersion}`;
-
-            if (entry.shared) {
-                replacements[`/${entry.shared}.js`] = `/${entry.shared}.js?v=${assetVersion}`;
-            }
-        }
-
         const buildConfig = merge(entryConfig, {
             rolldown: {
                 // Entries, this file is resolved by gulp-rolldown and converted into
@@ -74,11 +67,13 @@ export default function preprocessJavascriptsConfig(config, fullConfig) {
                 entries: entry,
 
                 plugins: [
-                    replace({
-                        preventAssignment: true,
+                    replacePlugin({
                         ...envVariables,
                         ...replacements,
+                    }, {
+                        preventAssignment: true,
                     }),
+                    versionPlugin(assetVersion),
                 ],
 
                 // Output folder

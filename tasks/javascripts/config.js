@@ -14,6 +14,12 @@ export const javascripts = {
 
         // Entry shared chunk name, creates a share chunk if needed
         shared: 'shared',
+
+        // Output subfolder for the entry
+        // outpuSubFolder: '',
+
+        // Minimum number of imports before sharing chunk
+        // minShareCount: 3,
     },
 
     rolldown: {
