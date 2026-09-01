@@ -38,7 +38,8 @@ function prepositionNbsp(text) {
 
     if (!prepositionsRegex) {
         const prepositionsEscaped = prepositions.map(preposition => escapeRegExp(preposition));
-        prepositionsRegex = new RegExp(`${regexWordBoundary}(${prepositionsEscaped.join('|')})\\s+`, 'uig');
+        // prepositionsRegex = new RegExp(`${regexWordBoundary}(${prepositionsEscaped.join('|')})\\s+`, 'uig');
+        prepositionsRegex = new RegExp(`${regexWordBoundary}(${prepositionsEscaped.join('|')})[^\\S\\n]+`, 'uig');
     }
 
     // Split text into regular text and HTML tags

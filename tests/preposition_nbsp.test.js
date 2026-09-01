@@ -11,6 +11,7 @@ test('preposition_nbsp english', () => {
     expect(preposition_nbsp('hello at')).toEqual('hello at');
     expect(preposition_nbsp('hello at. world')).toEqual('hello at. world');
     expect(preposition_nbsp('hello at world')).toEqual('hello at&nbsp;world');
+    expect(preposition_nbsp('hello at\n world')).toEqual('hello at\n world');
     expect(preposition_nbsp('hello before at world')).toEqual('hello before&nbsp;at&nbsp;world');
 });
 
@@ -19,6 +20,7 @@ test('preposition_nbsp russian', () => {
     expect(preposition_nbsp('ппппп над')).toEqual('ппппп над');
     expect(preposition_nbsp('ппппп над. дддд')).toEqual('ппппп над. дддд');
     expect(preposition_nbsp('ппппп над дддд')).toEqual('ппппп над&nbsp;дддд');
+    expect(preposition_nbsp('ппппп над\n дддд')).toEqual('ппппп над\n дддд');
     expect(preposition_nbsp('ппппп before над дддд')).toEqual('ппппп before&nbsp;над&nbsp;дддд');
 });
 
