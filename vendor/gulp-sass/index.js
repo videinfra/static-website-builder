@@ -1,6 +1,7 @@
 // 2025-01-20, Kaspars Zuks: added "options.data" support for variables
 // 2026-03-04, Kaspars Zuks: updated to use "compileString" instead of "renderSync"
 // 2026-03-04, Kaspars Zuks: removed async version
+// 2026-10-26, Kaspars Zuks: use compiler module directly instead of a persistent compiler from "initCompiler", if compiler breaks then make sure all following compilations still work
 'use strict';
 
 import path from 'path';
@@ -99,7 +100,7 @@ const gulpSass = (options) => {
         delete(opts.includePaths);
 
         try {
-            const result = gulpSass.compiler.compileString(source, opts);
+            const result = gulpSass.compilerModule.compileString(source, opts);
             filePush(file, Buffer.from(result.css, 'utf8'), callback);
         } catch (error) {
             handleError(error, file, callback);
@@ -117,12 +118,12 @@ gulpSass.logError = function logError(error) {
 };
 
 gulpSass.dispose = function () {
-    if (gulpSass.compiler.dispose) {
-        gulpSass.compiler.dispose();
+    if (gulpSass.compilerModule && gulpSass.compilerModule.dispose) {
+        gulpSass.compilerModule.dispose();
     }
 }
 
 export default (compiler) => {
-    gulpSass.compiler = compiler.initCompiler();
+    gulpSass.compilerModule = compiler;  // Use module directly, no persistent compiler
     return gulpSass;
 };
